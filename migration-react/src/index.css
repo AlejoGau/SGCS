@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Theme HSL variables */
+    --background: 210 20% 95%;
+    --foreground: 222.2 47.4% 11.2%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    
+    --border: 214.3 31.8% 82%;
+    
+    /* Softguard Orange Theme */
+    --primary: 24 95% 53%;      /* Safety Orange #f97316 */
+    --primary-foreground: 0 0% 100%;
+    
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 24 95% 53%;
+    
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 38%;
+    --info: 217 91% 60%;
+
+    /* Alarm Alerts */
+    --critical: 346 84% 50%;    /* Red alarm */
+    --warning: 45 93% 47%;      /* Orange-yellow alert */
+    --success: 142 71% 45%;     /* Green normal */
+
+    /* Light Theme RGB colors mapped to Tailwind zinc classes (optimized for high legibility) */
+    --text-white: 15 23 42;       /* Slate-900 primary titles */
+    --text-black: 255 255 255;
+    
+    --zinc-50: 15 23 42;         /* Slate-900 */
+    --zinc-100: 15 23 42;        /* Slate-900 */
+    --zinc-200: 30 41 59;        /* Slate-800 */
+    --zinc-300: 51 65 85;        /* Slate-700 (Highly readable body text) */
+    --zinc-400: 71 85 105;       /* Slate-600 (Secondary label text) */
+    --zinc-450: 71 85 105;       /* Slate-600 */
+    --zinc-500: 71 85 105;       /* Slate-600 (Muted details) */
+    --zinc-600: 100 116 139;     /* Slate-500 */
+    --zinc-700: 148 163 184;     /* Slate-400 border lines */
+    --zinc-750: 203 213 225;     /* Slate-300 border lines */
+    --zinc-800: 226 232 240;     /* Slate-200 background headers / lines */
+    --zinc-850: 226 232 240;     /* Slate-200 block dividers */
+    --zinc-900: 255 255 255;     /* Pure white card panel backgrounds */
+    --zinc-950: 241 245 249;     /* Slate-100 main application background */
+
+    /* Light Glassmorphism */
+    --glass-bg: 255 255 255;
+    --glass-bg-opacity: 0.85;
+    --glass-border: 15 23 42;
+    --glass-border-opacity: 0.15;
+    --glass-glow: 249 115 22;
+    --glass-glow-opacity: 0.04;
+  }
+
+  .dark {
+    /* Dark Theme HSL variables */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    
+    --card: 240 10% 5.9%;
+    --card-foreground: 0 0% 98%;
+    
+    --border: 240 5.9% 15%;
+    
+    --accent: 240 5.9% 10%;
+    --accent-foreground: 24 95% 53%;
+    
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    /* Dark Theme RGB colors mapped to Tailwind zinc classes */
+    --text-white: 255 255 255;
+    --text-black: 0 0 0;
+    
+    --zinc-50: 250 250 250;
+    --zinc-100: 244 244 245;
+    --zinc-200: 228 228 231;
+    --zinc-300: 212 212 216;
+    --zinc-400: 161 161 170;
+    --zinc-450: 135 135 140;
+    --zinc-500: 113 113 122;
+    --zinc-600: 82 82 91;
+    --zinc-700: 63 63 70;
+    --zinc-750: 42 42 46;
+    --zinc-800: 39 39 42;
+    --zinc-850: 31 31 35;
+    --zinc-900: 24 24 27;
+    --zinc-950: 9 9 11;
+
+    /* Dark Glassmorphism */
+    --glass-bg: 24 24 27;
+    --glass-bg-opacity: 0.75;
+    --glass-border: 39 39 42;
+    --glass-border-opacity: 0.35;
+    --glass-glow: 249 115 22;
+    --glass-glow-opacity: 0.1;
+  }
+}
+
+@layer components {
+  /* Core base styles for premium buttons */
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-1.5 font-bold rounded-lg transition-all duration-200 select-none outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:scale-[0.96] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  /* Primary Button - Safety Orange */
+  .btn-primary {
+    @apply btn-base bg-orange-600 hover:bg-orange-500 text-white border border-orange-500/25 shadow-lg shadow-orange-600/10 hover:shadow-orange-500/20 hover:border-orange-500/40;
+  }
+
+  /* Secondary Button - Dark Obsidian/Slate */
+  .btn-secondary {
+    @apply btn-base bg-zinc-900/80 border border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 hover:border-zinc-700 shadow-md shadow-black/10;
+  }
+
+  /* Active Secondary Button (for tabs, selections) */
+  .btn-secondary-active {
+    @apply btn-base bg-orange-500/10 text-orange-400 border border-orange-500/25 shadow-inner hover:border-orange-500/45;
+  }
+
+  /* Danger Outline Button */
+  .btn-danger-outline {
+    @apply btn-base border border-zinc-800 hover:border-red-500/30 hover:bg-red-500/5 text-zinc-400 hover:text-red-400;
+  }
+
+  /* Danger Filled Button */
+  .btn-danger {
+    @apply btn-base bg-red-950/20 border border-red-900/40 hover:bg-red-500/20 text-red-400 hover:text-red-300 hover:border-red-500/50 shadow-md shadow-red-500/5;
+  }
+
+  /* Small Grid Action Icon Buttons */
+  .btn-action-icon {
+    @apply p-1.5 text-zinc-400 hover:text-orange-400 hover:bg-orange-500/10 rounded-lg transition-all duration-150 active:scale-90 outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950;
+  }
+}
+
+/* Custom animated background grid */
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(249, 115, 22, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(249, 115, 22, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.5; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(0.95); opacity: 0.5; }
+}
+
+@keyframes grid-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+.animate-grid-move {
+  animation: grid-move 20s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--zinc-950));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--zinc-800));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--primary));
+}
+
+/* Glassmorphism class */
+.glass-panel {
+  background: rgba(var(--glass-bg), var(--glass-bg-opacity));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(var(--glass-border), var(--glass-border-opacity));
+}
+
+.glass-panel-glow {
+  box-shadow: 0 0 20px rgba(var(--glass-glow), var(--glass-glow-opacity));
+}
