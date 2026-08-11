@@ -40,7 +40,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   onFocusWindow,
   onCloseWindow,
   onTriggerExit,
-  userName = 'Alejo Gauthier'
+  userName = 'Usuario de Prueba'
 }) => {
   const [timeStr, setTimeStr] = React.useState('');
 
@@ -125,7 +125,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
         {/* User Profile */}
         <div className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-zinc-800/60 transition-colors cursor-pointer">
           <div className="w-5 h-5 rounded-full bg-orange-600/20 border border-orange-500/30 flex items-center justify-center text-[10px] font-bold text-orange-400">
-            AG
+            UP
           </div>
           <span className="text-zinc-300 font-medium text-xs hidden sm:inline">{userName}</span>
         </div>

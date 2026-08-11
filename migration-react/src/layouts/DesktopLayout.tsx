@@ -26,8 +26,9 @@ import {
   Briefcase, 
   ShieldAlert, 
   Layers,
-  Minimize2,
-  Maximize2,
+  Minus,
+  Square,
+  Copy,
   X,
   Sparkles,
   HelpCircle
@@ -283,42 +284,46 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
         </div>
       </div>
 
-      {/* Top Right Date & Time Widget (Fixed position, non-overlapping) */}
-      <div className="absolute top-4 right-6 z-20 text-right select-none pointer-events-none">
-        <div className="text-lg font-medium text-zinc-300 capitalize leading-none tracking-wide">
-          {formatDayName(time)}
-        </div>
-        <div className="text-3xl font-extrabold text-white tracking-tight leading-tight mt-0.5">
-          {formatDayMonth(time)}
-        </div>
-        <div className="text-5xl font-black font-mono text-zinc-100 tracking-tighter mt-1 drop-shadow-md">
-          {formatHoursMinutes(time)}
-        </div>
+      {/* Top Right Date & Time Widget — only on the desktop home screen (no module windows open) */}
+      {openWindows.every((w) => w.isMinimized) && (
+        <div className="absolute top-4 right-6 z-20 text-right select-none pointer-events-none">
+          <div className="text-lg font-medium text-zinc-300 capitalize leading-none tracking-wide">
+            {formatDayName(time)}
+          </div>
+          <div className="text-3xl font-extrabold text-white tracking-tight leading-tight mt-0.5">
+            {formatDayMonth(time)}
+          </div>
+          <div className="text-5xl font-black font-mono text-zinc-100 tracking-tighter mt-1 drop-shadow-md">
+            {formatHoursMinutes(time)}
+          </div>
 
-        {/* Telemetry Status Pills */}
-        <div className="flex items-center justify-end gap-2 mt-3 pointer-events-auto">
-          <div 
-            onClick={() => handleOpenHelp('desktop')}
-            className="px-2.5 py-1 rounded bg-orange-500/10 border border-orange-500/30 backdrop-blur-md text-[9px] font-bold tracking-widest uppercase text-orange-400 hover:bg-orange-500/20 transition-all cursor-pointer flex items-center gap-1 shadow-sm"
-            title="Abrir Guía Interactiva de Pantallas"
-          >
-            <HelpCircle className="w-3 h-3 text-orange-400" />
-            <span>GUÍA INTERACTIVA</span>
-          </div>
-          <div className="px-2.5 py-1 rounded bg-zinc-900/80 border border-zinc-800 backdrop-blur-md text-[9px] font-bold tracking-widest uppercase text-zinc-400 hover:text-white transition-colors cursor-pointer">
-            SIN MENSAJES
-          </div>
-          <div className="px-2.5 py-1 rounded bg-zinc-900/80 border border-zinc-800 backdrop-blur-md text-[9px] font-bold tracking-widest uppercase text-orange-400 hover:text-orange-300 transition-colors cursor-pointer">
-            ALERTAS
+          {/* Telemetry Status Toolbar (single grouped, segmented container) */}
+          <div className="inline-flex items-stretch mt-3 rounded-lg border border-zinc-800 bg-zinc-900/80 backdrop-blur-md divide-x divide-zinc-800 shadow-sm overflow-hidden pointer-events-auto">
+            <button
+              onClick={() => handleOpenHelp('desktop')}
+              className="flex items-center gap-1 px-2.5 py-1.5 text-[9px] font-bold tracking-widest uppercase text-orange-400 hover:bg-orange-500/10 transition-colors"
+              title="Abrir Guía Interactiva de Pantallas"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>Guía</span>
+            </button>
+            <div className="flex items-center gap-1 px-2.5 py-1.5 text-[9px] font-bold tracking-widest uppercase text-zinc-400 hover:text-white transition-colors cursor-pointer">
+              <Bell className="w-3.5 h-3.5 text-zinc-500" />
+              <span>Mensajes</span>
+            </div>
+            <div className="flex items-center gap-1 px-2.5 py-1.5 text-[9px] font-bold tracking-widest uppercase text-orange-400 hover:text-orange-300 transition-colors cursor-pointer">
+              <AlertTriangle className="w-3.5 h-3.5" />
+              <span>Alertas</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Main Desktop Workspace Area */}
       <div className="relative z-10 flex-1 p-4 sm:p-6 overflow-hidden">
         
         {/* Desktop Icons Grid (Responsive Flex / Grid bounded to avoid Widget collision) */}
-        <div className="flex flex-wrap gap-x-2 gap-y-3 sm:gap-x-3 sm:gap-y-4 max-w-full xl:max-w-[calc(100vw-280px)] z-10">
+        <div className="flex flex-wrap gap-x-2 gap-y-3 sm:gap-x-3 sm:gap-y-4 max-w-full xl:max-w-[calc(100vw-340px)] z-10">
           {modulesGrid.map((mod) => {
             const Icon = mod.icon;
             const isOpen = openWindows.some(w => w.id === mod.id);
@@ -417,7 +422,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                     className="w-6 h-6 flex items-center justify-center rounded hover:bg-zinc-800 text-zinc-400 hover:text-zinc-100 transition-colors"
                     title="Minimizar"
                   >
-                    <Minimize2 className="w-3.5 h-3.5" />
+                    <Minus className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={(e) => {
@@ -427,7 +432,11 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                     className="w-6 h-6 flex items-center justify-center rounded hover:bg-zinc-800 text-zinc-400 hover:text-zinc-100 transition-colors"
                     title={win.isMaximized ? "Restaurar" : "Maximizar"}
                   >
-                    <Maximize2 className="w-3.5 h-3.5" />
+                    {win.isMaximized ? (
+                      <Copy className="w-3.5 h-3.5" />
+                    ) : (
+                      <Square className="w-3.5 h-3.5" />
+                    )}
                   </button>
                   <button
                     onClick={(e) => {

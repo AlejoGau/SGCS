@@ -7,8 +7,8 @@ interface LoginProps {
 }
 
 export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
-  const [username, setUsername] = useState('admin@softguard.com');
-  const [password, setPassword] = useState('softguard123');
+  const [username, setUsername] = useState('usuario.prueba@test.com');
+  const [password, setPassword] = useState('test1234');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -100,7 +100,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-zinc-900/80 border border-zinc-800 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500/20 transition-all"
-                  placeholder="admin@softguard.com"
+                  placeholder="usuario.prueba@test.com"
                   disabled={isLoading}
                 />
               </div>

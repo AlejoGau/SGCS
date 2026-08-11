@@ -85,10 +85,10 @@ export const SystemConfigDashboard: React.FC = () => {
   const handleAddUser = (type: 'Central' | 'Dealer' | 'Usuario final') => {
     const newUser: AdminUser = {
       id: 'u-' + Math.floor(Math.random() * 89999 + 10000),
-      username: `nuevo_usuario_${Math.floor(Math.random() * 900 + 100)}@softguard.com`,
+      username: `nuevo_usuario_${Math.floor(Math.random() * 900 + 100)}@test.com`,
       name: '',
       lastName: '',
-      client: 'Nuevo cliente',
+      client: 'Cliente de Prueba',
       province: 'Buenos Aires',
       language: 'Español (Argentina)',
       profile: 'Sin perfil',

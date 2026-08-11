@@ -112,13 +112,12 @@ export const CuentaForm: React.FC<CuentaFormProps> = ({ account, onSaveAccount }
                   onChange={(e) => {
                     const id = e.target.value;
                     handleChange('dealerId', id);
-                    handleChange('dealerName', id === 'BOS' ? 'BOS - BOSCH' : 'Dealer Buenos Aires Centro');
+                    handleChange('dealerName', id === 'DL-TEST-2' ? 'Dealer de Prueba 2' : 'Dealer de Prueba 1');
                   }}
                   className="w-full bg-zinc-900 border border-zinc-850 px-2 py-1.5 rounded text-white focus:outline-none focus:border-orange-500 transition-colors font-medium"
                 >
-                  <option value="BOS">BOS - BOSCH</option>
-                  <option value="DL-01">Dealer Buenos Aires Centro</option>
-                  <option value="DL-02">Dealer Santa Fe Oeste</option>
+                  <option value="DL-TEST-1">Dealer de Prueba 1</option>
+                  <option value="DL-TEST-2">Dealer de Prueba 2</option>
                 </select>
               </div>
 
@@ -254,7 +253,7 @@ export const CuentaForm: React.FC<CuentaFormProps> = ({ account, onSaveAccount }
                       <div className="relative flex-1">
                         <input
                           type={showPassword ? 'text' : 'password'}
-                          defaultValue="softguard123"
+                          defaultValue="test1234"
                           className="w-full bg-zinc-900 border border-zinc-850 pl-2.5 pr-8 py-1.5 rounded text-white font-mono focus:outline-none"
                         />
                         <button
