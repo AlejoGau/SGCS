@@ -46,7 +46,7 @@ export const StartMenu: React.FC<StartMenuProps> = ({
   if (!isOpen) return null;
 
   const quickModules = [
-    { id: 'billing', label: 'Cuentas y Facturación', icon: CreditCard, isReact: true, category: 'Administración' },
+    { id: 'billing', label: 'Cuentas', icon: CreditCard, isReact: true, category: 'Administración' },
     { id: 'admin', label: 'Configuración (Admin)', icon: Settings, isReact: true, category: 'Sistema' },
     { id: 'trackguard', label: 'TrackGuard GPS', icon: Map, isReact: true, category: 'Flota & GPS' },
     { id: 'multimonitor', label: 'MultiMonitor Web', icon: Activity, isReact: false, category: 'Monitoreo' },

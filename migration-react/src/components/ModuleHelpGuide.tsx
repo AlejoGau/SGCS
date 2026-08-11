@@ -75,7 +75,7 @@ const GUIDES_DATA: Record<ModuleGuideKey, { title: string; steps: GuideStep[] }>
     ]
   },
   billing: {
-    title: 'Guía del Módulo Cuentas y Facturación (Administrator)',
+    title: 'Guía del Módulo Cuentas (Administrator)',
     steps: [
       {
         title: '1. Pestañas Dinámicas de Abonados',

@@ -82,11 +82,9 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
     setIsHelpModalOpen(true);
   };
 
-  // Managed Open Windows
-  const [openWindows, setOpenWindows] = useState<OpenWindow[]>([
-    { id: 'billing', title: 'Cuentas y Facturación', module: 'billing', isMinimized: false, isMaximized: true }
-  ]);
-  const [activeWindowId, setActiveWindowId] = useState<string | null>('billing');
+  // Managed Open Windows — starts empty, login lands on the desktop
+  const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
+  const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
