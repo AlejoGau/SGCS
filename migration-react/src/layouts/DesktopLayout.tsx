@@ -111,7 +111,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
 
     // Row 2 (14 icons)
     { id: 'trafico', title: 'Tráfico', icon: TrendingUp, isReact: false, color: 'from-blue-600 to-cyan-600' },
-    { id: 'monitoreo', title: 'Monitoreo', icon: Monitor, isReact: false, color: 'from-emerald-600 to-teal-700' },
+    { id: 'monitoreo', title: 'Monitoreo', icon: Monitor, isReact: true, color: 'from-emerald-600 to-teal-700' },
     { id: 'multimonitor', title: 'MultiMonitor', icon: Activity, isReact: false, color: 'from-orange-600 to-red-500' },
     { id: 'netcamara', title: 'NetCamara', icon: Video, isReact: false, color: 'from-sky-600 to-blue-700' },
     { id: 'servicio_tecnico', title: 'Servicio Técnico', icon: Wrench, isReact: false, color: 'from-amber-600 to-orange-600' },
