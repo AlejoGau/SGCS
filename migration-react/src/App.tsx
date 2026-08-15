@@ -5,6 +5,7 @@ import { AccountAdminDashboard } from './features/billing/AccountAdminDashboard'
 import { SystemConfigDashboard } from './features/admin/SystemConfigDashboard';
 import { TrackGuardDashboard } from './features/trackguard/TrackGuardDashboard';
 import { MonitoreoDashboard } from './features/monitoreo/MonitoreoDashboard';
+import { AccessControlDashboard } from './features/accesscontrol/AccessControlDashboard';
 import { SplashScreen } from './components/SplashScreen';
 import { Shield, Sparkles, Activity } from 'lucide-react';
 
@@ -38,6 +39,8 @@ const App: React.FC = () => {
         return <TrackGuardDashboard />;
       case 'monitoreo':
         return <MonitoreoDashboard />;
+      case 'accesscontrol':
+        return <AccessControlDashboard />;
       default:
         return (
           <div className="flex flex-col items-center justify-center min-h-[60vh] p-8 text-center bg-zinc-900/40 border border-zinc-800 rounded-2xl">

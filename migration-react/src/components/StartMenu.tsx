@@ -51,7 +51,7 @@ export const StartMenu: React.FC<StartMenuProps> = ({
     { id: 'trackguard', label: 'TrackGuard GPS', icon: Map, isReact: true, category: 'Flota & GPS' },
     { id: 'multimonitor', label: 'MultiMonitor Web', icon: Activity, isReact: false, category: 'Monitoreo' },
     { id: 'webremoto', label: 'WebRemoto / CRM', icon: Users, isReact: false, category: 'Monitoreo' },
-    { id: 'accesscontrol', label: 'Control de Acceso', icon: Key, isReact: false, category: 'Seguridad' },
+    { id: 'accesscontrol', label: 'Control de Acceso', icon: Key, isReact: true, category: 'Seguridad' },
     { id: 'smartpanics', label: 'SmartPanics', icon: Smartphone, isReact: false, category: 'Alertas' },
     { id: 'reportes', label: 'Reportes y Auditoría', icon: FileText, isReact: false, category: 'Informes' },
   ];

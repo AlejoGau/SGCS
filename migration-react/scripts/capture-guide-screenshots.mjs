@@ -200,6 +200,70 @@ async function main() {
     await screenshot(page, 'admin-step3-diagnostico.png');
 
     // ═══════════════════════════════════════════════════════════
+    // ACCESSCONTROL CAPTURES
+    // ═══════════════════════════════════════════════════════════
+    console.log('\n📸 CONTROL DE ACCESO');
+
+    // Solapas de nivel superior son <div>, las sub-solapas dentro de una ficha son <button>
+    // (misma etiqueta de texto en ambas, por eso se distinguen por tag).
+    const clickTopTab = async (label) => {
+      const tab = page.locator('div').filter({ hasText: new RegExp(`^${label}$`) }).first();
+      if (await tab.count() > 0) { await tab.click({ force: true }); await sleep(900); }
+    };
+    const clickSubTab = async (label) => {
+      const tab = page.locator(`button:has-text("${label}")`).first();
+      if (await tab.count() > 0) { await tab.click({ force: true }); await sleep(600); }
+    };
+
+    // Step 1: Bienvenido — búsqueda rápida (pestaña inicial del módulo)
+    await closeAllWindows(page);
+    await openModule(page, 'Control de Acceso');
+    await sleep(1200);
+    await screenshot(page, 'accesscontrol-step1-bienvenido.png');
+
+    // Step 2: Personas — ficha de detalle con sub-solapas
+    await clickTopTab('Personas');
+    const firstPersonaRow = page.locator('table tbody tr').first();
+    if (await firstPersonaRow.count() > 0) {
+      await firstPersonaRow.dblclick({ force: true });
+      await sleep(700);
+    }
+    await screenshot(page, 'accesscontrol-step2-personas.png');
+
+    // Step 3: Autorizaciones — se crean desde adentro de la ficha (sub-solapa), no desde la pestaña global
+    await clickSubTab('Autorizaciones');
+    await clickSubTab('Nueva Autorización');
+    const lunes = page.locator('label:has-text("Lunes")').first();
+    if (await lunes.count() > 0) await lunes.click({ force: true });
+    const martes = page.locator('label:has-text("Martes")').first();
+    if (await martes.count() > 0) await martes.click({ force: true });
+    const todoElDiaLabel = page.locator('label:has-text("Todo el día")').first();
+    if (await todoElDiaLabel.count() > 0) {
+      await todoElDiaLabel.click({ force: true });
+      await sleep(300);
+    }
+    await screenshot(page, 'accesscontrol-step3-autorizaciones.png');
+
+    // Step 4: Ingresos/Egresos — log de marcaciones
+    await closeAllWindows(page);
+    await openModule(page, 'Control de Acceso');
+    await sleep(1000);
+    await clickTopTab('Ingresos/Egresos');
+    await screenshot(page, 'accesscontrol-step4-ingresos-egresos.png');
+
+    // Step 5: Unidades Funcionales — grilla, doble clic abre el árbol de la cuenta
+    await closeAllWindows(page);
+    await openModule(page, 'Control de Acceso');
+    await sleep(1000);
+    await clickTopTab('Unidades Funcionales');
+    const firstUnidadRow = page.locator('table tbody tr').first();
+    if (await firstUnidadRow.count() > 0) {
+      await firstUnidadRow.dblclick({ force: true });
+      await sleep(700);
+    }
+    await screenshot(page, 'accesscontrol-step5-unidades.png');
+
+    // ═══════════════════════════════════════════════════════════
     console.log('\n✨ ¡Capturas completadas exitosamente!');
     console.log(`   ${GUIDE_DIR}`);
 
