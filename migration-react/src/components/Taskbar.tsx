@@ -8,9 +8,10 @@ import {
   Settings, 
   Map, 
   ChevronUp, 
-  Minimize2, 
+  Minimize2,
   Maximize2,
-  X
+  X,
+  Key
 } from 'lucide-react';
 
 export interface OpenWindow {
@@ -59,6 +60,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
       case 'billing': return CreditCard;
       case 'admin': return Settings;
       case 'trackguard': return Map;
+      case 'accesscontrol': return Key;
       default: return Shield;
     }
   };

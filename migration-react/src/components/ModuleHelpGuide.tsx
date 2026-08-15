@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  HelpCircle, ChevronLeft, ChevronRight, X, Sparkles, CheckCircle2, 
+  HelpCircle, ChevronLeft, ChevronRight, X, Sparkles, CheckCircle2,
   Monitor, CreditCard, Settings, Map, Shield, MousePointer, Layers, Activity,
-  ImageOff, ZoomIn
+  ImageOff, ZoomIn, Key, DoorOpen, CalendarClock, Users, Home
 } from 'lucide-react';
 
 export interface GuideStep {
@@ -18,7 +18,7 @@ export interface GuideStep {
   mediaAlt?: string;
 }
 
-export type ModuleGuideKey = 'desktop' | 'billing' | 'admin' | 'trackguard';
+export type ModuleGuideKey = 'desktop' | 'billing' | 'admin' | 'trackguard' | 'accesscontrol';
 
 const GUIDES_DATA: Record<ModuleGuideKey, { title: string; steps: GuideStep[] }> = {
   desktop: {
@@ -220,6 +220,71 @@ const GUIDES_DATA: Record<ModuleGuideKey, { title: string; steps: GuideStep[] }>
         ]
       }
     ]
+  },
+  accesscontrol: {
+    title: 'Guía del Módulo Control de Acceso (AccessControl)',
+    steps: [
+      {
+        title: '1. Bienvenido: la puerta de entrada',
+        subtitle: 'Buscar y confirmar un acceso en segundos',
+        description: 'Es la pantalla que ve un portero o guardia. Buscás por nombre, documento, patente o unidad funcional, y el sistema te muestra quién es y si tiene autorización vigente. No hace falta saber nada más del módulo para empezar a usarla.',
+        icon: Key,
+        media: '/guide/accesscontrol-step1-bienvenido.png',
+        mediaAlt: 'Pantalla de bienvenida con búsqueda rápida',
+        tips: [
+          'El botón "Escanear QR" queda preparado para integrarse con lectores físicos más adelante.',
+          'Desde cada resultado podés saltar directo a la ficha completa de esa persona o proveedor.'
+        ]
+      },
+      {
+        title: '2. Personas y Proveedores: las fichas',
+        subtitle: 'Toda la información de quien entra, en un solo lugar',
+        description: 'Doble clic en una fila abre la ficha completa en una pestaña nueva. Adentro hay sub-solapas simples: Datos (quién es), Vehículos (qué auto tiene), Accesos (cuándo entró y salió) y Autorizaciones (cuándo puede entrar). Los proveedores además tienen una solapa de Documentos.',
+        icon: Users,
+        media: '/guide/accesscontrol-step2-personas.png',
+        mediaAlt: 'Ficha de una persona con sub-solapas',
+        tips: [
+          'Podés tener varias fichas abiertas a la vez, cada una en su pestaña, sin perder el lugar.',
+          'Las autorizaciones se cargan siempre desde acá adentro — no hay forma de crear una sin elegir antes a quién.'
+        ]
+      },
+      {
+        title: '3. Autorizaciones: el corazón del módulo',
+        subtitle: 'Quién puede entrar, qué día y a qué hora',
+        description: 'Una autorización es simple: elegís desde cuándo hasta cuándo es válida, en qué días de la semana (o todos) y en qué horario. El estado se calcula solo: Activa (hoy es su día y está vigente), Pendiente (es válida, pero hoy no le toca) o Vencida (ya pasó la fecha).',
+        icon: CalendarClock,
+        media: '/guide/accesscontrol-step3-autorizaciones.png',
+        mediaAlt: 'Formulario de nueva autorización con días de la semana y horario',
+        tips: [
+          '"Todo el día" te ahorra cargar horario cuando no hay restricción horaria.',
+          'Los íconos de Ingreso/Egreso se habilitan según el último movimiento registrado de esa persona.'
+        ]
+      },
+      {
+        title: '4. Ingresos, Egresos y Delivery',
+        subtitle: 'Quién entró y cuándo, en tiempo real',
+        description: 'Cada entrada o salida queda registrada con fecha, puerta y quién la autorizó. El filtro "Ingreso sin Egreso" muestra rápido quién quedó adentro sin marcar la salida. "Delivery" usa la misma idea para repartidores ocasionales, con nombre libre en vez de una ficha.',
+        icon: DoorOpen,
+        media: '/guide/accesscontrol-step4-ingresos-egresos.png',
+        mediaAlt: 'Log de ingresos y egresos con filtros',
+        tips: [
+          'Este mismo listado aparece también embebido dentro de la ficha de cada persona, filtrado a sus movimientos.',
+          '"Exportar" baja el listado filtrado a Excel.'
+        ]
+      },
+      {
+        title: '5. Unidades Funcionales y Vehículos',
+        subtitle: 'La misma información, organizada por cuenta',
+        description: 'Unidades Funcionales lista los departamentos o locales del edificio; doble clic en uno abre su propio árbol con Autorizaciones y Accesos filtrados solo a esa unidad. Vehículos centraliza todos los autos y motos registrados, sean de personas o de proveedores.',
+        icon: Home,
+        media: '/guide/accesscontrol-step5-unidades.png',
+        mediaAlt: 'Árbol de una unidad funcional con sus secciones',
+        tips: [
+          'El árbol de una unidad funciona igual que en Cuentas: un clic para moverte entre secciones.',
+          'En Vehículos podés buscar por marca, modelo o patente si no te acordás de quién es el dueño.'
+        ]
+      }
+    ]
   }
 };
 
@@ -231,7 +296,7 @@ const GuideMedia: React.FC<{ src?: string; alt?: string }> = ({ src, alt }) => {
 
   if (!src || hasError) {
     return (
-      <div className="w-full h-44 rounded-xl bg-zinc-950/60 border border-zinc-800/60 border-dashed flex flex-col items-center justify-center gap-2 text-zinc-600">
+      <div className="w-full h-96 rounded-xl bg-zinc-950/60 border border-zinc-800/60 border-dashed flex flex-col items-center justify-center gap-2 text-zinc-600">
         <ImageOff className="w-8 h-8 opacity-50" />
         <span className="text-[10px] font-mono uppercase tracking-wider">
           {hasError ? 'Error al cargar imagen' : 'Screenshot pendiente'}
@@ -251,14 +316,14 @@ const GuideMedia: React.FC<{ src?: string; alt?: string }> = ({ src, alt }) => {
           isLoaded ? 'shadow-lg shadow-orange-500/5' : ''
         }`}>
           {!isLoaded && (
-            <div className="w-full h-44 flex items-center justify-center">
+            <div className="w-full h-96 flex items-center justify-center">
               <div className="w-5 h-5 border-2 border-orange-500/30 border-t-orange-500 rounded-full animate-spin" />
             </div>
           )}
           <img
             src={src}
             alt={alt || 'Screenshot de la guía'}
-            className={`w-full h-auto max-h-52 object-cover object-top transition-all duration-500 ${
+            className={`w-full h-auto max-h-96 object-cover object-top transition-all duration-500 ${
               isLoaded ? 'opacity-100' : 'opacity-0 h-0'
             }`}
             onLoad={() => setIsLoaded(true)}
@@ -372,7 +437,7 @@ export const ModuleHelpGuide: React.FC<ModuleHelpGuideProps> = ({
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 select-none animate-fadeIn font-sans">
       
       {/* Modal Container - Wider to accommodate media */}
-      <div className="relative w-full max-w-2xl bg-zinc-900 border border-orange-500/30 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
+      <div className="relative w-full max-w-6xl bg-zinc-900 border border-orange-500/30 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
         
         {/* Top Header */}
         <div className="px-6 py-4 bg-zinc-850/90 border-b border-zinc-800 flex items-center justify-between">
@@ -410,8 +475,8 @@ export const ModuleHelpGuide: React.FC<ModuleHelpGuideProps> = ({
               transition={{ duration: 0.2 }}
               className="space-y-4"
             >
-              {/* Step Header */}
-              <div className="flex items-start gap-4">
+              {/* Step Header — ancho de lectura acotado aunque el modal sea ancho (para la imagen) */}
+              <div className="flex items-start gap-4 max-w-2xl mx-auto w-full">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-orange-600/10 border border-orange-500/30 flex items-center justify-center shrink-0">
                   <StepIcon className="w-6 h-6 text-orange-500" />
                 </div>
@@ -425,30 +490,32 @@ export const ModuleHelpGuide: React.FC<ModuleHelpGuideProps> = ({
                 </div>
               </div>
 
-              {/* 📸 Screenshot / GIF Media */}
+              {/* 📸 Screenshot / GIF Media — ocupa todo el ancho del modal para que se vea nítida */}
               <GuideMedia src={currentStep.media} alt={currentStep.mediaAlt} />
 
-              {/* Description */}
-              <p className="text-xs text-zinc-300 leading-relaxed bg-zinc-950/40 border border-zinc-850 p-3.5 rounded-xl">
-                {currentStep.description}
-              </p>
+              <div className="max-w-2xl mx-auto w-full space-y-4">
+                {/* Description */}
+                <p className="text-xs text-zinc-300 leading-relaxed bg-zinc-950/40 border border-zinc-850 p-3.5 rounded-xl">
+                  {currentStep.description}
+                </p>
 
-              {/* Tips Section */}
-              {currentStep.tips && currentStep.tips.length > 0 && (
-                <div className="space-y-1.5 pt-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">
-                    💡 Consejos clave:
-                  </span>
-                  <div className="space-y-1">
-                    {currentStep.tips.map((tip, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-[11px] text-zinc-300">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-orange-500 shrink-0 mt-0.5" />
-                        <span>{tip}</span>
-                      </div>
-                    ))}
+                {/* Tips Section */}
+                {currentStep.tips && currentStep.tips.length > 0 && (
+                  <div className="space-y-1.5 pt-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">
+                      💡 Consejos clave:
+                    </span>
+                    <div className="space-y-1">
+                      {currentStep.tips.map((tip, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-[11px] text-zinc-300">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-orange-500 shrink-0 mt-0.5" />
+                          <span>{tip}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </motion.div>
           </AnimatePresence>
 
