@@ -1,3 +1,6 @@
+# Importante: Eto se va a trabajar PRIMERO en el repo de gcs.
+
+
 # WebManager → React: Fase A (Paridad + Personalización básica)
 
 Plan de trabajo para arrancar la reconstrucción de `WebManager` en React, dividido entre dos personas, sin tocar el módulo Sencha actual en producción.
