@@ -1,0 +1,56 @@
+﻿CREATE OR ALTER PROCEDURE [dbo].[SearchVC_Route_Programs]
+ @page INT = 1,               
+ @start INT = 0,               
+ @limit INT = 200,               
+ @sort VARCHAR(256) = '',   
+ @group VARCHAR(256) = '',            
+ @filter VARCHAR(2048) = '',        
+ @_dc VARCHAR(256) = '',              
+ @totalrows INT = 1 OUTPUT  
+AS
+BEGIN
+  SET NOCOUNT ON   
+ 
+ --Sort
+ DECLARE @SqlSort AS VARCHAR(256)
+ SELECT @SqlSort = dbo.GetSqlSortForJson(@sort, 'o.[Id] DESC')
+
+ --Le fuerzo orden para que no mezcle dias y horarios de rondas
+ Set @SqlSort += ',[routeid],[datestart],[starthour]'
+ 
+ --Filters
+ DECLARE @SqlFilter AS VARCHAR(4096)
+ SELECT @SqlFilter = dbo.GetSqlFilterForJson(@filter, 'VC_Route_Programs')
+ 
+ --Sql
+ DECLARE @Sql NVARCHAR(MAX)
+ SET @Sql = 'FROM _datos.dbo.VC_Route_Programs o
+ inner join _datos.dbo.VC_Routes r on o.routeid = r.id
+ left JOIN _datos..m_usuarios u ON (u.usu_iid=r.userId and u.usu_iidcuenta = r.cuentaId and u.usu_iid > 0)
+			WHERE 1 = 1 ' + @SqlFilter
+ 
+ --Total Rows
+ DECLARE @DynamicSqlTotalRows NVARCHAR(MAX) 
+ DECLARE @DynamicSqlTotalRowsParams NVARCHAR(MAX) 
+ SET @DynamicSqlTotalRows = ' SELECT @TotalRows = COUNT(*) ' + @Sql
+ SET @DynamicSqlTotalRowsParams = '@TotalRows INT OUTPUT'
+	 	 
+ EXECUTE sp_executesql @DynamicSqlTotalRows, @DynamicSqlTotalRowsParams, @totalrows OUTPUT   
+
+ --Execute Sql (ReturnRows)
+ DECLARE @DynamicSqlReturnRows NVARCHAR(MAX)   
+ SET @DynamicSqlReturnRows = 'SELECT * 
+							   FROM ( SELECT ROW_NUMBER() OVER (ORDER BY ' + @SqlSort + ') AS RowNumber, o.*, r.name, r.routetype, r.datestart, r.startbeforetolerance, r.endbeforetolerance, r.endaftertolerance, r.time, u.* ' + @Sql + ' ) AS T
+							  WHERE RowNumber BETWEEN @from AND @to '
+							  
+ DECLARE @DynamicSqlReturnRowsParams NVARCHAR(MAX)          							  
+ SET @DynamicSqlReturnRowsParams = '@from INT, @to INT'							  			  	 
+			  	 
+ DECLARE @from INT
+ DECLARE @to INT
+ SELECT @from = (@page - 1) * @limit + 1, @to = @page * @limit
+  			  	 
+ EXECUTE sp_executesql @DynamicSqlReturnRows, @DynamicSqlReturnRowsParams, @from = @from, @to = @to
+
+ --Print CAST(@DynamicSqlReturnRows	 AS NTEXT)
+END

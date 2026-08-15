@@ -1,0 +1,676 @@
+
+
+.cuenta-atendida, .cuenta-atendida *:not(.ultimo-evento) {
+    background-color: #d3d0d0;
+}
+
+.icon-account-menu{
+    background-image: url(  /resources/global/images/icons/account_menu.png ) !important;
+}
+
+.SgSerTec-icon{
+    background-image: url(/resources/desktop/images/sg-servtec-icon16x16.png) !important;
+}
+
+
+.icon-geocercas{
+    background-image: url(  /resources/global/images/icons/geocerca.png ) !important;
+}
+.icon-seguimiento{
+    background-image: url(  /resources/global/images/icons/seguimiento.png ) !important;
+}
+
+
+.icon-eventos{
+    background-image: url(  /resources/global/images/icons/eventos.png ) !important;
+}
+.icon-prioridad{
+    background-image: url(  /resources/global/images/icons/prioridad.png ) !important;
+}
+
+.icon-espera{
+    background-image: url(  /resources/global/images/icons/hourglass.png ) !important;
+}
+
+.icon-cuenta{
+    background-image: url( /resources/softguard/images/icons/vcard.png ) !important;
+}
+
+.icon-cuentaAdd{
+    background-image: url( /resources/global/images/icons/vcard_add.png ) !important;
+}
+
+.icon-cuentaDelete{
+    background-image: url( /resources/global/images/icons/vcard_delete.png ) !important;
+}
+
+.icon-cuentaEdit{
+    background-image: url( /resources/global/images/icons/vcard_edit.png ) !important;
+}
+
+.icon-usuarios{
+    background-image: url( /resources/softguard/images/icons/group.png ) !important;
+}
+
+.icon-route{
+    background-image: url( /resources/softguard/images/icons/route.png ) !important;
+}
+.icon-qrcode{
+    background-image: url( /resources/global/images/icons/qrcode16.png ) !important;
+}
+.icon-telefonos{
+    background-image: url( /resources/softguard/images/icons/telephone.png ) !important;
+}
+.icon-telefonoEdit{
+    background-image: url( /resources/global/images/icons/telephone_edit.png ) !important;
+}
+.icon-zonas{
+    background-image: url( /resources/global/images/icons/layout_content.png ) !important;
+}
+.icon-zonasEdit{
+    background-image: url( /resources/global/images/icons/layout_edit.png ) !important;
+}
+.icon-notas{
+    background-image: url( /resources/softguard/images/icons/note.png ) !important;
+}
+.icon-horarios{
+    background-image: url( /resources/softguard/images/icons/clock.png ) !important;
+}
+.icon-medica{
+    background-image: url( /resources/softguard/images/icons/medical.png ) !important;
+}
+.icon-test{
+    background-image: url( /resources/softguard/images/icons/connect.png ) !important;
+}
+.icon-panel{
+    background-image: url( /resources/softguard/images/icons/wrench.png ) !important;
+}
+.icon-sms{
+    background-image: url( /resources/softguard/images/icons/phone.png ) !important;
+}
+.icon-search{
+    background-image: url( /resources/softguard/images/icons/find.png ) !important;
+}
+.icon-reportes{
+    background-image: url( /resources/softguard/images/icons/database_table.png ) !important;
+}
+.icon-nfc{
+    background-image: url( /resources/softguard/images/icons/icon-nfc.png ) !important;
+}
+.icon-reporte-prioridad
+{
+    background-image: url(/resources/desktop/images/icn_reporte_autoridades_softguard_16.png) !important;
+}
+.SgWebReporteAut-icon{
+    background-image: url(/resources/desktop/images/icn_reporte_autoridades_softguard_16.png) !important;
+}
+.icon-reporteGrafico{
+    background-image: url( /resources/softguard/images/icons/color_swatch.png ) !important;
+}
+
+.icon-center{
+    background-image: url( /resources/softguard/images/icon_center.gif) !important;
+}
+
+.icon-car{
+    background-image: url( /resources/global/images/icons/car.png) !important;
+}
+
+.icon-carAdd{
+    background-image: url( /resources/global/images/icons/car_add.png) !important;
+}
+
+.icon-carDelete{
+    background-image: url( /resources/global/images/icons/car_delete.png) !important;
+}
+
+.icon-comment{
+    background-image: url( /resources/global/images/icons/comment.png) !important;
+}
+.icon-arrow_up{
+    background-image: url( /resources/global/images/icons/arrow_up.png) !important;
+}
+.icon-arrow_down{
+    background-image: url( /resources/global/images/icons/arrow_down.png) !important;
+}
+
+.icon-moduloAdd{
+    background-image: url( /resources/global/images/icons/cog_add.png) !important;
+}
+
+.icon-moneyguard-16{
+    background-image: url( /resources/desktop/images/icn_moneyguard_16.png) !important;
+}
+.icon-servtec-16{
+    background-image: url( /resources/desktop/images/sg-servtec-icon16x16.png) !important;
+}
+
+.icon-moduloEdit{
+    background-image: url( /resources/global/images/icons/cog_edit.png) !important;
+}
+
+.database-key{
+    background-image: url( /resources/global/images/icons/database_key.png) !important;
+}
+
+.icon-cuenta_filter_todas {
+    background-image: url( /resources/softguard/images/icons/icn_dealer_cuentas.png ) !important;
+}
+.icon-cuenta_filter_habilitadas {
+    background-image: url( /resources/softguard/images/icons/icn_dealer_cuentas_habilitadas.png) !important;
+}
+.icon-cuenta_filter_nohabilitadas {
+    background-image: url( /resources/softguard/images/icons/icn_dealer_cuentas_no_habilitadas.png ) !important;
+}
+.icon-cuenta_filter_fallotest {
+    background-image: url( /resources/global/images/icons/error.png ) !important;
+}
+.icon-cuenta_filter_enprueba {
+    background-image: url( /resources/softguard/images/icons/icn_dealer_cuentas_amarillo.png ) !important;
+}
+
+.icon-cuenta_filter_eliminar {
+    background-image: url( /resources/softguard/images/icons/icn_dealer_cuentas_eliminar.png ) !important;
+}
+
+.map-geocerca {
+     background-image: url( /resources/global/images/icons/map_edit.png ) !important;
+}
+
+.icon-geocerca {
+     background-image: url( /resources/softguard/images/icons/geocerca.png ) !important;
+}
+
+.icon-poi {
+     background-image: url( /resources/softguard/images/icons/poi.png ) !important;
+}
+
+.icon-medic{
+    background-image: url( /resources/global/images/icons/medic.png ) !important;
+}
+
+.icon-baliza-alarma{
+    background-image: url( /resources/global/images/icons/Baliza_Alarma.png ) !important;
+}
+
+.icon-cctv-camera{
+    background-image: url( /resources/softguard/images/icons/cctv_camera.png ) !important;
+    width: 16px !important;
+}
+
+
+/*DGUARD*/
+.icon-dguard-0{
+    background-image: url( /resources/global/images/icons/dguard0.png ) !important;
+}
+.icon-dguard-1{
+    background-image: url( /resources/global/images/icons/dguard1.png ) !important;
+}
+.icon-dguard-5{
+    background-image: url( /resources/global/images/icons/dguard5.png ) !important;
+}
+.icon-dguard-10{
+    background-image: url( /resources/global/images/icons/dguard10.png ) !important;
+}
+.icon-dguard-vivo{
+    background-image: url( /resources/global/images/icons/dguardvivo.png ) !important;
+}
+.icon-dguard-grilla{
+    background-image: url( /resources/global/images/icons/dguardgrilla.png ) !important;
+}
+.icon-license{
+    background-image: url( /resources/global/images/icons/book_spelling.png ) !important;
+    width: 16px !important;
+}
+
+
+.prueba,.prueba *{
+    background-color: #D5C26F !important;
+}
+
+.pruebazonas,.pruebazonas *{
+    background-color:#D5C26F !important;
+}
+.habilitado,.habilitado *{
+    background-color: #76D371!important;
+}
+.nohabilitado,.nohabilitado *{
+    background-color:#F2898A !important;
+}
+
+.eliminar,.eliminar *{
+    background-color:#ff8040 !important;
+}
+
+.cell-graficoDato {
+     background-image: url(/resources/global/images/icons/database.png) !important;
+     cursor: hand;
+}
+.sinEstado {
+     background-color: white !important;
+}
+
+.fieldset-no-border { border: none }
+
+.prioridad0,.prioridad0 *{color:#FF0000;}
+.prioridad1,.prioridad1 *{color:#FF0000;}
+.prioridad2,.prioridad2 *{color:#FF0000;}
+.prioridad3,.prioridad3 *{color:#FF0000;}
+
+.x-action-col-icon {
+    margin: 0 2 0 2    
+}
+
+/** BC 406447552 : Estilo para los forms deshabilitados, cambio el opacity de .3 a .8 para que no se vea la letra casi del color grisado original. **/
+.x-item-disabled {
+    opacity: .8 !important;
+}
+
+.x-item-disabled .x-form-item-label, 
+.x-item-disabled .x-form-cb-label, 
+.x-item-disabled .x-form-trigger {
+    color: #000 !important;
+    opacity: .8 !important;
+    filter: none !important;
+}
+
+.x-item-disabled .x-form-field ,
+.x-item-disabled .x-form-text,
+.x-item-disabled .x-mask {
+    color: #000 !important;
+    opacity: .8 !important;
+    filter: none !important;
+    background: rgba(128, 128, 128, 0.21) !important;
+}
+
+.disabled-row .x-grid-cell {
+    background-color: gray !important;
+}
+
+table.x-form-item {
+    display: table;
+    font: 12px tahoma,arial,verdana,sans-serif;
+}
+
+.gmappanel, .gmappanel * {
+    box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    -ms-box-sizing: content-box !important;
+    -webkit-box-sizing: content-box !important;
+}
+
+.eventTitle .x-form-display-field{
+    color: #596F8F;
+    font-size: 22px;
+    font-weight: 200;
+    /*padding: 4px 15px 8px 15px;*/
+    text-shadow: 0 1px 0 #fff;
+}
+
+.gmaplabel {
+    font-family: tahoma,arial,verdana,sans-serif;
+    font-size: 11px;
+    height: 18px;
+    line-height: 18px;
+    overflow: visible !important;
+    background-color: white;
+    border: 1px solid #676767;
+    padding: 1px 2px 1px 2px;
+    
+}
+.gmaplabel2 {
+    background-color: transparent;
+    font-family: tahoma,arial,verdana,sans-serif;
+    font-size: 11px;
+    height: 18px;
+    line-height: 18px;
+    overflow: visible !important;
+    padding: 1px 2px 1px 2px;
+    
+}
+
+.gmaplabel2 span {
+    color: #333;
+    background-color: white;
+    display: block;
+    margin-left: -50%;
+    text-align: center;
+    font-weight: bold;
+    padding: 0px 5px 0px 5px;
+    height: 18px;
+    width: auto;
+    display: inline-block;
+    border: 1px solid #009be0;
+    white-space: nowrap;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+}
+
+.pendientes .x-panel-header {
+    background-image: -webkit-linear-gradient(top,#329B43,#6DC23D);
+}
+
+.espera .x-panel-header {
+    background-image: -webkit-linear-gradient(top,#D9D504,#F7F300);
+}
+
+.x-grid-row-summary {
+    background-color: #d8d8d8 !important;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.icon-smartpanic-master{
+    background-image: url( /resources/softguard/images/icons/icn_sp_master.png ) !important;
+    width: 16px !important;
+}
+
+.icon-smartpanic-disabled{
+    background-image: url( /resources/softguard/images/icons/icn_sp_deshabilitado.png ) !important;
+    width: 16px !important;
+}
+
+
+
+.icon-tg-stop {
+background-image: url(/resources/global/images/icons/stop.png) !important;
+width: 16px !important;
+}
+
+.icon-tg-velocidad {
+background-image: url(/resources/global/images/icons/velocimeter.png) !important;
+width: 16px !important;
+}
+
+.icon-tg-exclamation {
+background-image: url(/resources/global/images/icons/exclamacion.png) !important;
+width: 16px !important;
+}
+
+.icon-tg-upright-alert {
+background-image: url(/resources/global/images/icons/direction_upright_alert.png) !important;
+width: 16px !important;
+}
+
+.icon-tg-upright {
+background-image: url(/resources/global/images/icons/direction_upright.png) !important;
+width: 16px !important;
+}
+
+.icon-bluetooth {
+background-image: url(/resources/global/images/icons/bluetooth-icon.png) !important;
+width: 16px !important;
+}
+
+.icon-whatsapp {
+background-image: url(/resources/global/images/icons/whatsapp-icon.png) !important;
+width: 16px !important;
+}
+
+.icon-waze {
+background-image: url(/resources/global/images/icons/waze-icon.png) !important;
+width: 16px !important;
+}
+
+.icon-google-maps {
+background-image: url(/resources/global/images/icons/Google-Maps-icon.png) !important;
+width: 16px !important;
+}
+
+
+
+@-webkit-keyframes fadeIt {
+  0%   { background-color: transparent; }
+  20%  { background-color: #CCCCCC; }
+  100% { background-color: transparent; }
+}
+@-moz-keyframes fadeIt {
+  0%   { background-color: transparent; }
+  20%  { background-color: #CCCCCC; }
+  100% { background-color: transparent; }
+}
+@-o-keyframes fadeIt {
+  0%   { background-color: transparent; }
+  20%  { background-color: #CCCCCC; }
+  100% { background-color: transparent; }
+}
+@keyframes fadeIt {
+  0%   { background-color: transparent; }
+  20%  { background-color: #CCCCCC; }
+  100% { background-color: transparent; }
+}
+
+
+.fadeOffCambioEvento, .fadeOffCambioEvento * {
+    background-image:none !important;
+    -webkit-animation: fadeIt 5s ease-in-out; 
+       -moz-animation: fadeIt 5s ease-in-out; 
+         -o-animation: fadeIt 5s ease-in-out; 
+            animation: fadeIt 5s ease-in-out; 
+}
+
+/* campos en toolbar */
+.toolbarfield {
+    top: 0px !important;
+}
+
+
+/*PALETAS CON COLOR*/
+.x-tab-default-closable {
+    background-color: #BDBDBD !important;
+    color: white !important;
+    background-image: none !important;
+}
+.x-tab-default-closable .x-tab-inner{
+    color: white !important;
+}
+
+.x-tab-default-closable.x-tab-top-active{
+    background-color: #A4A4A4 !important;
+    color: white !important;
+    background-image: none !important;
+}
+
+.x-tab button{
+    color: #A5A5A5 !important;
+}
+
+.x-tab-active button {
+    color: #333 !important;
+}
+
+.align-top { vertical-align:top; }
+
+
+.container-right-childs div.x-box-inner {
+    float:right;
+}
+
+
+.display-none {display: none}
+
+.circulo {  
+     width:16px;
+     height:16px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;   
+}
+
+.circulo.indicadorIcono {  
+     width:7px !important;
+     height:7px !important;
+     position:absolute;
+     right:0;
+     bottom: 0;
+     background-color:#000;
+     -webkit-box-shadow: 0px 0px 4px 2px rgba(255,255,255,0.7);
+     -moz-box-shadow: 0px 0px 4px 2px rgba(255,255,255,0.7);
+     box-shadow: 0px 0px 4px 2px rgba(255,255,255,0.7);
+}
+
+
+.estadoVerde {
+    background-color:#5af954 !important;
+    border:1px solid #09d602;
+        display: inline-block;
+        
+        box-shadow:0px 0px 5px #000000;
+}
+.estadoRojo {
+    background-color:#ff3557 !important;
+    border:1px solid #f20028;
+        display: inline-block;
+        box-shadow:0px 0px 5px #000000;
+}
+.estadoAmarillo {
+    background-color:#e2f442 !important;
+    border:1px solid #e6ff0c;
+        display: inline-block;
+        box-shadow:0px 0px 5px #000000;
+}
+.estadoTransparente {
+    background-color:trasnparent !important;
+    border:1px solid #b9bab8;
+        display: inline-block;
+        box-shadow:0px 0px 5px #000000;
+}
+
+ .nombreIndicador {
+    color:#eef742;
+    display:block;
+    font-size: 20px;
+        text-shadow: 0px 0px 6px rgba(0, 0, 0, 1);
+}
+
+.infoCerco {
+    color:#fff;
+    font-weight:bold;
+    text-align:center;
+   /* -webkit-box-shadow: 0px 0px 17px 3px rgba(255,255,255,0.65);
+    -moz-box-shadow: 0px 0px 17px 3px rgba(255,255,255,0.65);
+    box-shadow: 0px 0px 17px 3px rgba(255,255,255,0.65);*/
+}
+
+.estado0 {
+    background-color:#f04d68 !important;
+    border:1px solid #A30720;
+}
+.estado1, .estado4, .estado9 {
+    background-color:#f2cf5c !important;
+    border:1px solid #F76205;
+}
+.estado2 {
+    background-color:#e8f04d !important;
+    border:1px solid #8B9107;
+}
+.estado3, .estado5, .estado6, .estado7 {
+    background-color:#4df06b !important;
+    border:1px solid #078F20;
+}
+
+
+.text-wrapper .x-form-display-field {
+   word-break: break-word;
+   word-wrap: break-word;
+}
+
+.closeAll {
+    border:0 !important;
+    background:none !important;
+    height:20
+    
+    
+}
+
+
+.avisoestadocuenta {
+    background-color: #ffff60;
+    color: #333;
+    border: 1px solid #ff446d;
+    text-align: center;
+}
+
+.avisoestadocuenta .x-form-display-field {
+    font-size:18px;
+    padding:10px
+}
+
+
+.helpwin .x-window-body {
+    background:#fff;
+}
+
+.tabmsg, .tabmsg span {
+        background: rgba(91, 93, 91, 0) !important;
+        color: #555 !important;
+        border: 0  !important;
+        border-color: transparent  !important;
+       /* -moz-border-radius-topleft: 0 !important;
+        -webkit-border-top-left-radius: 0 !important;
+        border-top-left-radius: 0 !important;
+        -moz-border-radius-topright: 0 !important;
+        -webkit-border-top-right-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        -moz-border-radius-bottomright: 0 !important;
+        -webkit-border-bottom-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        -moz-border-radius-bottomleft: 0 !important;
+        -webkit-border-bottom-left-radius: 0 !important;*/
+        
+        -moz-border-radius: 0 !important;
+         border-radius: 0 !important;
+        -webkit-border-radius: 0 !important;
+        -webkit-box-shadow:none !important;
+        -moz-box-shadow:none !important;
+        box-shadow: none !important;
+}
+
+.tabmsg .x-tab-icon-el {
+    display:none !important;
+}
+
+/*****************************/
+html {
+     position: fixed !important;
+     width:100%
+}
+
+.rowBold td{
+    font-weight: bold !important;
+}
+
+
+.loadingmap {
+    
+    position: absolute !important;
+    width: 29px !important;
+    height: 16px !important;
+    bottom: 195px !important;
+    right: 18px !important;
+    top: auto !important;
+    left: auto !important;
+    
+}
+
+.icon-flujo-senales {
+    background-image: url(/resources/global/images/icons/chart_curve.png) !important;
+}
+
+.icon-arrow-event-redirec {
+    background-image: url(/resources/global/images/icons/arrow_ew.png) !important;
+}
+
+
+.green .x-window-header-default, .green.x-window-default {
+   background-color: #3fcc4a;
+}
+
+
+.display-field-proveedor {
+    font-size :'12px!important' ;
+
+}
+
+.agendarondas .x-grid-cell {  
+     height: 40px;
+} 

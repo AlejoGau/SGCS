@@ -1,0 +1,99 @@
+{
+    "success": true,
+    "children": [
+        {
+            "checked": "false",
+            "id": "12",
+            "text": "_comoNosConocio",
+            "expanded" : true,
+            "children": [
+                {"id": "111", "text":"HIJO", "leaf": true }
+            ]
+        },
+      
+        {
+            "checked": "false",
+            "id": "5",
+            "leaf": true,
+            "text": "CANCUN"
+        },
+        {
+            "checked": "false",
+            "id": "14",
+            "leaf": true,
+            "text": "Este es un grupo con nombre muy largo porque esta inteefaz me permite hacerlo"
+        },
+        {
+            "checked": "false",
+            "id": "3",
+            "leaf": true,
+            "text": "MERIDA"
+        },
+        {
+            "checked": "false",
+            "id": "8",
+            "leaf": true,
+            "text": "Nuevo grupo"
+        },
+        {
+            "checked": "false",
+            "id": "9",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "15",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "17",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "18",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "19",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "21",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "22",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "29",
+            "leaf": true,
+            "text": "Nuevo Grupo"
+        },
+        {
+            "checked": "false",
+            "id": "1",
+            "leaf": true,
+            "text": "test"
+        },
+        {
+            "checked": "false",
+            "id": "4",
+            "leaf": true,
+            "text": "VILLAHERMOSA"
+        }
+    ]
+}

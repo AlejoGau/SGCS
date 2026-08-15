@@ -1,0 +1,38 @@
+/build
+bootstrap.*
+classic.json*
+modern.json*
+.sencha
+*.log
+launch.json
+.vs/
+.vscode/
+logs/
+nul
+.claude/settings.local.json
+
+# QA Automation framework (local only)
+
+reports/
+test-results/
+qa-automation/reports
+qa-automation/screenshots
+qa-automation/videos
+qa-automation/coverage
+qa-automation/.auth
+
+# Local-only personal Jira helpers with embedded credentials
+scripts/check-worklog-totals.ps1
+scripts/move-worklogs.ps1
+
+# DLLs / binarios — nunca al repo
+DLLs/
+dlls-deploy/
+
+# tools/gcs caches y backups locales
+tools/gcs/.env
+tools/gcs/.app-cache.json
+tools/gcs/backups/
+
+# Attic (archivos movidos fuera del repo)
+_attic/

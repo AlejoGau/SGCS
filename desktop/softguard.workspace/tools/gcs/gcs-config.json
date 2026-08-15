@@ -1,0 +1,6 @@
+﻿{
+    "baseUrl":  "https://gcs.softguard.com",
+    "token":  "D2B19594-64CD-4FC8-8520-A4E808E8D244",
+    "backupDir":  "./backups",
+    "tasksDir":  "./tasks"
+}

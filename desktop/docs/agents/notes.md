@@ -1,0 +1,3 @@
+# Agent Notes\n\n- When editing Windows-based JS files, ensure replacements preserve indentation and newline style (CRLF). Prefer python replacements that include the leading indentation and verify with git diff before finishing.\n- After modifying shared components like SelecterField, add console logs temporarily to diagnose and keep documentation updated in docs/components/selecter-field.md.\n
+- Mantener documentación interna en español; si se hereda texto en inglés, traducir junto con los cambios.
+- Documentar controladores: agregar comentarios JSDoc en español describiendo la responsabilidad de cada método y anotar dentro de los métodos los bloques que no sean estándar.

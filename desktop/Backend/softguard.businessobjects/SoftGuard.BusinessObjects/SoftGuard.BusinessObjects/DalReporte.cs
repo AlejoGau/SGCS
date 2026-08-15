@@ -1,0 +1,1230 @@
+
+    using System;
+    using System.Xml;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.SqlClient;
+    using Slbf;
+    using Slbf.Helpers;
+  
+    namespace SoftGuard.BusinessObjects
+    {
+     ///<summary>
+     ///Reporte data access layer   
+     ///</summary>
+    public class DalReporte : TransactionObject
+    { 
+
+    string _ConnectionString = null;
+    private bool _AutoCommit = false;
+    
+      private int _rep_iidcuenta;
+    
+      private Decimal _rep_ntipo;
+    
+      private DateTime? _rep_tproximoenvio;
+    
+      private Decimal _rep_nfrecuencia;
+    
+      private string _rep_cmail;
+    
+      private int _rep_iLimiteSMS;
+    
+      private Decimal _rep_nLimiteCada;
+    
+      private Decimal _rep_nCadaUnidadTiempo;
+    
+      private string _rep_cMailRuteoSMS;
+    
+      private string _rep_cSMSParaInforme;
+    
+      private int _rep_iModemSMS;
+    
+      private int _rep_idGrupo;
+     ///<summary>
+     ///Sets transaction Autocommit value   
+     ///</summary>
+    public override bool AutoCommit
+    {
+    get{ return this._AutoCommit; }
+    set{ this._AutoCommit = value; }
+    }
+     ///<summary>
+     ///rep_iidcuenta   
+     ///</summary>
+      public int rep_iidcuenta
+      {
+      
+          get{ return this._rep_iidcuenta; }
+          set{ this._rep_iidcuenta = value; }
+        
+      }
+     ///<summary>
+     ///rep_ntipo   
+     ///</summary>
+      public Decimal rep_ntipo
+      {
+      
+          get{ return this._rep_ntipo; }
+          set{ this._rep_ntipo = value; }
+        
+      }
+     ///<summary>
+     ///rep_tproximoenvio   
+     ///</summary>
+      public DateTime? rep_tproximoenvio
+      {
+      
+          get{ return this._rep_tproximoenvio; }
+          set{ this._rep_tproximoenvio = value; }
+        
+      }
+     ///<summary>
+     ///rep_nfrecuencia   
+     ///</summary>
+      public Decimal rep_nfrecuencia
+      {
+      
+          get{ return this._rep_nfrecuencia; }
+          set{ this._rep_nfrecuencia = value; }
+        
+      }
+     ///<summary>
+     ///rep_cmail   
+     ///</summary>
+      public string rep_cmail
+      {
+      
+          get{ return this._rep_cmail; }
+          set{ this._rep_cmail = value; }
+        
+      }
+     ///<summary>
+     ///rep_iLimiteSMS   
+     ///</summary>
+      public int rep_iLimiteSMS
+      {
+      
+          get{ return this._rep_iLimiteSMS; }
+          set{ this._rep_iLimiteSMS = value; }
+        
+      }
+     ///<summary>
+     ///rep_nLimiteCada   
+     ///</summary>
+      public Decimal rep_nLimiteCada
+      {
+      
+          get{ return this._rep_nLimiteCada; }
+          set{ this._rep_nLimiteCada = value; }
+        
+      }
+     ///<summary>
+     ///rep_nCadaUnidadTiempo   
+     ///</summary>
+      public Decimal rep_nCadaUnidadTiempo
+      {
+      
+          get{ return this._rep_nCadaUnidadTiempo; }
+          set{ this._rep_nCadaUnidadTiempo = value; }
+        
+      }
+     ///<summary>
+     ///rep_cMailRuteoSMS   
+     ///</summary>
+      public string rep_cMailRuteoSMS
+      {
+      
+          get{ return this._rep_cMailRuteoSMS; }
+          set{ this._rep_cMailRuteoSMS = value; }
+        
+      }
+     ///<summary>
+     ///rep_cSMSParaInforme   
+     ///</summary>
+      public string rep_cSMSParaInforme
+      {
+      
+          get{ return this._rep_cSMSParaInforme; }
+          set{ this._rep_cSMSParaInforme = value; }
+        
+      }
+     ///<summary>
+     ///rep_iModemSMS   
+     ///</summary>
+      public int rep_iModemSMS
+      {
+      
+          get{ return this._rep_iModemSMS; }
+          set{ this._rep_iModemSMS = value; }
+        
+      }
+     ///<summary>
+     ///rep_idGrupo   
+     ///</summary>
+      public int rep_idGrupo
+      {
+      
+          get{ return this._rep_idGrupo; }
+          set{ this._rep_idGrupo = value; }
+        
+      }
+     ///<summary>
+     ///Constructor   
+     ///</summary>
+    public DalReporte(SqlHelper SqlConfig, int UserId) : base(SqlConfig, UserId)
+    {
+    InitClass();
+    SetConfig(SqlConfig);
+    }
+
+     ///<summary>
+     ///Constructor   
+     ///</summary>
+    public DalReporte(SqlHelper SqlConfig, int UserId, int Id) : base(SqlConfig, UserId)
+    {
+    InitClass();
+    SetConfig(SqlConfig);
+    Load(Id);
+    }
+
+     ///<summary>
+     ///Constructor   
+     ///</summary>
+    public DalReporte(SqlHelper SqlConfig, int UserId, SimpleReporte Simple) : base(SqlConfig, UserId)
+    {
+    InitClass();
+    SetConfig(SqlConfig);
+    base.Id = Simple.Id;
+    base.Name = Simple.Name;
+    
+      this._rep_iidcuenta = Simple.rep_iidcuenta;
+
+      this._rep_ntipo = Simple.rep_ntipo;
+
+      this._rep_tproximoenvio = Simple.rep_tproximoenvio;
+
+      this._rep_nfrecuencia = Simple.rep_nfrecuencia;
+
+      this._rep_cmail = Simple.rep_cmail;
+
+      this._rep_iLimiteSMS = Simple.rep_iLimiteSMS;
+
+      this._rep_nLimiteCada = Simple.rep_nLimiteCada;
+
+      this._rep_nCadaUnidadTiempo = Simple.rep_nCadaUnidadTiempo;
+
+      this._rep_cMailRuteoSMS = Simple.rep_cMailRuteoSMS;
+
+      this._rep_cSMSParaInforme = Simple.rep_cSMSParaInforme;
+
+      this._rep_iModemSMS = Simple.rep_iModemSMS;
+
+      this._rep_idGrupo = Simple.rep_idGrupo;
+
+    }
+
+   ///<summary>
+     ///Transaction   
+     ///</summary>
+    public override void BeginTran()
+    {
+    }
+     ///<summary>
+     ///Transaction   
+     ///</summary>
+    public override void CommitTran()
+    {
+    }
+     ///<summary>
+     ///Transaction   
+     ///</summary>
+    public override void RollbackTran()
+    {
+    }
+     ///<summary>
+     ///Transaction   
+     ///</summary>
+    public override void EndTran()
+    {
+
+    }
+     ///<summary>
+     ///Saves object data   
+     ///</summary>
+    public override void Save()
+    {
+    base.Save();
+
+    BeginTran();
+    try{
+    if(base.Id == 0)
+    {
+    //new
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var cmd = new SqlCommand("ReporteIns", conn))
+    {
+    // Insert
+    cmd.CommandType = CommandType.StoredProcedure;
+    cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar));
+    cmd.Parameters.Add(new SqlParameter("@rep_iidcuenta", SqlDbType.Int));cmd.Parameters.Add(new SqlParameter("@rep_ntipo", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_tproximoenvio", SqlDbType.DateTime));cmd.Parameters.Add(new SqlParameter("@rep_nfrecuencia", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_cmail", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_iLimiteSMS", SqlDbType.SmallInt));cmd.Parameters.Add(new SqlParameter("@rep_nLimiteCada", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_nCadaUnidadTiempo", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_cMailRuteoSMS", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_cSMSParaInforme", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_iModemSMS", SqlDbType.Int));cmd.Parameters.Add(new SqlParameter("@rep_idGrupo", SqlDbType.Int));
+
+    cmd.Parameters["@Name"].Value = base.Name;
+
+		cmd.Parameters["@rep_iidcuenta"].Value = this._rep_iidcuenta;
+
+		cmd.Parameters["@rep_ntipo"].Value = this._rep_ntipo;
+
+		cmd.Parameters["@rep_tproximoenvio"].Value = (this._rep_tproximoenvio == new DateTime(1,1,1)) ? (object) DBNull.Value : (object) this._rep_tproximoenvio;
+
+		cmd.Parameters["@rep_nfrecuencia"].Value = this._rep_nfrecuencia;
+
+		cmd.Parameters["@rep_cmail"].Value = (this._rep_cmail == null) ? (object) DBNull.Value : (object) this._rep_cmail;
+
+		cmd.Parameters["@rep_iLimiteSMS"].Value = this._rep_iLimiteSMS;
+
+		cmd.Parameters["@rep_nLimiteCada"].Value = this._rep_nLimiteCada;
+
+		cmd.Parameters["@rep_nCadaUnidadTiempo"].Value = this._rep_nCadaUnidadTiempo;
+
+		cmd.Parameters["@rep_cMailRuteoSMS"].Value = (this._rep_cMailRuteoSMS == null) ? (object) DBNull.Value : (object) this._rep_cMailRuteoSMS;
+
+		cmd.Parameters["@rep_cSMSParaInforme"].Value = (this._rep_cSMSParaInforme == null) ? (object) DBNull.Value : (object) this._rep_cSMSParaInforme;
+
+		cmd.Parameters["@rep_iModemSMS"].Value = this._rep_iModemSMS;
+
+		cmd.Parameters["@rep_idGrupo"].Value = this._rep_idGrupo;
+
+    conn.Open();
+    FillObject(cmd.ExecuteReader());
+    }
+    }
+    else
+    {
+    //update
+
+    // Update
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var cmd = new SqlCommand("ReporteUpd", conn))
+    {
+    cmd.CommandType = CommandType.StoredProcedure;
+    cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+    cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar));
+    cmd.Parameters.Add(new SqlParameter("@rep_iidcuenta", SqlDbType.Int));cmd.Parameters.Add(new SqlParameter("@rep_ntipo", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_tproximoenvio", SqlDbType.DateTime));cmd.Parameters.Add(new SqlParameter("@rep_nfrecuencia", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_cmail", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_iLimiteSMS", SqlDbType.SmallInt));cmd.Parameters.Add(new SqlParameter("@rep_nLimiteCada", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_nCadaUnidadTiempo", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_cMailRuteoSMS", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_cSMSParaInforme", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_iModemSMS", SqlDbType.Int));cmd.Parameters.Add(new SqlParameter("@rep_idGrupo", SqlDbType.Int));
+
+    cmd.Parameters["@Id"].Value = base.Id;
+
+    cmd.Parameters["@Name"].Value = base.Name;
+
+		cmd.Parameters["@rep_iidcuenta"].Value = this._rep_iidcuenta;
+
+		cmd.Parameters["@rep_ntipo"].Value = this._rep_ntipo;
+
+		cmd.Parameters["@rep_tproximoenvio"].Value = (this._rep_tproximoenvio == new DateTime(1,1,1)) ? (object) DBNull.Value : (object) this._rep_tproximoenvio;
+
+		cmd.Parameters["@rep_nfrecuencia"].Value = this._rep_nfrecuencia;
+
+		cmd.Parameters["@rep_cmail"].Value = (this._rep_cmail == null) ? (object) DBNull.Value : (object) this._rep_cmail;
+
+		cmd.Parameters["@rep_iLimiteSMS"].Value = this._rep_iLimiteSMS;
+
+		cmd.Parameters["@rep_nLimiteCada"].Value = this._rep_nLimiteCada;
+
+		cmd.Parameters["@rep_nCadaUnidadTiempo"].Value = this._rep_nCadaUnidadTiempo;
+
+		cmd.Parameters["@rep_cMailRuteoSMS"].Value = (this._rep_cMailRuteoSMS == null) ? (object) DBNull.Value : (object) this._rep_cMailRuteoSMS;
+
+		cmd.Parameters["@rep_cSMSParaInforme"].Value = (this._rep_cSMSParaInforme == null) ? (object) DBNull.Value : (object) this._rep_cSMSParaInforme;
+
+		cmd.Parameters["@rep_iModemSMS"].Value = this._rep_iModemSMS;
+
+		cmd.Parameters["@rep_idGrupo"].Value = this._rep_idGrupo;
+
+    conn.Open();
+    FillObject(cmd.ExecuteReader());
+    }
+    }
+    }
+    finally{
+    EndTran();
+    }
+    }
+   ///<summary>
+     ///Deletes object   
+     ///</summary>
+    public override void Delete()
+    {
+    base.Delete();
+    if(base.Id == 0)
+    {
+    throw new RuntimeException("The Reporte is null");
+    }
+    else
+    {
+    //delete
+    try
+    {
+
+    BeginTran();
+
+    // Delete
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdDel = new SqlCommand("ReporteDel", conn))
+    {
+    CmdDel.CommandType = CommandType.StoredProcedure;
+    CmdDel.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+    CmdDel.Parameters["@Id"].Value = base.Id;
+    conn.Open();
+    CmdDel.ExecuteNonQuery();
+    }
+
+    }
+    finally
+    {
+    EndTran();
+    }
+    }
+    }
+   ///<summary>
+     ///Load object data   
+     ///</summary>
+    public virtual void Load(int Id)
+    {
+    //base.Load();
+    base.Load(Id); // esto es para la auditoria
+
+    // Select
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdSel = new SqlCommand("ReporteSel", conn))
+    {
+    CmdSel.CommandType = CommandType.StoredProcedure;
+    CmdSel.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+
+    conn.Open();
+    CmdSel.Parameters["@Id"].Value = Id;
+    FillObject(CmdSel.ExecuteReader());
+
+    //save original object
+    this.OriginalObject = this.GetSimpleObject();
+    }
+    }
+   ///<summary>
+     ///Gets baseobject   
+     ///</summary>
+    public override BaseObject GetObject()
+    {
+    return (BaseObject) this;
+    }
+   ///<summary>
+     ///Gets SimpleBaseObject   
+     ///</summary>
+    public override SimpleBaseObject GetSimpleObject()
+    {
+    SimpleReporte Simple = new SimpleReporte();
+    Simple.Id = base.Id;
+    Simple.Name = base.Name;
+    
+      Simple.rep_iidcuenta = this._rep_iidcuenta;
+
+      Simple.rep_ntipo = this._rep_ntipo;
+
+      Simple.rep_tproximoenvio = this._rep_tproximoenvio;
+
+      Simple.rep_nfrecuencia = this._rep_nfrecuencia;
+
+      Simple.rep_cmail = this._rep_cmail;
+
+      Simple.rep_iLimiteSMS = this._rep_iLimiteSMS;
+
+      Simple.rep_nLimiteCada = this._rep_nLimiteCada;
+
+      Simple.rep_nCadaUnidadTiempo = this._rep_nCadaUnidadTiempo;
+
+      Simple.rep_cMailRuteoSMS = this._rep_cMailRuteoSMS;
+
+      Simple.rep_cSMSParaInforme = this._rep_cSMSParaInforme;
+
+      Simple.rep_iModemSMS = this._rep_iModemSMS;
+
+      Simple.rep_idGrupo = this._rep_idGrupo;
+
+    if(this.CallerObject != null)
+    Simple.CallerObject = this.CallerObject;
+    return (SimpleBaseObject) Simple;
+    }
+   ///<summary>
+     ///Sets SimpleBaseObject   
+     ///</summary>
+    public void SetSimpleObject(SimpleBaseObject BaseSimple)
+    {
+    var Simple = (SimpleReporte)BaseSimple;
+    base.Id = Simple.Id;
+    base.Name = Simple.Name;
+    
+      this._rep_iidcuenta = Simple.rep_iidcuenta;
+
+      this._rep_ntipo = Simple.rep_ntipo;
+
+      this._rep_tproximoenvio = Simple.rep_tproximoenvio;
+
+      this._rep_nfrecuencia = Simple.rep_nfrecuencia;
+
+      this._rep_cmail = Simple.rep_cmail;
+
+      this._rep_iLimiteSMS = Simple.rep_iLimiteSMS;
+
+      this._rep_nLimiteCada = Simple.rep_nLimiteCada;
+
+      this._rep_nCadaUnidadTiempo = Simple.rep_nCadaUnidadTiempo;
+
+      this._rep_cMailRuteoSMS = Simple.rep_cMailRuteoSMS;
+
+      this._rep_cSMSParaInforme = Simple.rep_cSMSParaInforme;
+
+      this._rep_iModemSMS = Simple.rep_iModemSMS;
+
+      this._rep_idGrupo = Simple.rep_idGrupo;
+
+    if(Simple.CallerObject != null)
+    this.CallerObject = Simple.CallerObject;
+
+    //Save original Object
+    this.OriginalObject = this.GetSimpleObject();
+    }
+   ///<summary>
+     ///Gets caller object   
+     ///</summary>
+    public override CallerObject GetCallerObject()
+    {
+    CallerReporte Caller = new CallerReporte();
+    Caller.Id = base.Id;
+    Caller.Name = base.Name;
+    
+      Caller.rep_iidcuenta = this._rep_iidcuenta;
+
+      Caller.rep_ntipo = this._rep_ntipo;
+
+      Caller.rep_tproximoenvio = this._rep_tproximoenvio;
+
+      Caller.rep_nfrecuencia = this._rep_nfrecuencia;
+
+      Caller.rep_cmail = this._rep_cmail;
+
+      Caller.rep_iLimiteSMS = this._rep_iLimiteSMS;
+
+      Caller.rep_nLimiteCada = this._rep_nLimiteCada;
+
+      Caller.rep_nCadaUnidadTiempo = this._rep_nCadaUnidadTiempo;
+
+      Caller.rep_cMailRuteoSMS = this._rep_cMailRuteoSMS;
+
+      Caller.rep_cSMSParaInforme = this._rep_cSMSParaInforme;
+
+      Caller.rep_iModemSMS = this._rep_iModemSMS;
+
+      Caller.rep_idGrupo = this._rep_idGrupo;
+
+    return (CallerObject) Caller;
+    }
+   ///<summary>
+     ///Gets a datatable with object data   
+     ///</summary>
+    public override DataTable GetDataObject()
+    {
+    //create Table
+    DataTable dt = new DataTable("Data");
+    DataRow dr;
+
+    dt.Columns.Add(new DataColumn("Id", typeof(int)));
+    dt.Columns.Add(new DataColumn("Name", typeof(string)));
+    
+      dt.Columns.Add(new DataColumn("rep_iidcuenta", typeof (int)));
+    
+      dt.Columns.Add(new DataColumn("rep_ntipo", typeof (Decimal)));
+    
+      dt.Columns.Add(new DataColumn("rep_tproximoenvio", typeof (DateTime)));
+    
+      dt.Columns.Add(new DataColumn("rep_nfrecuencia", typeof (Decimal)));
+    
+      dt.Columns.Add(new DataColumn("rep_cmail", typeof (string)));
+    
+      dt.Columns.Add(new DataColumn("rep_iLimiteSMS", typeof (int)));
+    
+      dt.Columns.Add(new DataColumn("rep_nLimiteCada", typeof (Decimal)));
+    
+      dt.Columns.Add(new DataColumn("rep_nCadaUnidadTiempo", typeof (Decimal)));
+    
+      dt.Columns.Add(new DataColumn("rep_cMailRuteoSMS", typeof (string)));
+    
+      dt.Columns.Add(new DataColumn("rep_cSMSParaInforme", typeof (string)));
+    
+      dt.Columns.Add(new DataColumn("rep_iModemSMS", typeof (int)));
+    
+      dt.Columns.Add(new DataColumn("rep_idGrupo", typeof (int)));
+    
+    //create Row
+    dr = dt.NewRow();
+
+    //set Row
+    dr["Id"] = base.Id;
+
+    dr["Name"] = base.Name;
+
+      dr["rep_iidcuenta"] = this._rep_iidcuenta;
+
+      dr["rep_ntipo"] = this._rep_ntipo;
+
+      dr["rep_tproximoenvio"] = this._rep_tproximoenvio;
+
+      dr["rep_nfrecuencia"] = this._rep_nfrecuencia;
+
+      dr["rep_cmail"] = this._rep_cmail;
+
+      dr["rep_iLimiteSMS"] = this._rep_iLimiteSMS;
+
+      dr["rep_nLimiteCada"] = this._rep_nLimiteCada;
+
+      dr["rep_nCadaUnidadTiempo"] = this._rep_nCadaUnidadTiempo;
+
+      dr["rep_cMailRuteoSMS"] = this._rep_cMailRuteoSMS;
+
+      dr["rep_cSMSParaInforme"] = this._rep_cSMSParaInforme;
+
+      dr["rep_iModemSMS"] = this._rep_iModemSMS;
+
+      dr["rep_idGrupo"] = this._rep_idGrupo;
+
+    //Insert Row in Table
+    dt.Rows.Add(dr);
+
+    return dt;
+
+    }
+   ///<summary>
+     ///Gets xml representation of object   
+     ///</summary>
+    public override XmlDataDocument GetXmlObject()
+    {
+    DataSet ds = new DataSet("Object");
+    ds.EnforceConstraints = false;
+
+    ds.Tables.Add(GetDataObject().Copy());
+    ds.Tables.Add(this.Type.GetDataObject().Copy());
+
+    if(this.CallerObject != null)
+    ds.Tables.Add(this.CallerObject.GetDataObject().Copy());
+
+    XmlDataDocument XmlDoc = new XmlDataDocument(ds);
+
+    if(this.Dependencies.Count != 0)
+    XmlDoc.SelectSingleNode("//Object").InnerXml += this.Dependencies.GetXmlObjects().InnerXml;
+
+    return XmlDoc;
+    }
+   ///<summary>
+     ///Gets children of object   
+     ///</summary>
+    public DataTable GetDataChildsByObject(SimpleBaseObject Object)
+    {
+    base.Load();
+    DataTable Data = new DataTable("Childs");
+
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdChilds = new SqlCommand("ReporteByChildObject", conn))
+    using(var Adapter = new SqlDataAdapter(CmdChilds))
+    {
+    // Childs By Type
+    CmdChilds.CommandType = CommandType.StoredProcedure;
+    CmdChilds.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar));
+    CmdChilds.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+
+    CmdChilds.Parameters["@ObjectType"].Value = Object.Type.Name;
+    CmdChilds.Parameters["@Id"].Value = Object.Id;
+
+    conn.Open();
+    Adapter.Fill(Data);
+    conn.Close();
+
+    return Data;
+    }
+    }
+     ///<summary>
+     ///Gets a collection of children object   
+     ///</summary>
+    public SimpleBaseObjectCollection GetChildsByObject(SimpleBaseObject Object)
+    {
+    base.Load();
+    SimpleBaseObjectCollection Collection = new SimpleBaseObjectCollection();
+    SimpleReporte Simple;
+
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdChilds = new SqlCommand("ReporteByChildObject", conn))
+    {
+    // Childs By Type
+    CmdChilds.CommandType = CommandType.StoredProcedure;
+    CmdChilds.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar));
+    CmdChilds.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+    CmdChilds.Parameters["@ObjectType"].Value = Object.Type.Name;
+    CmdChilds.Parameters["@Id"].Value = Object.Id;
+
+    conn.Open();
+    using(SqlDataReader Reader = CmdChilds.ExecuteReader())
+    while(Reader.Read())
+    {
+    Simple = new SimpleReporte();
+    Simple.Id = Reader.GetInt32(0);
+    Simple.Name = Reader.GetString(1);
+    if (Reader.FieldCount > 2)Simple.rep_iidcuenta = (Reader.IsDBNull(2)) ? 0 : Reader.GetInt32(2);
+if (Reader.FieldCount > 3)Simple.rep_ntipo = (Reader.IsDBNull(3)) ? new Decimal(0) : Reader.GetDecimal(3);
+if (Reader.FieldCount > 4)Simple.rep_tproximoenvio = (Reader.IsDBNull(4)) ? new DateTime(1,1,1) : Reader.GetDateTime(4);
+if (Reader.FieldCount > 5)Simple.rep_nfrecuencia = (Reader.IsDBNull(5)) ? new Decimal(0) : Reader.GetDecimal(5);
+if (Reader.FieldCount > 6)Simple.rep_cmail = (Reader.IsDBNull(6)) ? "" : Reader.GetString(6);
+if (Reader.FieldCount > 7)Simple.rep_iLimiteSMS = (Reader.IsDBNull(7)) ? 0 : Reader.GetInt16(7);
+if (Reader.FieldCount > 8)Simple.rep_nLimiteCada = (Reader.IsDBNull(8)) ? new Decimal(0) : Reader.GetDecimal(8);
+if (Reader.FieldCount > 9)Simple.rep_nCadaUnidadTiempo = (Reader.IsDBNull(9)) ? new Decimal(0) : Reader.GetDecimal(9);
+if (Reader.FieldCount > 10)Simple.rep_cMailRuteoSMS = (Reader.IsDBNull(10)) ? "" : Reader.GetString(10);
+if (Reader.FieldCount > 11)Simple.rep_cSMSParaInforme = (Reader.IsDBNull(11)) ? "" : Reader.GetString(11);
+if (Reader.FieldCount > 12)Simple.rep_iModemSMS = (Reader.IsDBNull(12)) ? 0 : Reader.GetInt32(12);
+if (Reader.FieldCount > 13)Simple.rep_idGrupo = (Reader.IsDBNull(13)) ? 0 : Reader.GetInt32(13);
+
+
+    Simple.CallerObject = Object.GetCallerObject();
+    Simple.CallerObject.Relation = new RelationHelper(this.Security.SqlConfig).GetValuesWithRelation(Object, Simple);
+
+    Collection.Add(Simple);
+    }
+    conn.Close();
+    }
+
+    return Collection;
+    }
+    public SimpleBaseObjectCollection GetChildsByObject(SimpleBaseObject Object, bool Recursive)
+    {
+    base.Load();
+    SimpleReporte Simple;
+    SimpleBaseObjectCollection Collection = new SimpleBaseObjectCollection();
+    DataTable Data = GetDataChildsByObject(Object);
+
+    foreach(DataRow Row in Data.Rows)
+    {
+    Simple = new SimpleReporte();
+    Simple.Id = (int) Row["Id"];
+    Simple.Name = (string) Row["Name"];
+    
+Simple.rep_iidcuenta = (Row["rep_iidcuenta"] == DBNull.Value) ? 0 : (int) Row["rep_iidcuenta"];
+
+Simple.rep_ntipo = (Row["rep_ntipo"] == DBNull.Value) ? new Decimal(0) : (Decimal) Row["rep_ntipo"];
+
+Simple.rep_tproximoenvio = (Row["rep_tproximoenvio"] == DBNull.Value) ? new DateTime(1,1,1) : (DateTime?) Row["rep_tproximoenvio"];
+
+Simple.rep_nfrecuencia = (Row["rep_nfrecuencia"] == DBNull.Value) ? new Decimal(0) : (Decimal) Row["rep_nfrecuencia"];
+
+Simple.rep_cmail = (Row["rep_cmail"] == DBNull.Value) ? "" : (string) Row["rep_cmail"];
+
+Simple.rep_iLimiteSMS = (Row["rep_iLimiteSMS"] == DBNull.Value) ? 0 : (int) Row["rep_iLimiteSMS"];
+
+Simple.rep_nLimiteCada = (Row["rep_nLimiteCada"] == DBNull.Value) ? new Decimal(0) : (Decimal) Row["rep_nLimiteCada"];
+
+Simple.rep_nCadaUnidadTiempo = (Row["rep_nCadaUnidadTiempo"] == DBNull.Value) ? new Decimal(0) : (Decimal) Row["rep_nCadaUnidadTiempo"];
+
+Simple.rep_cMailRuteoSMS = (Row["rep_cMailRuteoSMS"] == DBNull.Value) ? "" : (string) Row["rep_cMailRuteoSMS"];
+
+Simple.rep_cSMSParaInforme = (Row["rep_cSMSParaInforme"] == DBNull.Value) ? "" : (string) Row["rep_cSMSParaInforme"];
+
+Simple.rep_iModemSMS = (Row["rep_iModemSMS"] == DBNull.Value) ? 0 : (int) Row["rep_iModemSMS"];
+
+Simple.rep_idGrupo = (Row["rep_idGrupo"] == DBNull.Value) ? 0 : (int) Row["rep_idGrupo"];
+
+
+    Simple.CallerObject = Object.GetCallerObject();
+    Simple.CallerObject.Relation = new RelationHelper(this.Security.SqlConfig).GetValuesWithRelation(Object, Simple);
+
+    if(Recursive)
+    Simple.Dependencies = GetChildsByObject(Simple, Recursive);
+
+    Collection.Add(Simple);
+    }
+    return Collection;
+    }
+   ///<summary>
+     ///Gets all parents   
+     ///</summary>
+    public DataTable GetDataParentsByObject(SimpleBaseObject Object)
+    {
+    base.Load();
+    DataTable Data = new DataTable("Parents");
+
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdParents = new SqlCommand("ReporteByParentObject", conn))
+    using(var Adapter = new SqlDataAdapter(CmdParents))
+    {
+    // Parents By Type
+    CmdParents.CommandType = CommandType.StoredProcedure;
+    CmdParents.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar));
+    CmdParents.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+
+    CmdParents.Parameters["@ObjectType"].Value = Object.Type.Name;
+    CmdParents.Parameters["@Id"].Value = Object.Id;
+
+    conn.Open();
+    Adapter.Fill(Data);
+    conn.Close();
+
+    return Data;
+    }
+    }
+     ///<summary>
+     ///Gets a collection of parents   
+     ///</summary>
+    public SimpleBaseObjectCollection GetParentsByObject(SimpleBaseObject Object)
+    {
+    base.Load();
+    SimpleBaseObjectCollection Collection = new SimpleBaseObjectCollection();
+    SimpleReporte Simple;
+
+
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdParents = new SqlCommand("ReporteByParentObject", conn))
+    {
+    // Parents By Type
+    CmdParents.CommandType = CommandType.StoredProcedure;
+    CmdParents.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar));
+    CmdParents.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+    CmdParents.Parameters["@ObjectType"].Value = Object.Type.Name;
+    CmdParents.Parameters["@Id"].Value = Object.Id;
+
+    conn.Open();
+    using(SqlDataReader Reader = CmdParents.ExecuteReader())
+    while(Reader.Read())
+    {
+    Simple = new SimpleReporte();
+    Simple.Id = Reader.GetInt32(0);
+    Simple.Name = Reader.GetString(1);
+    if (Reader.FieldCount > 2)Simple.rep_iidcuenta = (Reader.IsDBNull(2)) ? 0 : Reader.GetInt32(2);
+if (Reader.FieldCount > 3)Simple.rep_ntipo = (Reader.IsDBNull(3)) ? new Decimal(0) : Reader.GetDecimal(3);
+if (Reader.FieldCount > 4)Simple.rep_tproximoenvio = (Reader.IsDBNull(4)) ? new DateTime(1,1,1) : Reader.GetDateTime(4);
+if (Reader.FieldCount > 5)Simple.rep_nfrecuencia = (Reader.IsDBNull(5)) ? new Decimal(0) : Reader.GetDecimal(5);
+if (Reader.FieldCount > 6)Simple.rep_cmail = (Reader.IsDBNull(6)) ? "" : Reader.GetString(6);
+if (Reader.FieldCount > 7)Simple.rep_iLimiteSMS = (Reader.IsDBNull(7)) ? 0 : Reader.GetInt16(7);
+if (Reader.FieldCount > 8)Simple.rep_nLimiteCada = (Reader.IsDBNull(8)) ? new Decimal(0) : Reader.GetDecimal(8);
+if (Reader.FieldCount > 9)Simple.rep_nCadaUnidadTiempo = (Reader.IsDBNull(9)) ? new Decimal(0) : Reader.GetDecimal(9);
+if (Reader.FieldCount > 10)Simple.rep_cMailRuteoSMS = (Reader.IsDBNull(10)) ? "" : Reader.GetString(10);
+if (Reader.FieldCount > 11)Simple.rep_cSMSParaInforme = (Reader.IsDBNull(11)) ? "" : Reader.GetString(11);
+if (Reader.FieldCount > 12)Simple.rep_iModemSMS = (Reader.IsDBNull(12)) ? 0 : Reader.GetInt32(12);
+if (Reader.FieldCount > 13)Simple.rep_idGrupo = (Reader.IsDBNull(13)) ? 0 : Reader.GetInt32(13);
+
+
+    Simple.CallerObject = Object.GetCallerObject();
+    Simple.CallerObject.Relation = new RelationHelper(this.Security.SqlConfig).GetValuesWithRelation(Object, Simple);
+
+    Collection.Add(Simple);
+    }
+    return Collection;
+    }
+    }
+   ///<summary>
+     ///Searchs objects using Name   
+     ///</summary>
+    public DataTable GetDataByName(string Name, TaxonomyCollection Taxonomies, int PageCount, int PagePresent, ref int PageTotal, ref int RowTotal)
+    {
+    return GetDataByName(Name, Taxonomies, PageCount, PagePresent, "Id", ref PageTotal, ref RowTotal);
+    }
+
+     ///<summary>
+     ///Searchs objects using Name   
+     ///</summary>
+    public DataTable GetDataByName(string Name, TaxonomyCollection Taxonomies, int PageCount, int PagePresent, string OrderBy, ref int PageTotal, ref int RowTotal)
+    {
+    base.Load();
+    DataTable Data = new DataTable("Object");
+
+    using (var conn = new SqlConnection(_ConnectionString))
+    using (var CmdDataByName = new SqlCommand("ReporteByName", conn))
+    using (var Adapter = new SqlDataAdapter(CmdDataByName))
+    {
+    // Search By Name
+    CmdDataByName.CommandType = CommandType.StoredProcedure;
+    CmdDataByName.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar));
+    CmdDataByName.Parameters.Add(new SqlParameter("@Taxonomies", SqlDbType.NVarChar));
+    CmdDataByName.Parameters.Add(new SqlParameter("@PageCount", SqlDbType.Int));
+    CmdDataByName.Parameters.Add(new SqlParameter("@PagePresent", SqlDbType.Int));
+    CmdDataByName.Parameters.Add(new SqlParameter("@PageTotal", SqlDbType.Int));
+    CmdDataByName.Parameters.Add(new SqlParameter("@RowTotal", SqlDbType.Int));
+    CmdDataByName.Parameters.Add(new SqlParameter("@OrderBy", SqlDbType.NVarChar));
+    CmdDataByName.Parameters["@PageTotal"].Direction = ParameterDirection.Output;
+    CmdDataByName.Parameters["@RowTotal"].Direction = ParameterDirection.Output;
+
+    CmdDataByName.Parameters["@Name"].Value = Name;
+    CmdDataByName.Parameters["@Taxonomies"].Value = Taxonomies.GetTaxnonomiesByChecked();
+    CmdDataByName.Parameters["@PageCount"].Value = PageCount;
+    CmdDataByName.Parameters["@PagePresent"].Value = PagePresent;
+    CmdDataByName.Parameters["@PageTotal"].Value = PageTotal;
+    CmdDataByName.Parameters["@RowTotal"].Value = RowTotal;
+    CmdDataByName.Parameters["@OrderBy"].Value = OrderBy;
+
+
+    conn.Open();
+    Adapter.Fill(Data);
+
+    if (CmdDataByName.Parameters["@PageTotal"].Value != DBNull.Value)
+    PageTotal = int.Parse(CmdDataByName.Parameters["@PageTotal"].Value.ToString());
+
+    if (CmdDataByName.Parameters["@RowTotal"].Value != DBNull.Value)
+    RowTotal = int.Parse(CmdDataByName.Parameters["@RowTotal"].Value.ToString());
+
+    conn.Close();
+    return Data;
+    }
+    }
+     ///<summary>
+     ///Gets object by name including its children   
+     ///</summary>
+    public DataTable GetDataByNameWithChild(string Name, TaxonomyCollection Taxonomies, SimpleBaseObject FilterChildObject, int PageCount, int PagePresent, ref int PageTotal, ref int RowTotal)
+    {
+    base.Load();
+    DataTable Data = new DataTable("Object");
+
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdDataByNameWithChild = new SqlCommand("ReporteByNameWithChild", conn))
+    using(var Adapter = new SqlDataAdapter(CmdDataByNameWithChild))
+    {
+    // Search By Name Whit Child
+    CmdDataByNameWithChild.CommandType = CommandType.StoredProcedure;
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar));
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@Taxonomies", SqlDbType.NVarChar));
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@PageCount", SqlDbType.Int));
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@PagePresent", SqlDbType.Int));
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@PageTotal", SqlDbType.Int));
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@RowTotal", SqlDbType.Int));
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar));
+    CmdDataByNameWithChild.Parameters.Add(new SqlParameter("@ObjectId", SqlDbType.Int));
+    CmdDataByNameWithChild.Parameters["@PageTotal"].Direction = ParameterDirection.Output;
+    CmdDataByNameWithChild.Parameters["@RowTotal"].Direction = ParameterDirection.Output;
+
+    CmdDataByNameWithChild.Parameters["@Name"].Value = Name;
+    CmdDataByNameWithChild.Parameters["@Taxonomies"].Value = Taxonomies.GetTaxnonomiesByChecked();
+
+    CmdDataByNameWithChild.Parameters["@ObjectType"].Value = FilterChildObject.Type.Name ;
+    CmdDataByNameWithChild.Parameters["@ObjectId"].Value = FilterChildObject.Id ;
+
+    CmdDataByNameWithChild.Parameters["@PageCount"].Value = PageCount;
+    CmdDataByNameWithChild.Parameters["@PagePresent"].Value = PagePresent;
+    CmdDataByNameWithChild.Parameters["@PageTotal"].Value = PageTotal;
+    CmdDataByNameWithChild.Parameters["@RowTotal"].Value = RowTotal;
+
+
+    conn.Open();
+    Adapter.Fill(Data);
+
+    if (CmdDataByNameWithChild.Parameters["@PageTotal"].Value != DBNull.Value)
+    PageTotal = int.Parse(CmdDataByNameWithChild.Parameters["@PageTotal"].Value.ToString());
+
+    if (CmdDataByNameWithChild.Parameters["@RowTotal"].Value != DBNull.Value)
+    RowTotal = int.Parse(CmdDataByNameWithChild.Parameters["@RowTotal"].Value.ToString());
+
+    conn.Close();
+    return Data;
+    }
+    }
+     ///<summary>
+     ///Gets object data with parent   
+     ///</summary>
+    public DataTable GetDataByNameWithParent(string Name, TaxonomyCollection Taxonomies, SimpleBaseObject FilterParentObject, int PageCount, int PagePresent, ref int PageTotal, ref int RowTotal)
+    {
+    base.Load();
+    DataTable Data = new DataTable("Object");
+
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdDataByNameWithParent = new SqlCommand("ReporteByNameWithParent", conn))
+    using(var Adapter = new SqlDataAdapter(CmdDataByNameWithParent))
+    {
+    // Search By Name Whit Parent
+    CmdDataByNameWithParent.CommandType = CommandType.StoredProcedure;
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar));
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@Taxonomies", SqlDbType.NVarChar));
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@PageCount", SqlDbType.Int));
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@PagePresent", SqlDbType.Int));
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@PageTotal", SqlDbType.Int));
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@RowTotal", SqlDbType.Int));
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar));
+    CmdDataByNameWithParent.Parameters.Add(new SqlParameter("@ObjectId", SqlDbType.Int));
+    CmdDataByNameWithParent.Parameters["@PageTotal"].Direction = ParameterDirection.Output;
+    CmdDataByNameWithParent.Parameters["@RowTotal"].Direction = ParameterDirection.Output;
+
+    CmdDataByNameWithParent.Parameters["@Name"].Value = Name;
+    CmdDataByNameWithParent.Parameters["@Taxonomies"].Value = Taxonomies.GetTaxnonomiesByChecked();
+
+    CmdDataByNameWithParent.Parameters["@ObjectType"].Value = FilterParentObject.Type.Name ;
+    CmdDataByNameWithParent.Parameters["@ObjectId"].Value = FilterParentObject.Id ;
+
+    CmdDataByNameWithParent.Parameters["@PageCount"].Value = PageCount;
+    CmdDataByNameWithParent.Parameters["@PagePresent"].Value = PagePresent;
+    CmdDataByNameWithParent.Parameters["@PageTotal"].Value = PageTotal;
+    CmdDataByNameWithParent.Parameters["@RowTotal"].Value = RowTotal;
+
+    conn.Open();
+    Adapter.Fill(Data);
+
+    if (CmdDataByNameWithParent.Parameters["@PageTotal"].Value != DBNull.Value)
+    PageTotal = int.Parse(CmdDataByNameWithParent.Parameters["@PageTotal"].Value.ToString());
+
+    if (CmdDataByNameWithParent.Parameters["@RowTotal"].Value != DBNull.Value)
+    RowTotal = int.Parse(CmdDataByNameWithParent.Parameters["@RowTotal"].Value.ToString());
+
+    conn.Close();
+    return Data;
+    }
+    }
+
+    public DataTable GetDataByFilter(int Page, int Start, int Limit, string Sort, string Group, string Filter, ref int TotalRows)
+    {
+    base.Load();
+
+    DataTable Data = new DataTable("Object");
+    using( var conn = new SqlConnection(_ConnectionString))
+    using (var cmd = new SqlCommand("ReporteByFilter", conn))
+    using (var Adapter = new SqlDataAdapter(cmd))
+    {
+    cmd.CommandType = CommandType.StoredProcedure;
+    cmd.Parameters.AddWithValue("@page", Page);
+    cmd.Parameters.AddWithValue("@start", Start);
+    cmd.Parameters.AddWithValue("@limit", Limit);
+    cmd.Parameters.AddWithValue("@sort", Sort);
+    cmd.Parameters.AddWithValue("@group", Group);
+    cmd.Parameters.AddWithValue("@filter", Filter);
+    cmd.Parameters.Add("@totalrows", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+    Adapter.Fill(Data);
+    var v = cmd.Parameters["@totalrows"].Value;
+    if (v != null && v != DBNull.Value)
+    TotalRows = (int)v;
+    }
+    return Data;
+    }
+
+     ///<summary>
+     ///Gets objects using text   
+     ///</summary>
+    public DataTable GetDataByText(string Text, TaxonomyCollection Taxonomies, int PageCount, int PagePresent, ref int PageTotal, ref int RowTotal)
+    {
+    base.Load();
+    DataTable Data = new DataTable("Object");
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var CmdDataByText = new SqlCommand("ReporteByText", conn))
+    using(var Adapter = new SqlDataAdapter(CmdDataByText))
+    {
+
+    CmdDataByText.CommandType = CommandType.StoredProcedure;
+    CmdDataByText.Parameters.Add(new SqlParameter("@Text", SqlDbType.NVarChar));
+    CmdDataByText.Parameters.Add(new SqlParameter("@Taxonomies", SqlDbType.NVarChar));
+    CmdDataByText.Parameters.Add(new SqlParameter("@PageCount", SqlDbType.Int));
+    CmdDataByText.Parameters.Add(new SqlParameter("@PagePresent", SqlDbType.Int));
+    CmdDataByText.Parameters.Add(new SqlParameter("@PageTotal", SqlDbType.Int));
+    CmdDataByText.Parameters.Add(new SqlParameter("@RowTotal", SqlDbType.Int));
+    CmdDataByText.Parameters["@PageTotal"].Direction = ParameterDirection.Output;
+    CmdDataByText.Parameters["@RowTotal"].Direction = ParameterDirection.Output;
+
+    CmdDataByText.Parameters["@Text"].Value = Text;
+    CmdDataByText.Parameters["@Taxonomies"].Value = Taxonomies.GetTaxnonomiesByChecked();
+    CmdDataByText.Parameters["@PageCount"].Value = PageCount;
+    CmdDataByText.Parameters["@PagePresent"].Value = PagePresent;
+    CmdDataByText.Parameters["@PageTotal"].Value = PageTotal;
+    CmdDataByText.Parameters["@RowTotal"].Value = RowTotal;
+
+    conn.Open();
+    Adapter.Fill(Data);
+
+    if (CmdDataByText.Parameters["@PageTotal"].Value != DBNull.Value)
+    PageTotal = int.Parse(CmdDataByText.Parameters["@PageTotal"].Value.ToString());
+
+    if (CmdDataByText.Parameters["@RowTotal"].Value != DBNull.Value)
+    RowTotal = int.Parse(CmdDataByText.Parameters["@RowTotal"].Value.ToString());
+
+    conn.Close();
+    return Data;
+    }
+    }
+     ///<summary>
+     ///Load object using its simpleObject representation   
+     ///</summary>
+    public DataTable GetDataBySimpleObject(SimpleReporte Simple, TaxonomyCollection Taxonomies, int PageCount, int PagePresent, ref int PageTotal, ref int RowTotal)
+    {
+    base.Load();
+    using(var conn = new SqlConnection(_ConnectionString))
+    using(var cmd = new SqlCommand("ReporteBySimpleReporte", conn))
+    using(var Adapter = new SqlDataAdapter(cmd))
+    {
+    cmd.CommandType = CommandType.StoredProcedure;
+    cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar));
+    cmd.Parameters.Add(new SqlParameter("@Taxonomies", SqlDbType.NVarChar));
+    cmd.Parameters.Add(new SqlParameter("@rep_iidcuenta", SqlDbType.Int));cmd.Parameters.Add(new SqlParameter("@rep_ntipo", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_tproximoenvio", SqlDbType.DateTime));cmd.Parameters.Add(new SqlParameter("@rep_nfrecuencia", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_cmail", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_iLimiteSMS", SqlDbType.SmallInt));cmd.Parameters.Add(new SqlParameter("@rep_nLimiteCada", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_nCadaUnidadTiempo", SqlDbType.Decimal));cmd.Parameters.Add(new SqlParameter("@rep_cMailRuteoSMS", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_cSMSParaInforme", SqlDbType.NVarChar));cmd.Parameters.Add(new SqlParameter("@rep_iModemSMS", SqlDbType.Int));cmd.Parameters.Add(new SqlParameter("@rep_idGrupo", SqlDbType.Int));
+    cmd.Parameters.Add(new SqlParameter("@PageCount", SqlDbType.Int));
+    cmd.Parameters.Add(new SqlParameter("@PagePresent", SqlDbType.Int));
+    cmd.Parameters.Add(new SqlParameter("@PageTotal", SqlDbType.Int));
+    cmd.Parameters.Add(new SqlParameter("@RowTotal", SqlDbType.Int));
+    cmd.Parameters["@PageTotal"].Direction = ParameterDirection.Output;
+    cmd.Parameters["@RowTotal"].Direction = ParameterDirection.Output;
+
+
+    DataTable Data = new DataTable("Object");
+
+    cmd.Parameters["@Name"].Value = Simple.Name;
+
+    cmd.Parameters["@Taxonomies"].Value = Taxonomies.GetTaxnonomiesByChecked();
+    
+		cmd.Parameters["@rep_iidcuenta"].Value = this._rep_iidcuenta;
+
+		cmd.Parameters["@rep_ntipo"].Value = this._rep_ntipo;
+
+		cmd.Parameters["@rep_tproximoenvio"].Value = (this._rep_tproximoenvio == new DateTime(1,1,1)) ? (object) DBNull.Value : (object) this._rep_tproximoenvio;
+
+		cmd.Parameters["@rep_nfrecuencia"].Value = this._rep_nfrecuencia;
+
+		cmd.Parameters["@rep_cmail"].Value = (this._rep_cmail == null) ? (object) DBNull.Value : (object) this._rep_cmail;
+
+		cmd.Parameters["@rep_iLimiteSMS"].Value = this._rep_iLimiteSMS;
+
+		cmd.Parameters["@rep_nLimiteCada"].Value = this._rep_nLimiteCada;
+
+		cmd.Parameters["@rep_nCadaUnidadTiempo"].Value = this._rep_nCadaUnidadTiempo;
+
+		cmd.Parameters["@rep_cMailRuteoSMS"].Value = (this._rep_cMailRuteoSMS == null) ? (object) DBNull.Value : (object) this._rep_cMailRuteoSMS;
+
+		cmd.Parameters["@rep_cSMSParaInforme"].Value = (this._rep_cSMSParaInforme == null) ? (object) DBNull.Value : (object) this._rep_cSMSParaInforme;
+
+		cmd.Parameters["@rep_iModemSMS"].Value = this._rep_iModemSMS;
+
+		cmd.Parameters["@rep_idGrupo"].Value = this._rep_idGrupo;
+
+
+    cmd.Parameters["@PageCount"].Value = PageCount;
+    cmd.Parameters["@PagePresent"].Value = PagePresent;
+    cmd.Parameters["@PageTotal"].Value = PageTotal;
+    cmd.Parameters["@RowTotal"].Value = RowTotal;
+
+    conn.Open();
+    Adapter.Fill(Data);
+
+    if (cmd.Parameters["@PageTotal"].Value != DBNull.Value)
+    PageTotal = int.Parse(cmd.Parameters["@PageTotal"].Value.ToString());
+
+    if (cmd.Parameters["@RowTotal"].Value != DBNull.Value)
+    RowTotal = int.Parse(cmd.Parameters["@RowTotal"].Value.ToString());
+
+    conn.Close();
+    return Data;
+    }
+    }
+   ///<summary>
+     ///Get by child
+     ///</summary>
+		 
+		public IEnumerable<SimpleReporte> GetByChild(string ObjectType, int ObjectId)
+		{
+			base.Load();
+			
+			using(var conn = new SqlConnection(_ConnectionString))
+			using(var Cmd = new SqlCommand("ReporteByParentObject", conn))
+			{
+				conn.Open();
+				Cmd.CommandType = CommandType.StoredProcedure;
+				Cmd.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar)).Value = ObjectType;
+				Cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = ObjectId;
+				using(var Reader = Cmd.ExecuteReader())
+				while(Reader.Read())
+				{
+				SimpleReporte Simple = new SimpleReporte();
+    Simple.Id = Reader.GetInt32(0);
+    Simple.Name = Reader.GetString(1);
+    if (Reader.FieldCount > 2)Simple.rep_iidcuenta = (Reader.IsDBNull(2)) ? 0 : Reader.GetInt32(2);
+if (Reader.FieldCount > 3)Simple.rep_ntipo = (Reader.IsDBNull(3)) ? new Decimal(0) : Reader.GetDecimal(3);
+if (Reader.FieldCount > 4)Simple.rep_tproximoenvio = (Reader.IsDBNull(4)) ? new DateTime(1,1,1) : Reader.GetDateTime(4);
+if (Reader.FieldCount > 5)Simple.rep_nfrecuencia = (Reader.IsDBNull(5)) ? new Decimal(0) : Reader.GetDecimal(5);
+if (Reader.FieldCount > 6)Simple.rep_cmail = (Reader.IsDBNull(6)) ? "" : Reader.GetString(6);
+if (Reader.FieldCount > 7)Simple.rep_iLimiteSMS = (Reader.IsDBNull(7)) ? 0 : Reader.GetInt16(7);
+if (Reader.FieldCount > 8)Simple.rep_nLimiteCada = (Reader.IsDBNull(8)) ? new Decimal(0) : Reader.GetDecimal(8);
+if (Reader.FieldCount > 9)Simple.rep_nCadaUnidadTiempo = (Reader.IsDBNull(9)) ? new Decimal(0) : Reader.GetDecimal(9);
+if (Reader.FieldCount > 10)Simple.rep_cMailRuteoSMS = (Reader.IsDBNull(10)) ? "" : Reader.GetString(10);
+if (Reader.FieldCount > 11)Simple.rep_cSMSParaInforme = (Reader.IsDBNull(11)) ? "" : Reader.GetString(11);
+if (Reader.FieldCount > 12)Simple.rep_iModemSMS = (Reader.IsDBNull(12)) ? 0 : Reader.GetInt32(12);
+if (Reader.FieldCount > 13)Simple.rep_idGrupo = (Reader.IsDBNull(13)) ? 0 : Reader.GetInt32(13);
+
+    yield return Simple;
+    }
+    }
+    }
+   ///<summary>
+     ///Get by parent
+     ///</summary>
+		 
+		public IEnumerable<SimpleReporte> GetByParent(string ObjectType, int ObjectId)
+		{
+			base.Load();
+			using(var conn = new SqlConnection(_ConnectionString))
+			using(var Cmd = new SqlCommand("ReporteByChildObject", conn))
+			{
+				conn.Open();
+				Cmd.CommandType = CommandType.StoredProcedure;
+				Cmd.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.NVarChar)).Value = ObjectType;
+				Cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = ObjectId;
+				using(var Reader = Cmd.ExecuteReader())
+				while(Reader.Read())
+				{
+				SimpleReporte Simple = new SimpleReporte();
+    Simple.Id = Reader.GetInt32(0);
+    Simple.Name = Reader.GetString(1);
+    if (Reader.FieldCount > 2)Simple.rep_iidcuenta = (Reader.IsDBNull(2)) ? 0 : Reader.GetInt32(2);
+if (Reader.FieldCount > 3)Simple.rep_ntipo = (Reader.IsDBNull(3)) ? new Decimal(0) : Reader.GetDecimal(3);
+if (Reader.FieldCount > 4)Simple.rep_tproximoenvio = (Reader.IsDBNull(4)) ? new DateTime(1,1,1) : Reader.GetDateTime(4);
+if (Reader.FieldCount > 5)Simple.rep_nfrecuencia = (Reader.IsDBNull(5)) ? new Decimal(0) : Reader.GetDecimal(5);
+if (Reader.FieldCount > 6)Simple.rep_cmail = (Reader.IsDBNull(6)) ? "" : Reader.GetString(6);
+if (Reader.FieldCount > 7)Simple.rep_iLimiteSMS = (Reader.IsDBNull(7)) ? 0 : Reader.GetInt16(7);
+if (Reader.FieldCount > 8)Simple.rep_nLimiteCada = (Reader.IsDBNull(8)) ? new Decimal(0) : Reader.GetDecimal(8);
+if (Reader.FieldCount > 9)Simple.rep_nCadaUnidadTiempo = (Reader.IsDBNull(9)) ? new Decimal(0) : Reader.GetDecimal(9);
+if (Reader.FieldCount > 10)Simple.rep_cMailRuteoSMS = (Reader.IsDBNull(10)) ? "" : Reader.GetString(10);
+if (Reader.FieldCount > 11)Simple.rep_cSMSParaInforme = (Reader.IsDBNull(11)) ? "" : Reader.GetString(11);
+if (Reader.FieldCount > 12)Simple.rep_iModemSMS = (Reader.IsDBNull(12)) ? 0 : Reader.GetInt32(12);
+if (Reader.FieldCount > 13)Simple.rep_idGrupo = (Reader.IsDBNull(13)) ? 0 : Reader.GetInt32(13);
+
+    yield return Simple;
+    }
+    }
+    }
+  
+    private void InitClass()
+    {
+    base.Type = new ObjectType(3032, "Reporte");
+    }
+  
+    private void SetConfig(SqlHelper SqlConfig)
+    {
+    //Connection
+    _ConnectionString = SqlConfig.GetConnString();
+    }
+  
+    private void FillObject(SqlDataReader Reader)
+    {
+    while(Reader.Read())
+    {
+    base.Id = Reader.GetInt32(0);
+    base.Name = Reader.GetString(1);
+    if (Reader.FieldCount > 2)this._rep_iidcuenta = (Reader.IsDBNull(2)) ? 0 : Reader.GetInt32(2);
+if (Reader.FieldCount > 3)this._rep_ntipo = (Reader.IsDBNull(3)) ? new Decimal(0) : Reader.GetDecimal(3);
+if (Reader.FieldCount > 4)this._rep_tproximoenvio = (Reader.IsDBNull(4)) ? new DateTime(1,1,1) : Reader.GetDateTime(4);
+if (Reader.FieldCount > 5)this._rep_nfrecuencia = (Reader.IsDBNull(5)) ? new Decimal(0) : Reader.GetDecimal(5);
+if (Reader.FieldCount > 6)this._rep_cmail = (Reader.IsDBNull(6)) ? "" : Reader.GetString(6);
+if (Reader.FieldCount > 7)this._rep_iLimiteSMS = (Reader.IsDBNull(7)) ? 0 : Reader.GetInt16(7);
+if (Reader.FieldCount > 8)this._rep_nLimiteCada = (Reader.IsDBNull(8)) ? new Decimal(0) : Reader.GetDecimal(8);
+if (Reader.FieldCount > 9)this._rep_nCadaUnidadTiempo = (Reader.IsDBNull(9)) ? new Decimal(0) : Reader.GetDecimal(9);
+if (Reader.FieldCount > 10)this._rep_cMailRuteoSMS = (Reader.IsDBNull(10)) ? "" : Reader.GetString(10);
+if (Reader.FieldCount > 11)this._rep_cSMSParaInforme = (Reader.IsDBNull(11)) ? "" : Reader.GetString(11);
+if (Reader.FieldCount > 12)this._rep_iModemSMS = (Reader.IsDBNull(12)) ? 0 : Reader.GetInt32(12);
+if (Reader.FieldCount > 13)this._rep_idGrupo = (Reader.IsDBNull(13)) ? 0 : Reader.GetInt32(13);
+
+    }
+    Reader.Close();
+    }
+   }
+  
+    }
+  

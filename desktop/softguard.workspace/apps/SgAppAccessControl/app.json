@@ -1,0 +1,165 @@
+{
+    "name": "SgAppAccessControl",
+    "namespace": "SgAppAccessControl",
+    "version": "20.8.1.1",
+    "framework": "ext731",
+    "toolkit": "classic",
+    "theme": "theme-gray",
+    "requires": [
+        "font-awesome",
+        "common"
+    ],
+    "indexHtmlPath": "index.html",
+    "classpath": [
+        "app",
+        "${ workspace.dir}/packages/local/common/src"
+    ],
+    "overrides": [
+        "overrides"
+    ],
+    "fashion": {
+        "missingParameters": "error",
+        "inliner": {
+            "enable": false
+        }
+    },
+    "sass": {
+        "namespace": "SgAppAccessControl",
+        "generated": {
+            "var": "sass/save.scss",
+            "src": "sass/save"
+        },
+        "etc": [
+            "sass/etc/all.scss"
+        ],
+        "var": [
+            "sass/var/all.scss",
+            "sass/var"
+        ],
+        "src": [
+            "sass/src"
+        ]
+    },
+    "js": [
+        {
+            "path": "${framework.dir}/build/ext-all-rtl-debug.js",
+            "bootstrap": true
+        },
+        {
+            "path": "app.js",
+            "bundle": true
+        },
+        {
+            "path": "/js/Desktop/getDesktopData.js?v=${build.timestamp}",
+            "bundle": false,
+            "remote": true
+        }
+    ],
+    "css": [
+        {
+            "path": "${build.out.css.path}",
+            "bundle": true,
+            "exclude": [
+                "fashion"
+            ]
+        },
+        {
+            "path": "/css/desktop/FamFamFamCss.css?v=${build.timestamp}",
+            "remote": true
+        },
+        {
+            "path": "/css/desktop/Desktop6Css.css?v=${build.timestamp}",
+            "remote": true
+        },
+        {
+            "path": "/css/desktop/SgDesktopCss.css?v=${build.timestamp}",
+            "remote": true
+        },
+        {
+            "path": "/css/desktop/UxNotificationCss.css?v=${build.timestamp}",
+            "remote": true
+        }
+    ],
+    "loader": {
+        "cache": false,
+        "cacheParam": "_dc"
+    },
+    "production": {
+        "output": {
+            "appCache": {
+                "enable": false,
+                "path": "cache.appcache"
+            }
+        },
+        "loader": {
+            "cache": "${build.timestamp}"
+        },
+        "cache": {
+            "enable": true
+        },
+        "compressor": {
+            "type": "yui"
+        }
+    },
+    "testing": {},
+    "development": {
+        "watch": {
+            "delay": 250
+        },
+        "loader": {
+            "cache": true,
+            "cacheParam": "_dc"
+        }
+    },
+    "bootstrap": {
+        "base": "${app.dir}",
+        "microloader": "bootstrap.js",
+        "css": "bootstrap.css"
+    },
+    "output": {
+        "base": "${workspace.build.dir}/${build.environment}/${app.name}",
+        "appCache": {
+            "enable": false
+        }
+    },
+    "cache": {
+        "enable": false,
+        "deltas": true
+    },
+    "appCache": {
+        "cache": [
+            "index.html"
+        ],
+        "network": [
+            "*"
+        ],
+        "fallback": []
+    },
+    "resources": [
+        {
+            "path": "resources",
+            "output": "shared"
+        }
+    ],
+    "archivePath": "archive",
+    "slicer": {
+        "js": [
+            {
+                "path": "sass/example/custom.js",
+                "isWidgetManifest": true
+            }
+        ],
+        "output": {
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
+    },
+    "ignore": [
+        "(^|/)CVS(/?$|/.*?$)"
+    ],
+    "id": "23f3be5a-ca85-49b4-bf70-a72a028aed5a"
+}

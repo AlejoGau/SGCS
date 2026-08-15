@@ -1,0 +1,1 @@
+﻿CREATE OR ALTER PROCEDURE [dbo].[MetadataGetList](	@ObjectTypeId int,	@ObjectId int)as	select Id, Name, DataType, XmlData, ObjectTypeId, ObjectId, Model	from Metadata	where ObjectTypeId = @ObjectTypeId and ObjectId = @ObjectId

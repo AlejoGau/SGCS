@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html manifest="">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes">
+
+    <title>Desktop</title>
+
+    <!-- The line below must be kept intact for Sencha Cmd to build your application -->
+    <script id="microloader" data-app="c06d0556-a2ff-46f7-8ec5-3ff6b2abffee" type="text/javascript" src="bootstrap.js"></script>
+    <style>
+        body, .x-body {
+            /** */
+        }
+        .desktop-dataview,
+        .desktopwidgets {
+            position : absolute !important;
+        }
+        .loading-wrapper {
+            width: 100vw;
+            height: 100vh
+        }
+        #loading {
+            display:table-cell;
+            vertical-align:middle;
+        }
+        
+        #loading .loading-indicator {
+            margin-top: 20px;
+        }
+        /* FONTS LATO */
+        @font-face {
+            font-family: 'latobold';
+            src: url('/resources/fonts/lato/lato-black-webfont.eot');
+            src: url('/resources/fonts/lato/lato-black-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/resources/fonts/lato/lato-black-webfont.woff2') format('woff2'),
+                url('/resources/fonts/lato/lato-black-webfont.woff') format('woff'),
+                url('/resources/fonts/lato/lato-black-webfont.ttf') format('truetype'),
+                url('/resources/fonts/lato/lato-black-webfont.svg#latoblack') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'latosemibold';
+            src: url('/resources/fonts/lato/lato-bold-webfont.eot');
+            src: url('/resources/fonts/lato/lato-bold-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/resources/fonts/lato/lato-bold-webfont.woff2') format('woff2'),
+                url('/resources/fonts/lato/lato-bold-webfont.woff') format('woff'),
+                url('/resources/fonts/lato/lato-bold-webfont.ttf') format('truetype'),
+                url('/resources/fonts/lato/lato-bold-webfont.svg#latobold') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'lato';
+            src: url('/resources/fonts/lato/lato-regular-webfont.eot');
+            src: url('/resources/fonts/lato/lato-regular-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/resources/fonts/lato/lato-regular-webfont.woff2') format('woff2'),
+                url('/resources/fonts/lato/lato-regular-webfont.woff') format('woff'),
+                url('/resources/fonts/lato/lato-regular-webfont.ttf') format('truetype'),
+                url('/resources/fonts/lato/lato-regular-webfont.svg#latoregular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'latoregular';
+            src: url('/resources/fonts/lato/lato-regular-webfont.eot');
+            src: url('/resources/fonts/lato/lato-regular-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/resources/fonts/lato/lato-regular-webfont.woff2') format('woff2'),
+                url('/resources/fonts/lato/lato-regular-webfont.woff') format('woff'),
+                url('/resources/fonts/lato/lato-regular-webfont.ttf') format('truetype'),
+                url('/resources/fonts/lato/lato-regular-webfont.svg#latoregular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'latolight';
+            src: url('/resources/fonts/lato/lato-light-webfont.eot');
+            src: url('/resources/fonts/lato/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/resources/fonts/lato/lato-light-webfont.woff2') format('woff2'),
+                url('/resources/fonts/lato/lato-light-webfont.woff') format('woff'),
+                url('/resources/fonts/lato/lato-light-webfont.ttf') format('truetype'),
+                url('/resources/fonts/lato/lato-light-webfont.svg#latolight') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'latohairline';
+            src: url('/resources/fonts/lato/lato-hairline-webfont.eot');
+            src: url('/resources/fonts/lato/lato-hairline-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/resources/fonts/lato/lato-hairline-webfont.woff2') format('woff2'),
+                url('/resources/fonts/lato/lato-hairline-webfont.woff') format('woff'),
+                url('/resources/fonts/lato/lato-hairline-webfont.ttf') format('truetype'),
+                url('/resources/fonts/lato/lato-hairline-webfont.svg#latohairline') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .x-panel-body-default {
+            background : transparent !important;
+        }
+        .x-box-inner {
+            overflow : visible !important;
+        }
+        .x-menu .x-panel-bodyWrap {
+            background-color : white;
+        }
+        .x-menu .x-box-inner {
+            overflow : hidden !important;
+        }
+
+        /*----------------------------------------------------------------------
+        DESKTOPSTATUS
+        -------------------------------------------------------------------*/
+        .ux-desktop-status {
+            padding-right: 30px !important;
+            padding-top: 15px !important;
+            line-height: 20px !important;
+            font: 100 20px lato,tahoma,arial,verdana,sans-serif !important;
+            background-color: rgba(51, 51, 51, 0.4) !important;
+            border: 0 !important;
+            padding: 11px 10px !important;
+            background-image : none !important;
+            border-radius: 0 !important;
+        }
+
+        .ux-desktop-status span {
+            color: white !important;
+            text-transform : uppercase !important;
+        }
+
+        .ux-desktop-desktopstatus .x-btn-over {
+            background-color: rgba(51, 51, 51, 0.4) !important; 
+        }
+        .ux-desktop-desktopstatus.x-panel-default { 
+            border:0 !important;
+        }
+
+        .x-btn-icon-el-default-toolbar-small.mail33x33 {     
+            background-size: 16px 16px !important;
+            background-repeat: no-repeat !important; 
+        }
+        .msgBlod * {
+            font-weight:bold !important;   
+        }
+        .icon-mensajes {
+            position: absolute !important;
+            left: 0 !important;
+            top: -5px !important;
+        }
+
+        /*----------------------------------------------------------------------
+        DESKTOPCLOCK
+        -------------------------------------------------------------------*/
+        .ux-desktop-desktopclock {
+            padding-right: 30px !important;
+            padding-top: 15px !important;
+        }
+
+        .ux-desktopclock-dayofweek {
+            font-family: 'latolight' !important;
+            color: white !important;
+        }
+
+        .ux-desktopclock-dayofweek .x-form-display-field{
+            line-height: 30px !important;
+            font-size: 35px !important;
+            font-family: 'latolight' !important;
+            color: white !important;
+            margin-bottom: 10px !important;
+        }
+
+        .ux-desktopclock-date .x-form-display-field{
+            line-height: 30px !important;
+            font-size: 50px !important;
+            font-family: 'latolight' !important;
+            color: white !important;
+            margin-bottom:10px !important;
+        }
+
+        .ux-desktopclock-time .x-form-display-field{
+            line-height: 60px !important;
+            font-size: 100px !important;
+            font-family: 'latolight' !important;
+            color: white !important;
+        }
+
+        /*
+        .x-btn-button-center {
+            justify-content : left;
+            -webkit-box-pack: start;
+        }
+        .x-btn-inner-default-small {
+            color: white !important;
+            font-weight: bold;
+        }
+        */
+    </style>
+</head>
+<body>
+        
+    <div class="loading-wrapper" align="center">
+        <div id="loading" align="center">
+            <div id="widthLimit" align="center" style="
+                    width: 400px;
+                    display: block;
+                    background-color: white;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                ">
+                <img src="/resources/desktop/images/logo_softguard_blanco.jpg" border="0" alt="SoftGuard" title="SoftGuard"/>
+                <br />
+                <div class="loading-indicator">
+                    <img src="/resources/desktop/images/loading_softguard.gif" border="0" alt="SoftGuard loading" title="SoftGuard loading"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div  id="poweredby">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFYAAAAoCAYAAABkfg1GAAAXUUlEQVRoQ+WbB1hWx7aGP5rSQSl2RWONGmOJLcfeG9EkFmJFJEjVKMUuYAM7ShGxK/YWrJEmalSMDUUUGyIWRKooiAL/XWv2v3/BY0Fj7nnuPZOHB9x7Zvbsd9Z8a82aHTX8Py6bN2+uq6GhEVS+fPkmxcXFRxQKxXVNTc0jP/74Y/w//dpq7dq109HW1g6mB9f+px/2v9W/qampokOHDpr0uyWBLUc/pR6tpqYGdXX1uIcPHz4LCAgwrl69ek5hYeEXGR71m/Ty5Us7tS5dusS0b9++47Bhw0Az+kU6/090wrDohXDz5k1kZ2ejSpUqaNy4MWrUqIG7d+8iIyMDaWlp4h0LCgqgpaUFExMT2NnZwdXVFR07dgQZ198aOo9h+/btOH369Am1Tp06KcLDw8WD/i+XK1eu4Pbt22DLs7CwQMuWLfG2pZKFCvA8AXyPrAtjxozBwIED4e/v/0Ve//Xr1+jRowfUaKYUMTExX6TT/1Qn165dA//UqVMHzZo1E9DYKnV0dMSQnj17hlevXoGkAfyuDJati/RWQPDz84OTk9MXGz4Za2mw7xMCNeUj161bh3v37mHcuHGoWbMm1q9fL5bXxIkTERISAltbW2zduhUW9IL6uro4ePCgWHpcf+3atdClaxMmTBBt1qxZI3qV75mZmcHGxkYFY9asWdDT08M46jOCVhT5AkRERKD/gAEwp7o8Vh7XixcvcOzYMbHi+vfvr4LDcsAWmZ+fD+6b/+axHDlyRIBnsNyWHBmKioqk+38Trczp38G+R2N5EFxmz56Npk2bIioqCtOmTcOKFSvEsmNLOXv2LNq2bYvY2FhxrU2bNmA4Xl5e+OqrrzBixAgMGTIET548QdeuXcWkWFtbi343bNggrKlVq1YgzRfXBg8ejKFDh+L58+eoVKmS+M0TtXHjxlKvHxcXJ5Z3ixYtxHO4pKenC0kwMjJSTRRfZ9hnzpwREPmHrfy3335T+Za/62NkTp8M1tPTE1ZWVgKYt7e3EOomTZqIgb3IyxNWEHP8OGrVqoWxZH2TaNA7d+4UL8uQ5syZg/2//w5Lsjpuy/3duHEDO3bsEI6GnQfD58K/p0ydCtbOHywthZPhATs6OqrAssUdPnwYFNWgX79+wjr5p0KFCmCt4x8DAwNV/eTkZFy/fl2Mk8GeP39eGIgM9B8By8vgfR3zQNhmGcTTp0/x3Xet0aZtG+wkIDJYrnOcoLK1NGrUSMBnOF9//bVox2B5SQ6ma+bm5vD19UWnjp3Qtl1b0c/bYLk+Fzc3d7LklnBwcBBtu3TurJKBU6dOiRXQoEEDYdXcP7+DbDl5NNksP1zYgi9cuICsrCwVWF5dM2fOVL138d+MimROpSyWB/RBsASOpYCXeN++fZGQkIBdu3bha7I0LnVq18aiRYvEvXPnzgkvy2BZChg0g2J4bFn8sqzXzi4ueEFLnK2a+2GLHVrSYqdMEbrq7u4uns39cR9cMjMzhTTo6+ujWrVqIgpgZ1SyMERjY2MkJSUhNTVVwOVnsKbyu+7evRurV69WhVlfItxiuKXA8mx9CKw6NWArlAGxPjHYxo0lKWjatImwzDGkm7Gkt/w3g5ClgP8ePHgI1QXVbSyWP9fhpcl1WD5MSGcHKB0Q13f38MCBsDAxOfIKaEzS8/jRI8THxwsgDJOfz3LAcGUL5Sjgzp07eER12bEJa1L+yI6MpYn1mevxiv0SYJlTKbBFNMiPWaz8crz8eZCukycLaViyZIlYhq6uk2E91gZRkZFwdnbGzz//LAzIi/TYkyzOkwCxtvJmhP/Nz5PvsfNigKbUD/c9mNpyVMASwKtkBi1Zhs3PZqiBAQGq/vkZ3BcDY4tm7U1JSRH9cGjF/ci6yrrLcfuWLVtEhNO8eXNcvHgRH3r/UsvgA//gZ2jQGEqDLXo/WO5Lnm2VDInZl0KeD03I2+OQw6R3jU+WozfWxX1LNUs6GL7Py3nZsqUCjKypXIctWJYEOaQyNDQUOy85qmDYchkwwBJhYb9Tf2/ev2R/ZYUqM9LQKAH2OAXNhUrd+WBHIuximuqqamq0iKSXlggI0PSf5O7eLlSb23IXorocOUp1FQreUnJbSCGRMsyTa/JSLTmJDOBhygNazomiPbfhZc+/ZQtlZ8o6ylpdEqg8Mh8fH7iShssyICaV2ou3KFZ8kjyITQfFyJ3lDUL0cQJbKAn6+4sSaPFLlI+dBqREAsY18fp7fxTr1aJxSFDeWwRQNZQ/PxO4cwDQNka+ZQzBA8pvbyqaFQy7SsCLCYwa7ZZyMIU09txf5wToWbM9YWn5g9KypD29bNn3k5NEPoAtlTJZ4jpLAQONJFl6u/COzMZmHCaTdNWoUUvVp1jKBKZZs6Ywphg45sQplaP7ABjVLWk3p0GRi3LnFRV9XHjMD4IVYDSgvf97AnPmDUN9LRSMuguFTmXlun0XXGlStG4sh8YhV8mstQmkI00mXddeTBeo2Us30klFkfRy3zSlAL50dm/v3n1i51XScmW4168nIIc2AFevXhUbDo5R3y68gbC1/RW/TZoknsH9lOyLJ1RTU4t0UgL86nWhiIXLGt9KYDXRtUtnaUsbGRX9EbASGM30C9Dc0hZqphVR2H0z1LMToX50EtBiBPI7bSC3WvQeq6X26hrQOUXB/blgKHr5oqCJOw2Y6tNk6SyVwOZPVkBDrQin/zwl4lUO7tfQVpitjx0lZ6DeNVZp+arBiTYPa2hr/XbhaIHzBYePHoVFLQsVUCExJVYpS4gmSYkm9cWSkv+yQBWild1iNdGtaxcJbERkVBnAakD32kIgcjoUfVYivwElLYiHbhDlOk3qIe/nazRKymm+U04YrCZ0zziiODYYRUPC8LpqX0k++PoyWg0qsMVwd5sMv+XLMZF2bkuWLBVOslHDhkhMTMRrkiw5HpVfVrZati6Gu2mTtO3tR6Gbp6eXcHCPUx9jF4V1Dg40hvdEQLJGa5IDYrB5+S8/C2z3bl0lsOERkR8HSxan95cLFGdX4fWPBKZaH2HFejvrU7SehBd2r96AVTkdoiXCALZ4TejFOqD47GoUDj5AYHtL1s3X/SSweb+xxTJYV6zwW0YbjsWYQAkeLm50jWFfuhqPhvXqCUt725HJOQCWAobKyZqSyz2fogHK6quM7+0lLiyWlrIW6SSDfZGX/1lge3TvJoE9Fl42sPqxE8jiglD4UxheMVgq+ru/ATKu47kAy6AIYnEB1PNTyKnVk+CRJWvm3ID2ZS/gyu8o7LsSr8zbodiwiXR907fC+gtGnIfC5Gt4eFCChyD6LlxE2TAZ7GSspKRP2IFDaNu+nYhBK5mZi/j56dM0EU+b87bWVIqD34SHkmeXISYkXKOEj5lIhJecHDmK4HCJNbZcOS3kPmeLfV3myEDW2J49lGCP/BHxcYslLTSM84DaieUo6uaN542niKWsWZgD9tHFmkbCgo0u/gacDpAM1aAC8gYdh0LbHHqBVQDecfIpCTVQEMg82yd0vRJAOXb+NxkrXo2+BNcFm7CSLNbHdyGcnCcKAKuCA7CB9DZwdQiSKKE9ZvQoODo5Y9HipXBznYQA/5Wqf2dnZ2L0qJEIp3Qi+8k58+aRw3ITsHW1tdCufXskURTB29zfww6gFmXnfh74g9jRWVO04L9yBYEth+xneZ8Ftk+v7pLFHvojvAxgyXs/DId2mCXUjCshc/gDAsHnRG9i0XLZ8dAL/Q4wrQFF7W7A+Q1Qq9oAOZZnYXTGHngcC0V6ErW3AAyM8LzXUegf6A6ksj5TVzUbI7/XIbh7LYe/33IsILCOzi7CYt5YoTr27NqBMQTOhazZh+TCgzR5JSWrnSnX60ugW33TBAm0VeZE0cULF4Vnvxx/DfXrN4BuOSmfUMuiFjlHQwQGrob9eBuKQBJK+ScGm/nsxWeB7ddLeYJw8OixMoVb6rSJMN5ZHcWZlJEfsAl5tQYTEPLswjzJohNXQjPSHa97BuBZQ3uY7KgNPElGhhPJBNlOxXMOwF8hyB8YhvxqvUXMqiDnZeJPL0t9ZLoUQZPMdrqHK/xX+AmLdWCwLDFKlWHAe3ftFBbr7DIBPouXYKrQ5OUC9Nz582BIW9jOlNf9IyIKo0f8gu3btsE/MAhjKdTS1dJAVUraXCat1tHVE5uQr+vXRU5ONgJXrcHVK5exgPpgsBk5uZ+lsf1795QsNuzw0Y+D5UVFDswwwQfljs8hcdVC1pDbKCpvIq1tWuOmF1wI3FrkWe7Bi+oDYPZHB4p5Y5Fh/5xqaKDiX45QO78OeQP34GVlyXkxWLNAcigELt2pQICdOdVDLEcG27NXX9LTO8KaWBJatWqD6KhwAdaJsmMLFi7GNHc30l+yWALNOdxqVSpjvL0DFi9bTpa8HFM93IU1+1BdvfJaGDlqFPyDgsVKYIfVtFEDGBlXwJlzf4mVwXUY7NOsnM8Ca9mXjIbB7j94uAxg2ejo+IIss9J5Z1q+p1BcpQPSm/tJ4gh1GN4OgnbiamS3D0FBxdaoeHEStJKjkDEwFoVq5VDh5nKUS9yI7H+F4JVxCwks93eoubD4tH4UJ1OAMGv6VAQwWHJeSUl3ERwUpFqme/cfwDOyrjGjRwqZmO+zENN5IgisE4OdNh3dOnXEaMqy8f1A6mfqFA9xj6XFQKc8fhk+gsCuksDSRuDbxo1gSDutU2diBVgjPR2Uo6jgSWb2Z4Ed2L+vBHYfedqP7rzEq7GHoV3JqxwY31kN9ZePkVuNMvfmpCl0Vyf1GPRSjyC7rhNeG9SFfsoOaKeeQUarpSIDoP/wMPTSwpFZzwmF+iQTjJYmy+zSJPKD6lRviRLsNASSM5rv44t6FFpFR0fj5IkYWqZXsGdfGAX72bBWOq95SrA8EQ7kzObO9xETxoCSk5IprrXDqZMnBVjuz1BXm8AOx8rAVWIry1HAt5TGNDI0wskzZ0U7Y31dATY1I+uzwA4a0E8CuyfsYBnBynAp3nuRhAr31qOYAvbcr2xRYFAHeo+OwiD1KLLqO6JAvx4MkzZBN/080lotJykgsI8OEXgCW38CgaX8gtJiK1MkQZtbpLf0E2A9pxPYAH+CtAD2BIsnc9bUKcLz797LYLMwdsxoCeQCXyEdfM/B0Qne1Ibr+86bi0W+DFkqTmS9cwmsMVmj1S/D4UeaW0w+g7euLcjZGRLYE6dpq05tTQz0BNhH6ZmfBfYny/5Q60Rgt9PyKvpYrkA1RGUmipZuxdtroHcrBEWV2+JRS38Y3wqGwa1VSG+9CvkmrWF2dSa0Uw7iUZ+/UESWaZK4Arp3NiOtNUmBCcW/wmI1UONIS/pLCw/6nhVgvadPR1CQP7zmzIcdn3HRy3oR7KBAf+zcu184GlvrMbAXIH0xe9oUmggG6wwvAuu3ZBHmenuhStUqaFC/IR0ZRVMo5gLvBT4ETRfDCOwy/0AV2O8o6WJoZIjoUxJYcyN9EcemPMmgnR7lUMr4IYdI4tAGY9jAARLYbfsoH/lRsMo0oGpXRUF4YT6qx7ATKsbDtlth+PgwDJLW4GkrAluxDcyvzYB28iGk9KHAn9pVvOkP/aSNdD8ILyu+0diax1oRYQ2k9D4ngZ05HasCA+A5dx7syAlx8ZpB14ICsWPPPgKbg1/HjsF42p6yhc5m6GThbMHTZs2GRbUqqFq1KiKi/8T+vTvgTlksnoQ5BNbUUB/DrH7BUv8AFdjW3zaDAeVso0/9KcBWMjYUYO+nPv1ki2WwVoN+kMCG7tn/cbBkceXy7qDc89t4UaE9FFqGwtosjrYB0m4is2co6Wckyl9ch4w+O5BbuRcsTg8CEqORPCadFroGKsdNRPlLG5HZdyuem/VUSoEmLDZUEFFB8thsAqvAnFnTyWEFYvacubAd7yD024tgr14VhO279wqwdjbW+HU8g50PzxnTxEQwWENDY/jMnyMmoGOXrlgXEkzhm7tyEnxgbmyAoQR2yQpKdyqloG0LBmuECEoTstVVqWgkooJ7j558FtjhPw0ksJ06KjZv20tC/qG0oZSgrnptMm1LN+Np71DkmhAYulYnisA+vo3sroEon3UBOpfWIr3Xdjwz64U6sQT25nEkjXxKoZI6qlybBG0Cm96bwJrQxkBorCbqhFLIRmCTRmYKsN6zZ2LN6kDM8p5DH3TYi12yl7gWhNBde5BLYMePGwtbOweSi3nwnDWDoAeQVbrQIWc8YqKj8PBJlkicr18fQho8RZqEufNR2dQIQ4ZZYfHSFSIqYI1t17q5sNjwyJMCbLVKFQTYu/cf0+aCuZTtmy4pn6uJkVY/SmA3bttTBrAaqBbvBp3LG/Gk11bkmjMYddSNaCvAPu2xEXoZMdC9vA6pPbYht1Iv1DtLYG/F4O4vaSimeLFq/CRqvwlpZN25ZrTtU4KtG2oqwN4ZmUFxLFns7BlYG7IKs73mYuyvdiIamaMEu2XnbgHW3tYG4+zt6RxtHlnzDIQEB5JVuuDMnycQF3dZ6GMxnQBsXL8Gs0iDeRI8581HNVNjDBlqhYXL/FRgv2/dgizdEH9EnRBgq5tXFGBv33/06RpLYEdb/cRgOynWh27/SKacLZZ2LAlToE9gH/XkpUxbVhpE/Qiy2CdJuG8ZjQoPtsPgUjAe9wgVFls/lmbu1gncGp4qwq1qCW7QjduE1O5bkGtKqTUl2PrbKF9AYG8NTxPZrUU+87CKvPx4B2dMpUNELs72dgjbvw8RMaeQeOM6HO1sMW68PcGfI1kzyYQdOa/TJ09QWBYn9JF3bJs2rBMRhajrPRc1zE0weOgw+C5ZpgLbsc13MKBj8j8io8U7cR0Ge/NeCoGlRDdNUFmKfAJhPXyYBHbN5m1lAEvx5oOtMD3thuy2M/DIYgJ0Ch6idhhlpio3QEKHkzBN3Qvz6PHIazoK9xvPRcODDSh7nY/rg1PFsq953Z3AbsZjSpLnmLwB22gHnz4A161SSYmLcTPxOgb07CZObEN37hHfeo0cSqe2+nq4ejMJMVGRsB5hhQE/DETA6rVwsR9PTmoXJnlMxYPk+9i5PRTB6zagR59+sKF60ZERsLGzx0xPb1hUMcPPQ4ZiweI3YLt83xppT9KE7vKkBJMjZLAJd++j8BNPEFhaxo20ksAGbwz9+NkOO6+CNNQLJw/O2SnT2lDLTQNyX+BxB39kVB4EzddZaHi4CeX/iKMRfdrzLBf59QfhTjP6RJKsx+KGB/TjQ/GgM+2+VBargSa7qok+44c+JHGhjBkF7e2aN6GPMrJKGcp0AjPK2gaZdOLas9O/kJv7THzzxQeGrMOxcQl4cD8FP/bvJdpxblX+oHg0Za1mkrTUrV4Zg+j7hvmLaNOi3NKOokk7F3u21LO47bU7yZ8Q37OxS0c6dqOHS2CDNpQBLC9cglsx5wyqX3IDnj8WB4LP6lnjngUF8ULg1WD4MhkWN+mwMS8H+cbNcLuht4gIuNR8ugfGWcdxs6oLbSDqCtgsMQ2ujkd5LQWuNAymHqTDxNSHD+A20RmJdJbFH2MM+WUEXFw9hCfnF3hwPxlryZnFXbpE3xI0hSOdNlSpWl0852R0JJYvXogu3XugJn0IEk/nYBx+Wf9qj6mTJ6Ddvzqin+VAkXvgvp7TBK0OXImr9IHdsJGjEUfnZVqUL5jkMf29pw3vkgYZrP0YJdiAtVs+4rzkbuTjaw6AlHEtAWWtVB3JcD6hxNE3g3pzj2vywXjJ+tI1LvJ1ceBA/TBgHiwXdkTsneWEtZyYlkemSmZTfc5Yye34vnRapDxx4P6Upw8y2JKJcbk/vve+I5z36a0cFTjajIBa586dFCtCNpcRrPT6/15Kivvb9991721nILcpcZ3hvPWg0kcp0gcjb0BI8KQZevdXDarelaBLdl9yIkrCfR/Ed12XwbrYjgT/PwjJPXr3r9nnh0FlPub9lIf9N9VlsEd+34fwowfvM1hy3ThGy6zm3/yK8b+J4TvfVSlh9+lmz/8BrDjL/dQAv1sAAAAASUVORK5CYII=" border="0" alt="Powered by SoftGuard" title="Powered by SoftGuard"/>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+Ext.define('IPRSManager.model.IPRSEventModel', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name:'id',type:'int'},
+        {name:'Iprs_idkey',type:'int'},
+        {name:'Status',type:'int'},
+        {name:'Error_code',type:'int'},
+        {name:'CCuenta',type:'string'},
+        {name:'CEvento',type:'string'},
+        {name:'CZona',type:'string'},
+        {name:'CUsuario',type:'string'},
+        {name:'CParticion',type:'string'},
+        {name:'Raw',type:'string'},
+        {name:'CImei',type:'string'},
+        {name:'CUnitId',type:'string'},
+        {name:'CData',type:'string'},
+        {name:'DLatitude',type:'number'},
+        {name:'DLongitude',type:'number'},
+        {name:'IPuerto',type:'int'},
+        {name:'IVelocidad',type:'int'},
+        {name:'IRumbo',type:'int'},
+        {name:'IBattery',type:'int'},
+        {name:'IExtBattery',type:'int'},
+        {name:'ISignalLevel',type:'int'},
+        {name:'IChannelNoise',type:'int'},
+        {name:'TRawFechaHora',type:'string'},
+        {name:'RemoteIp',type:'string'},
+        {name:'RemotePort',type:'int'},
+        {name:'IFormato',type:'int'},
+        {name:'Postimages',type:'string'},
+        {name:'AssemblyClassName',type:'string'},
+        {name:'Cue_ncuenta',type:'string'},
+        {name:'Rec_iid',type:'int'},
+        {name:'Rec_calarma',type:'string'},
+        {name:'Ipc_cdescripcion',type:'string'}
+        
+    ]
+});

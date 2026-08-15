@@ -1,0 +1,5 @@
+﻿CREATE OR ALTER PROCEDURE [dbo].[SYS_initInfo]
+AS
+BEGIN
+  SELECT datepart( tz,SYSDATETIMEOFFSET() )/60 as timezone
+END

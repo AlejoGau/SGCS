@@ -1,0 +1,9 @@
+.IprsManager.x-legend-inner {
+    width: 100%;
+}
+
+.IprsManager .x-legend-item {
+    max-width: inherit;
+    text-align: left;
+    padding-left: 35px;
+}

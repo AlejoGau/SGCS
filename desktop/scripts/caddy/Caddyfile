@@ -1,0 +1,57 @@
+﻿{$DEV_DOMAIN} {
+	tls caddy/certs/{$DEV_DOMAIN}.pem caddy/certs/{$DEV_DOMAIN}-key.pem
+
+	log {
+		output file logs/access.log {
+			roll_size 10MB
+			roll_keep 3
+		}
+		format json
+	}
+
+	@localJs path /apps/*.js /build/*.js /packages/*.js /ext/*.js
+	header @localJs {
+		Cache-Control "no-store, no-cache, must-revalidate"
+		Pragma "no-cache"
+		Expires "0"
+	}
+
+	@noslash path_regexp noslash ^/apps/([^/]+)$
+	handle @noslash {
+		redir /apps/{http.regexp.noslash.1}/ 308
+	}
+
+	@apps path /apps/*
+	handle @apps {
+		reverse_proxy {$APP_LOCAL}
+	}
+
+	@build path /build /build/*
+	handle @build {
+		reverse_proxy {$APP_LOCAL}
+	}
+
+	@ext path /ext*
+	handle @ext {
+		reverse_proxy {$APP_LOCAL}
+	}
+
+	@packages path /packages/*
+	handle @packages {
+		reverse_proxy {$APP_LOCAL}
+	}
+
+	# Resto al backend real por HTTPS, SNI y HTTP/1.1
+	handle {
+		# Forzamos esquema HTTPS construyendo aqui
+		reverse_proxy https://{$UPSTREAM_HOST}:{$UPSTREAM_PORT} {
+			header_up Host {$DEV_DOMAIN}
+			header_up X-Forwarded-Proto https
+			header_up X-Forwarded-Host {$DEV_DOMAIN}
+			transport http {
+				tls_server_name {$DEV_DOMAIN}
+				versions 1.1
+			}
+		}
+	}
+}

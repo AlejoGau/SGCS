@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7B08BC9D-BBD1-4769-A302-7CB6A0441675}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Slbf.Services.Rest</RootNamespace>
+    <AssemblyName>Slbf.Services.Rest</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PackageAsSingleFile>true</PackageAsSingleFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Softguard\VUPoint.ARC.API\VUPoint_lib\WAWS_VUPoint_Example\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.9\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf, Version=3.1.10.431, Culture=neutral, PublicKeyToken=5c55208354ae4f33, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Slbf.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf.Crm">
+      <HintPath>..\Dependencies\Slbf.Crm.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf.Dashboard">
+      <HintPath>..\Dependencies\Slbf.Dashboard.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf.Dashboard.Rest">
+      <HintPath>..\Dependencies\Slbf.Dashboard.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf.GoogleData">
+      <HintPath>..\Dependencies\Slbf.GoogleData.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf.GoogleData.Rest">
+      <HintPath>..\Dependencies\Slbf.GoogleData.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf.Messaging">
+      <HintPath>..\Dependencies\Slbf.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf.UI">
+      <HintPath>..\Dependencies\Slbf.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="SoftGuard.VuPoint">
+      <HintPath>..\..\..\Softguard\VUPoint.ARC.API\VUPoint_lib\WAWS_VUPoint_lib\bin\Debug\SoftGuard.VuPoint.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Device">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.3.0.50813.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.1.0.20105.408\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TuesPechkin, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TuesPechkin.2.1.1\lib\net20\TuesPechkin.dll</HintPath>
+    </Reference>
+    <Reference Include="TuesPechkin.Wkhtmltox.AnyCPU, Version=0.12.4.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TuesPechkin.Wkhtmltox.AnyCPU.0.12.4.1\lib\net20\TuesPechkin.Wkhtmltox.AnyCPU.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TuesPechkin.Wkhtmltox.Win32, Version=0.12.2.1, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\TuesPechkin.Wkhtmltox.Win32.0.12.2.1\lib\net20\TuesPechkin.Wkhtmltox.Win32.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="packages.config" />
+    <None Include="Resources\powered_by_softguard.png" />
+    <Content Include="ShowException.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="crm_contratoRestService.cs" />
+    <Compile Include="crm_contrato_itemRestService.cs" />
+    <Compile Include="DepositoRestService.cs" />
+    <Compile Include="EventosEnFalloTesteoRestService.cs" />
+    <Compile Include="EventosInformadosRestService.cs" />
+    <Compile Include="EventosIngresosEgresosRestService.cs" />
+    <Compile Include="eventostimelineRestService.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GuidedMonitoringTemplateStepsRestService.cs" />
+    <Compile Include="GuidedMonitoringTemplateRestService.cs" />
+    <Compile Include="HombreVivoRestService.cs" />
+    <Compile Include="HorarioPlanillaRestService.cs" />
+    <Compile Include="iprs_statusRestService.cs" />
+    <Compile Include="Localization\LocalizationService.cs" />
+    <Compile Include="Localization\SoftguardLocalizationProvider.cs" />
+    <Compile Include="MG_Afip_CaeRestService.cs" />
+    <Compile Include="MG_Afip_Cae_WsRestService.cs" />
+    <Compile Include="MG_comprobante_impuestoRestService.cs" />
+    <Compile Include="MG_informacion_pagoRestService.cs" />
+    <Compile Include="MG_listas_preciosRestService.cs" />
+    <Compile Include="MG_listas_precios_detalleRestService.cs" />
+    <Compile Include="mg_maestrocuentasRestService.cs" />
+    <Compile Include="MG_product_impuestoRestService.cs" />
+    <Compile Include="m_AccesosProveedoresAutorizacionesRestService.cs" />
+    <Compile Include="m_AccesosProveedoresDocumentosRestService.cs" />
+    <Compile Include="m_AccesosProveedoresRestService.cs" />
+    <Compile Include="m_AccesosProveedoresVehiculosRestService.cs" />
+    <Compile Include="m_asignacion_movilRestService.cs" />
+    <Compile Include="m_aviso_programadoRestService.cs" />
+    <Compile Include="m_caja_fcRestService.cs" />
+    <Compile Include="m_clientes_fcRestService.cs" />
+    <Compile Include="m_comprobantes_cab_fcRestService.cs" />
+    <Compile Include="m_comprobantes_item_fcRestService.cs" />
+    <Compile Include="m_CuentasConnRestService.cs" />
+    <Compile Include="m_CuentasXtraInfoRestService.cs" />
+    <Compile Include="m_cuentas_drawingRestService.cs" />
+    <Compile Include="m_cuentas_videoRestService.cs" />
+    <Compile Include="m_cuentas_video_controlRestService.cs" />
+    <Compile Include="m_cuentas_video_linksRestService.cs" />
+    <Compile Include="m_cuenta_corriente_fcRestService.cs" />
+    <Compile Include="m_cuenta_grupoRestService.cs" />
+    <Compile Include="m_cuenta_grupo_usuariosRestService.cs" />
+    <Compile Include="m_dealer_spconfigRestService.cs" />
+    <Compile Include="m_dealer_stconfigRestService.cs" />
+    <Compile Include="m_dealer_tgconfigRestService.cs" />
+    <Compile Include="m_dealer_vcconfigRestService.cs" />
+    <Compile Include="m_EstadosPanelRestService.cs" />
+    <Compile Include="m_formatosRestService.cs" />
+    <Compile Include="m_llavesRestService.cs" />
+    <Compile Include="m_novedades_facturacion_fcRestService.cs" />
+    <Compile Include="m_planillasRestService.cs" />
+    <Compile Include="m_printQueueRestService.cs" />
+    <Compile Include="m_receptores_itemRestService.cs" />
+    <Compile Include="m_reportes_automaticos_dealerRestService.cs" />
+    <Compile Include="m_sgnotesRestService.cs" />
+    <Compile Include="m_simcardRestService.cs" />
+    <Compile Include="m_stock_cabeceraRestService.cs" />
+    <Compile Include="m_stock_itemRestService.cs" />
+    <Compile Include="m_stock_totalesRestService.cs" />
+    <Compile Include="m_st_cabeceraRestService.cs" />
+    <Compile Include="m_telefonos_jurisdiccionalesRestService.cs" />
+    <Compile Include="m_template_contratoRestService.cs" />
+    <Compile Include="m_tgviajeRestService.cs" />
+    <Compile Include="m_tstconexionRestService.cs" />
+    <Compile Include="m_VictimariosRestService.cs" />
+    <Compile Include="OperadorVirtualConfigDealersRestService.cs" />
+    <Compile Include="OperadorVirtualConfigEventosRestService.cs" />
+    <Compile Include="OperadorVirtualConfigRestService.cs" />
+    <Compile Include="p_controlAcceso_AutorizacionRestService.cs" />
+    <Compile Include="p_controlAcceso_IORestService.cs" />
+    <Compile Include="p_encuestaRestService.cs" />
+    <Compile Include="p_encuesta_preguntaRestService.cs" />
+    <Compile Include="p_encuesta_pregunta_opcionRestService.cs" />
+    <Compile Include="p_encuesta_pregunta_respuestaRestService.cs" />
+    <Compile Include="p_EnergyDevicesRestService.cs" />
+    <Compile Include="p_evento_workflowRestService.cs" />
+    <Compile Include="p_grabacion_audioRestService.cs" />
+    <Compile Include="p_lista_correoRestService.cs" />
+    <Compile Include="p_objetos_modificacionesRestService.cs" />
+    <Compile Include="p_posicionesSPRestService.cs" />
+    <Compile Include="p_push_queueRestService.cs" />
+    <Compile Include="p_recepcionRestService.cs" />
+    <Compile Include="p_recepcion_NotasRestService.cs" />
+    <Compile Include="p_rximgRestService.cs" />
+    <Compile Include="p_SpRemoteBtnRestService.cs" />
+    <Compile Include="p_vcrestriccionesRestService.cs" />
+    <Compile Include="p_VirtualIRRestService.cs" />
+    <Compile Include="RedirectorQueueRestService.cs" />
+    <Compile Include="RemoteCallQueueRestService.cs" />
+    <Compile Include="ResourceModuleRestService.cs" />
+    <Compile Include="SchedulerProgramsRestService.cs" />
+    <Compile Include="SchedulerRestService.cs" />
+    <Compile Include="SchedulerTemplateRestService.cs" />
+    <Compile Include="Search\ParametroFileSearchProvider.cs" />
+    <Compile Include="Search\ParametroJsonParser.cs" />
+    <Compile Include="Search\ParametroGoogleGeocodingSearchProvider.cs" />
+    <Compile Include="Search\ParametroLocationiqGeocodingSearchProvider.cs" />
+    <Compile Include="Search\ParametroMapquestGeocodingSearchProvider.cs" />
+    <Compile Include="Search\ParametroMapzenGeocodingSearchProvider.cs" />
+    <Compile Include="Search\ParametroOpencagedataGeocodingSearchProvider.cs" />
+    <Compile Include="SerTecFormaViajeVisitasRestService.cs" />
+    <Compile Include="SerTecMovilesVisitasRestService.cs" />
+    <Compile Include="SerTecProductosOrdenRestService.cs" />
+    <Compile Include="SerTecTecnicoVisitasRestService.cs" />
+    <Compile Include="SerTecTimeLineRestService.cs" />
+    <Compile Include="SerTecVisitasRestService.cs" />
+    <Compile Include="SmartPanicRestServiceImei.cs" />
+    <Compile Include="SmartPanicRestServiceLogin.cs" />
+    <Compile Include="DealerRangoRestService.cs" />
+    <Compile Include="EquipoDispositivoMovilRestService.cs" />
+    <Compile Include="GrupoCuentasRestService.cs" />
+    <Compile Include="p_comandos_ipRestService.cs" />
+    <Compile Include="ResourceRestService.cs" />
+    <Compile Include="CuentaRestService.cs" />
+    <Compile Include="Desktop\DesktopRestService.cs" />
+    <Compile Include="DispositivoMovilRestService.cs" />
+    <Compile Include="EstadoItemRestService.cs" />
+    <Compile Include="EstadoRestService.cs" />
+    <Compile Include="FalsaRestService.cs" />
+    <Compile Include="GeoFenseCuentaRestService.cs" />
+    <Compile Include="GeoFenseRestService.cs" />
+    <Compile Include="GpsRestService.cs" />
+    <Compile Include="HorarioAlternativoPlantillaRestService.cs" />
+    <Compile Include="HorarioAlternativoRestService.cs" />
+    <Compile Include="HorarioExcepcionPlanillaRestService.cs" />
+    <Compile Include="HorarioExcepcionRestService.cs" />
+    <Compile Include="HorarioRestService.cs" />
+    <Compile Include="HorarioToleranciaPlanillaRestService.cs" />
+    <Compile Include="HorarioToleranciaRestService.cs" />
+    <Compile Include="MedicalInfoRestService.cs" />
+    <Compile Include="NotaRestService.cs" />
+    <Compile Include="Objects\FrameworkAuditRestService.cs" />
+    <Compile Include="PanelRestService.cs" />
+    <Compile Include="PersonLineRangeRestService.cs" />
+    <Compile Include="PoiRestService.cs" />
+    <Compile Include="BoProductRestService.cs" />
+    <Compile Include="ReporteAutoridadesRestService.cs" />
+    <Compile Include="ReporteRestService.cs" />
+    <Compile Include="Reportes\WebManagerRestService.cs" />
+    <Compile Include="Reportes\ReportesRestService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SmartPanicRestService.cs" />
+    <Compile Include="SmartTrackGeoFenseRestService.cs" />
+    <Compile Include="SmartTrackRestService.cs" />
+    <Compile Include="SmartTrackRestServiceImei.cs" />
+    <Compile Include="SmartTrackRestServiceLogin.cs" />
+    <Compile Include="SV_RoutesRestService.cs" />
+    <Compile Include="SV_Route_AnalysisPointsRestService.cs" />
+    <Compile Include="SV_Route_ProgramsRestService.cs" />
+    <Compile Include="s_iprserviciosRestService.cs" />
+    <Compile Include="s_ip_rangeRestService.cs" />
+    <Compile Include="s_online_helpRestService.cs" />
+    <Compile Include="s_operadoresRestService.cs" />
+    <Compile Include="s_systemdataRestService.cs" />
+    <Compile Include="s_systemdata_clientesRestService.cs" />
+    <Compile Include="s_terminalesRestService.cs" />
+    <Compile Include="TaskStatusRestService.cs" />
+    <Compile Include="TG_mantenimiento_historicoRestService.cs" />
+    <Compile Include="TG_RoutesRestService.cs" />
+    <Compile Include="TG_Route_GeofencesRestService.cs" />
+    <Compile Include="TG_Route_ProgramsRestService.cs" />
+    <Compile Include="T_AccesosCategoriaProveedorRestService.cs" />
+    <Compile Include="T_AccesosTipoDocumentoRestService.cs" />
+    <Compile Include="T_AccesosVehiculoProveedorRestService.cs" />
+    <Compile Include="t_autoridaddestinoRestService.cs" />
+    <Compile Include="t_autoridadesRestService.cs" />
+    <Compile Include="t_bancos_fcRestService.cs" />
+    <Compile Include="t_categorias_impositivas_fcRestService.cs" />
+    <Compile Include="t_CategoriaVCRestService.cs" />
+    <Compile Include="t_categorizacionRestService.cs" />
+    <Compile Include="t_checkPoints_VCRestService.cs" />
+    <Compile Include="t_CodigosEnFallaRestService.cs" />
+    <Compile Include="t_codigos_alarmaRestService.cs" />
+    <Compile Include="t_comprobantes_fcRestService.cs" />
+    <Compile Include="t_condiciones_pago_fcRestService.cs" />
+    <Compile Include="t_controlAcceso_puertaRestService.cs" />
+    <Compile Include="t_ControlEventosDealerRestService.cs" />
+    <Compile Include="t_CtrlEventoPrevioRestService.cs" />
+    <Compile Include="t_CuentasTipoServicioRestService.cs" />
+    <Compile Include="t_dealerplantillasRestService.cs" />
+    <Compile Include="t_EscalamientoPorOrganizacionRestService.cs" />
+    <Compile Include="t_EscalamientoPrioridadesRestService.cs" />
+    <Compile Include="t_estadosdinamicosRestService.cs" />
+    <Compile Include="t_eventos_feriadosRestService.cs" />
+    <Compile Include="t_firmantes_fcRestService.cs" />
+    <Compile Include="t_flotasRestService.cs" />
+    <Compile Include="t_formas_pago_fcRestService.cs" />
+    <Compile Include="t_FormulariosSTRestService.cs" />
+    <Compile Include="t_gatewaysmsgRestService.cs" />
+    <Compile Include="t_gruposRestService.cs" />
+    <Compile Include="t_grupos_geofenceRestService.cs" />
+    <Compile Include="t_GuidedStepOptionsRestService.cs" />
+    <Compile Include="t_impuestos_fcRestService.cs" />
+    <Compile Include="t_InstaladoresDealerRestService.cs" />
+    <Compile Include="t_instaladoresRestService.cs" />
+    <Compile Include="t_iprsconeccionesRestService.cs" />
+    <Compile Include="t_ip_conRestService.cs" />
+    <Compile Include="t_lineasRestService.cs" />
+    <Compile Include="t_LineasXPuertoRestService.cs" />
+    <Compile Include="t_linkurlRestService.cs" />
+    <Compile Include="t_listas_emergenciaRestService.cs" />
+    <Compile Include="t_mailConnectorRestService.cs" />
+    <Compile Include="t_medicosRestService.cs" />
+    <Compile Include="t_mensajes_whatsappRestService.cs" />
+    <Compile Include="t_modems_smsRestService.cs" />
+    <Compile Include="t_ModoEmergenciaRestService.cs" />
+    <Compile Include="t_monedasRestService.cs" />
+    <Compile Include="t_monitoreo_dealerRestService.cs" />
+    <Compile Include="t_movilespatrullaRestService.cs" />
+    <Compile Include="t_notificaciones_dealerRestService.cs" />
+    <Compile Include="t_novedades_fcRestService.cs" />
+    <Compile Include="t_observacionesRestService.cs" />
+    <Compile Include="t_Organizacion_fcRestService.cs" />
+    <Compile Include="t_panelesRestService.cs" />
+    <Compile Include="t_parametrosRestService.cs" />
+    <Compile Include="t_plantillas_smsRestService.cs" />
+    <Compile Include="t_port_aliasRestService.cs" />
+    <Compile Include="T_ProtocolosComandosRestService.cs" />
+    <Compile Include="t_provinciasRestService.cs" />
+    <Compile Include="t_puertosRestService.cs" />
+    <Compile Include="t_redirectordestinoRestService.cs" />
+    <Compile Include="t_redirectorRestService.cs" />
+    <Compile Include="t_resolucionesllamadaRestService.cs" />
+    <Compile Include="t_resolucionesRestService.cs" />
+    <Compile Include="t_ResourcesModule_TypeRestService.cs" />
+    <Compile Include="t_serviciospatrullaRestService.cs" />
+    <Compile Include="T_SimCard_APNRestService.cs" />
+    <Compile Include="T_SimCard_EstadoRestService.cs" />
+    <Compile Include="T_SimCard_MarcaRestService.cs" />
+    <Compile Include="t_stock_depositosRestService.cs" />
+    <Compile Include="t_tags_agRestService.cs" />
+    <Compile Include="t_tecladosRestService.cs" />
+    <Compile Include="t_tecnicosRestService.cs" />
+    <Compile Include="t_TG_mantenimiento_serviciosRestService.cs" />
+    <Compile Include="t_TimeZoneRestService.cs" />
+    <Compile Include="t_tiposervicioRestService.cs" />
+    <Compile Include="t_tiposRestService.cs" />
+    <Compile Include="t_tipos_formapago_fcRestService.cs" />
+    <Compile Include="t_videoidRestService.cs" />
+    <Compile Include="t_videoidXtrainfoRestService.cs" />
+    <Compile Include="t_WeSafeFunctionsOptionsRestService.cs" />
+    <Compile Include="t_WeSafePeriodicityOptionsRestService.cs" />
+    <Compile Include="t_WeSafePriceOptionsRestService.cs" />
+    <Compile Include="UserAccountFilterRestService.cs" />
+    <Compile Include="UsersDesktopWebModulosRestService.cs" />
+    <Compile Include="UsersDesktopWebRestService.cs" />
+    <Compile Include="VC_RoutesRestService.cs" />
+    <Compile Include="VC_Route_CheckpointsRestService.cs" />
+    <Compile Include="VC_Route_ProgramsRestService.cs" />
+    <Compile Include="VehicleRestService.cs" />
+    <Compile Include="VisitasIngresosEgresosRestService.cs" />
+    <Compile Include="WebDealerRestService.cs" />
+    <Compile Include="Security\SecurityRestService.cs" />
+    <Compile Include="SmsRestService.cs" />
+    <Compile Include="Tables\CodigosAlarmasRestService.cs" />
+    <Compile Include="Tables\InstaladoresRestService.cs" />
+    <Compile Include="Tables\LineasRestService.cs" />
+    <Compile Include="Tables\MedicosRestService.cs" />
+    <Compile Include="Tables\ModemsSmsRestService.cs" />
+    <Compile Include="Tables\MovilTableRestService.cs" />
+    <Compile Include="Tables\PanelesRestService.cs" />
+    <Compile Include="Tables\EventosFeriadosRestService.cs" />
+    <Compile Include="Tables\ListasEmergenciaRestService.cs" />
+    <Compile Include="Tables\ParametrosRestService.cs" />
+    <Compile Include="Tables\PlantillasSmsRestService.cs" />
+    <Compile Include="Tables\ProductoTableRestService.cs" />
+    <Compile Include="Tables\TecnicoTableRestService.cs" />
+    <Compile Include="Tables\TipoServicioTableRestService.cs" />
+    <Compile Include="Tables\TiposRestService.cs" />
+    <Compile Include="Tables\ProvinciasRestService.cs" />
+    <Compile Include="TaxonomyTree.cs" />
+    <Compile Include="ShowException.aspx.cs">
+      <DependentUpon>ShowException.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShowException.aspx.designer.cs">
+      <DependentUpon>ShowException.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TelefonoPlanillaRestService.cs" />
+    <Compile Include="TelefonoRestService.cs" />
+    <Compile Include="TestRestService.cs" />
+    <Compile Include="UsuarioRestService.cs" />
+    <Compile Include="WebManagerGraphicsRestService.cs" />
+    <Compile Include="WebManagerViewsRestService.cs" />
+    <Compile Include="WeSafeConfigRestService.cs" />
+    <Compile Include="WeSafeSubscriptionFunctionsRestService.cs" />
+    <Compile Include="WeSafeSubscriptionRestService.cs" />
+    <Compile Include="w_cuentas_x_usuarioRestService.cs" />
+    <Compile Include="w_destinatarios_correoRestService.cs" />
+    <Compile Include="w_usuariosRestService.cs" />
+    <Compile Include="ZonaPlanillaRestService.cs" />
+    <Compile Include="ZonaRestService.cs" />
+    <Compile Include="ZonaTempRestService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Crm\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SoftGuard.BusinessObjects\SoftGuard.BusinessObjects.csproj">
+      <Project>{e5a946df-abb1-45e3-a3df-c0ddc5ff90bf}</Project>
+      <Name>SoftGuard.BusinessObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3790</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:15020/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

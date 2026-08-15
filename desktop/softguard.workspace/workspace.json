@@ -1,0 +1,56 @@
+{
+    "apps": [
+        "apps/Logger",
+        "apps/AccessControl",
+        "apps/Desktop",
+        "apps/SgAppNotes",
+        "apps/GestorSim",
+        "apps/iOT",
+        "apps/DealerSearch",
+        "apps/Awcc",
+        "apps/FileManager",
+        "apps/Audit",
+        "apps/Link",
+        "apps/AdministratorSearch",
+        "apps/Administrator",
+        "apps/IPRSManager",
+        "apps/SgAppAccountAdministration",
+        "apps/SgAppMapGuardWeb",
+        "apps/WebMG",
+        "apps/SgAppWebReport",
+        "apps/SgWebCrm",
+        "apps/SgAppSerTec",
+        "apps/SgAppAccessControl",
+        "apps/Video",
+        "apps/SmartPanics",
+        "apps/Trackguard",
+        "apps/WebRemoto",
+        "apps/SgAppMultiMonitorWeb",
+        "apps/TrackguardMonitoreo",
+        "apps/SgFenceManager",
+        "apps/WebManager",
+        "apps/SgAppNotificationReport",
+        "apps/ResourceModule"
+    ],
+    "frameworks": {
+        "ext731": {
+            "path": "ext731",
+            "version": "7.3.1.27"
+        },
+        "ext420": {
+            "path": "ext420",
+            "version": "4.2.0.663"
+        },
+        "ext": {
+            "path": "ext",
+            "version": "7.1.0.46"
+        }
+    },
+    "build": {
+        "dir": "${workspace.dir}/build"
+    },
+    "packages": {
+        "dir": "${workspace.dir}/packages/local,${workspace.dir}/packages",
+        "extract": "${workspace.dir}/packages/remote"
+    }
+}

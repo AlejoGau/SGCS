@@ -1,0 +1,10 @@
+{
+    "success": true,
+    "children": [
+        { "id": 1, "text": "Phil", "leaf": true ,"checked": "false"},
+        { "id": 2, "text": "Nico","checked": "false", "expanded": true, "children": [
+            { "id": 3,"checked": "false", "name": "Mitchell", "leaf": true }
+        ]},
+        { "id": 4,"checked": "false", "text": "Sue", "loaded": true }
+    ]
+}

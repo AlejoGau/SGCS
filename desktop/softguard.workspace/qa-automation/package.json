@@ -1,0 +1,21 @@
+{
+  "name": "softguard-qa-automation",
+  "version": "1.0.0",
+  "description": "Playwright E2E QA automation for Softguard Desktop (ExtJS)",
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:webmg": "npx playwright test tests/webmg/",
+    "test:debug": "npx playwright test --debug",
+    "report": "npx playwright show-report reports/html",
+    "install:browsers": "npx playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^25.5.2",
+    "dotenv": "^16.4.7",
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,51 @@
+//MIGRADO2024
+Ext.define("Common.model.TablasProductosModel", {
+  extend: "Ext.data.Model",
+  idProperty: "Id",
+  fields: [
+    {
+      name: "Id",
+      type: "int",
+    },
+    {
+      name: "Name",
+      type: "string",
+    },
+    {
+      name: "ObjectTypeId",
+      type: "int",
+      defaultValue: 3087,
+    },
+    {
+      name: "ObjectTypeName",
+      type: "string",
+      defaultValue: "Product",
+    },
+    { name: "SmallComment", type: "string" },
+    { name: "LargeComment", type: "string" },
+    { name: "Body", type: "string" },
+    { name: "Available", type: "string" },
+    { name: "Price", type: "float" },
+    { name: "Structure", type: "string" },
+    { name: "Weight", type: "string" },
+    { name: "MetaDescription", type: "string" },
+    { name: "MetaKeywords", type: "string" },
+    { name: "Status", type: "string" },
+    { name: "AttachId", type: "int" },
+    { name: "Code", type: "string" },
+    { name: "VAT", type: "float" },
+    { name: "Weight", type: "float" },
+    { name: "Cost", type: "float" },
+    { name: "MeasureUnit", type: "string" },
+    { name: "pro_iidorganizacion", type: "int" },
+    { name: "pro_itipo", type: "int" },
+    { name: "pro_cantidad_auto", type: "int", defaultValue: 0 },
+    { name: "pro_currency", type: "string" },
+  ],
+  proxy: {
+    type: "rest",
+    writer: { writeAllFields: true },
+    url: "/Rest/product/",
+    appendId: true,
+  },
+});

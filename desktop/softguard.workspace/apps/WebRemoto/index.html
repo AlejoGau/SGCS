@@ -1,0 +1,328 @@
+<!DOCTYPE HTML>
+<html manifest="">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes">
+
+    <title>WebRemoto</title>
+
+    <!-- The line below must be kept intact for Sencha Cmd to build your application -->
+    <script id="microloader" data-app="2a41a88d-f0f3-4e5a-a3be-6a5d2b334d73" type="text/javascript" src="bootstrap.js"></script>
+    <script  type="text/javascript" src="/js/SgAppAccessControl/plupload.js"></script>
+    
+
+</head>
+<body>
+    <div class="loading-wrapper" align="center">
+        <div id="loading" align="center">
+            <div id="widthLimit" align="center" style="
+                    width: 400px;
+                    display: block;
+                    background-color: white;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                ">
+                <img src="/resources/desktop/images/logo_softguard_blanco.jpg" border="0" alt="SoftGuard" title="SoftGuard"/>
+                <br />
+                <div class="loading-indicator">
+                    <img src="/resources/desktop/images/loading_softguard.gif" border="0" alt="SoftGuard loading" title="SoftGuard loading"/>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+
+    <script  type="text/javascript">
+       /* Replicated from WebRemoto module */      
+       //Daniel O. Medina - Este código se encarga de grabar audio desde el micrófono y subirlo al servidor
+              function __log(e, data) {
+                  console.log(e);
+              }
+            
+              var audio_context;
+              var recorder = { // Initialize recorder as an object with methods
+                filename: '', // Set the filename property of the recorder object to an empty string
+
+                stop() {
+                    __log('Stop...');
+                },
+
+                exportWAV() {
+                    __log('ExportWAV...');
+                },
+
+                record() {
+                    __log('Record...');
+                },
+
+                clear() {
+                    __log('Clear...');
+                }
+            };
+            
+              function startUserMedia(stream) {
+                var input = audio_context.createMediaStreamSource(stream);
+                __log('Stream creado.' );
+                __log("sample rate " +input.context.sampleRate);
+            
+                // Feedback!
+                __log('Input connectado...');
+            
+                recorder = new Recorder(input, {
+                              numChannels: 1
+                            });
+                __log('Grabador init...');
+              }
+              
+            
+            
+              function startRecording() {
+                recorder && recorder.record();
+
+                __log('Grabando...');
+              }
+              
+              
+            
+            
+              function stopRecording(callback) {
+                  
+                recorder.fileName = 'logger_web_' + new Date().getTime() + '.mp3'
+                  
+                recorder && recorder.stop();
+
+                __log('ParÃ³ grabaciÃ³n...');
+            
+                createDownloadLink(function (blob, filename) {
+                    recorder.clear();
+                    callback(blob, filename)
+                    
+                });
+              }
+            
+              function createDownloadLink(callback) {
+                recorder && recorder.exportWAV(function(blob, filename) {
+
+                    if(callback) {
+                        callback(blob, filename);
+                    }
+                  
+                });
+              }
+            
+              window.onload = function init() {
+                    try {
+                      // webkit shim
+                      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                      navigator.getUserMedia = ( navigator.getUserMedia ||
+                                       navigator.webkitGetUserMedia ||
+                                       navigator.mozGetUserMedia ||
+                                       navigator.msGetUserMedia);
+                      window.URL = window.URL || window.webkitURL;
+                
+                      audio_context = new AudioContext;
+                      __log('Audio context set up.');
+                      __log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+                    } catch (e) {
+                      alert('No web audio support in this browser!');
+                    }
+                
+                    navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+                      __log('No live audio input: ' + e);
+                    });
+                  };
+                  </script>
+                
+                   <script src="/utils/jquery-1.11.0.min.js"></script>
+                  <script>
+                  (function(window){
+                
+                  var WORKER_PATH = '/utils/recorderWorker.js';
+                  var encoderWorker = new Worker('/utils/mp3Worker.js');
+                
+                  var Recorder = function(source, cfg){
+                    var config = cfg || {};
+                    var bufferLen = config.bufferLen || 4096;
+                    var numChannels = config.numChannels || 2;
+                    this.context = source.context;
+                    this.node = (this.context.createScriptProcessor ||
+                                 this.context.createJavaScriptNode).call(this.context,
+                                 bufferLen, numChannels, numChannels);
+                    var worker = new Worker(config.workerPath || WORKER_PATH);
+                    worker.postMessage({
+                      command: 'init',
+                      config: {
+                        sampleRate: this.context.sampleRate,
+                        numChannels: numChannels
+                      }
+                    });
+                    var recording = false,
+                      currCallback;
+                
+                    this.node.onaudioprocess = function(e){
+                      if (!recording) return;
+                      var buffer = [];
+                      for (var channel = 0; channel < numChannels; channel++){
+                          buffer.push(e.inputBuffer.getChannelData(channel));
+                      }
+                      worker.postMessage({
+                        command: 'record',
+                        buffer: buffer
+                      });
+                    }
+                
+                    this.configure = function(cfg){
+                      for (var prop in cfg){
+                        if (cfg.hasOwnProperty(prop)){
+                          config[prop] = cfg[prop];
+                        }
+                      }
+                    }
+                
+                    this.record = function(){
+                      recording = true;
+                    }
+                
+                    this.stop = function(){
+                      recording = false;
+                    }
+                
+                    this.clear = function(){
+                      worker.postMessage({ command: 'clear' });
+                    }
+                
+                    this.getBuffer = function(cb) {
+                      currCallback = cb || config.callback;
+                      worker.postMessage({ command: 'getBuffer' })
+                    }
+                
+                    this.exportWAV = function(cb, type){
+                      currCallback = cb || config.callback;
+                      type = type || config.type || 'audio/wav';
+                      if (!currCallback) throw new Error('Callback not set');
+                      worker.postMessage({
+                        command: 'exportWAV',
+                        type: type
+                      });
+                    }
+                    
+                    this.fileName = '',
+                
+                    //Mp3 conversion
+                    worker.onmessage = function(e){
+                        var t = this;
+                      var blob = e.data;
+                
+                	  var arrayBuffer;
+                	  var fileReader = new FileReader();
+                
+                	  fileReader.onload = function(){
+                		arrayBuffer = this.result;
+                		var buffer = new Uint8Array(arrayBuffer),
+                        data = parseWav(buffer);
+                
+                        encoderWorker.postMessage({ cmd: 'init', config:{
+                            mode : 3,
+                			channels:1,
+                			samplerate: data.sampleRate,
+                			bitrate: data.bitsPerSample
+                        }});
+                
+                        encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples) });
+                        encoderWorker.postMessage({ cmd: 'finish'});
+                        encoderWorker.onmessage = function(e) {
+                            if (e.data.cmd == 'data') {
+                
+                				var mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
+                				uploadAudio(mp3Blob);
+                
+                				var url = 'data:audio/mp3;base64,'+encode64(e.data.buf);
+                                currCallback(blob, recorder.fileName);
+                
+                            }
+                        };
+                	  };
+                
+                	  fileReader.readAsArrayBuffer(blob);
+
+                    }
+                
+                
+                	function encode64(buffer) {
+                		var binary = '',
+                			bytes = new Uint8Array( buffer ),
+                			len = bytes.byteLength;
+                
+                		for (var i = 0; i < len; i++) {
+                			binary += String.fromCharCode( bytes[ i ] );
+                		}
+                		return window.btoa( binary );
+                	}
+                
+                	function parseWav(wav) {
+                		function readInt(i, bytes) {
+                			var ret = 0,
+                				shft = 0;
+                
+                			while (bytes) {
+                				ret += wav[i] << shft;
+                				shft += 8;
+                				i++;
+                				bytes--;
+                			}
+                			return ret;
+                		}
+                		if (readInt(20, 2) != 1) throw 'codigo de compresiÃ³n invalido, not PCM';
+                		if (readInt(22, 2) != 1) throw 'numero de canales invalido, no 1';
+                		return {
+                			sampleRate: readInt(24, 4),
+                			bitsPerSample: readInt(34, 2),
+                			samples: wav.subarray(44)
+                		};
+                	}
+                
+                	function Uint8ArrayToFloat32Array(u8a){
+                		var f32Buffer = new Float32Array(u8a.length);
+                		for (var i = 0; i < u8a.length; i++) {
+                			var value = u8a[i<<1] + (u8a[(i<<1)+1]<<8);
+                			if (value >= 0x8000) value |= ~0x7FFF;
+                			f32Buffer[i] = value / 0x8000;
+                		}
+                		return f32Buffer;
+                	}
+                
+                	function uploadAudio(mp3Data){
+                		var reader = new FileReader();
+                		reader.onload = function(event){
+                			var fd = new FormData();
+                			var mp3Name = encodeURIComponent(recorder.fileName);
+                			fd.append('name', mp3Name);
+                			fd.append('file', event.target.result);
+                			$.ajax({
+                				type: 'POST',
+                				url: '/rest/upload/new?search=softguardMiscFile&Path=/logger',
+                				data: mp3Data,
+                                headers: {
+                                    'X-File-Name':mp3Name,
+                                    'X_FILE_SIZE':0
+                                },
+                				processData: false,
+                				contentType: false
+                			}).done(function(data) {
+                			
+                			});
+                		};
+                		reader.readAsDataURL(mp3Data);
+                	}
+                
+                    source.connect(this.node);
+                    this.node.connect(this.context.destination);    //this should not be necessary
+                  };
+                
+                  window.Recorder = Recorder;
+                
+                })(window);
+                /* Replicated from WebRemoto module */
+        </script>
+</html>

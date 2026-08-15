@@ -1,0 +1,4 @@
+//A CORREGIR 01-11-2023
+Ext.define('FileManager.controller.ModuleController', {
+extend: 'Common.controller.ModuleController'
+});

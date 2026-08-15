@@ -1,0 +1,45 @@
+﻿IF SCHEMA_ID(N'dbo') IS NULL
+    EXEC('CREATE SCHEMA [dbo]');
+GO
+
+CREATE TABLE [dbo].[m_clientes_fc] (
+    [cli_icodigo_ID] int NOT NULL,
+    [cli_cnombre] varchar(70) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cnombre] DEFAULT ('') NOT NULL,
+    [cli_cidentificacion] varchar(20) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cidentificacion] DEFAULT ('') NOT NULL,
+    [cli_ccategoriaimpositiva] char(3) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_ccategoriaimpositiva] DEFAULT ('') NOT NULL,
+    [cli_ivendedor] int CONSTRAINT [DF_m_clientes_fc_cli_ivendedor] DEFAULT ((0)) NOT NULL,
+    [cli_icobrador] int CONSTRAINT [DF_m_clientes_fc_cli_icomprador] DEFAULT ((0)) NOT NULL,
+    [cli_czona] char(3) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_czona] DEFAULT ('') NOT NULL,
+    [cli_ccallefiscal] varchar(80) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_ccallefiscal] DEFAULT ('') NOT NULL,
+    [cli_clocalidadfiscal] varchar(40) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_clocalidadfiscal] DEFAULT ('') NOT NULL,
+    [cli_cprovinciafiscal] char(3) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cprovinciafiscal] DEFAULT ('') NOT NULL,
+    [cli_ccodigopostalfiscal] varchar(8) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_ccodigopostalfiscal] DEFAULT ('') NOT NULL,
+    [cli_ccallecobranza] varchar(80) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_ccallecorreo] DEFAULT ('') NOT NULL,
+    [cli_clocalidadcobranza] varchar(40) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_clocalidadcorreo] DEFAULT ('') NOT NULL,
+    [cli_cprovinciacobranza] char(3) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cprovinciacorreo] DEFAULT ('') NOT NULL,
+    [cli_ccodigopostalcobranza] varchar(8) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_ccodigopostalcorreo] DEFAULT ('') NOT NULL,
+    [cli_nlunes] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_nlunes] DEFAULT ((0)) NOT NULL,
+    [cli_nmartes] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_nmartes] DEFAULT ((0)) NOT NULL,
+    [cli_nmiercoles] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_nmiercoles] DEFAULT ((0)) NOT NULL,
+    [cli_njueves] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_njueves] DEFAULT ((0)) NOT NULL,
+    [cli_nviernes] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_nviernes] DEFAULT ((0)) NOT NULL,
+    [cli_nsabado] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_nsabado] DEFAULT ((0)) NOT NULL,
+    [cli_ndomingo] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_ndomingo] DEFAULT ((0)) NOT NULL,
+    [cli_chora] varchar(40) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_chora] DEFAULT ('') NOT NULL,
+    [cli_cservicio] char(3) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cservicio] DEFAULT ('') NOT NULL,
+    [cli_dproximafactura] datetime NOT NULL,
+    [cli_cformatoimpresion] char(3) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cformato] DEFAULT ('') NOT NULL,
+    [cli_ccondicionpago] char(3) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_condicionpago] DEFAULT ('') NOT NULL,
+    [cli_ctelefono] varchar(30) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_ctelefono] DEFAULT ('') NOT NULL,
+    [cli_ccontacto] varchar(30) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_ccontacto] DEFAULT ('') NOT NULL,
+    [cli_cobservacion] text COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cobservacion] DEFAULT ('') NOT NULL,
+    [cli_nsituacion] numeric(1,0) CONSTRAINT [DF_m_clientes_fc_cli_nsituacion] DEFAULT ((1)) NOT NULL,
+    [cli_inumero] int CONSTRAINT [DF_m_clientes_fc_cli_inumero] DEFAULT ((0)) NOT NULL,
+    [cli_nDocCAE] numeric(2,0) CONSTRAINT [DF_m_clientes_fc_cli_nDocCAE] DEFAULT ((99)) NOT NULL,
+    [cli_cDatosExtra] varchar(40) COLLATE Modern_Spanish_CI_AS CONSTRAINT [DF_m_clientes_fc_cli_cDatosExtra] DEFAULT ('') NOT NULL,
+    [cli_iOrganizacion] int CONSTRAINT [DF_m_clientes_fc_cli_iOrganizacion] DEFAULT ((0)) NOT NULL,
+    [cli_iListaPrecios] int NOT NULL,
+    [cli_mgmcidkey] int NOT NULL,
+    CONSTRAINT [PK_m_clientes_fc] PRIMARY KEY CLUSTERED ([cli_icodigo_ID] ASC)
+);
+GO

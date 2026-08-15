@@ -1,0 +1,1668 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E5A946DF-ABB1-45E3-A3DF-C0DDC5FF90BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SoftGuard.BusinessObjects</RootNamespace>
+    <AssemblyName>SoftGuard.BusinessObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="hasp_net_windows_x64">
+      <HintPath>Dependencies\hasp_net_windows_x64.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Slbf, Version=3.1.10.431, Culture=neutral, PublicKeyToken=5c55208354ae4f33, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Slbf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Device" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.3.0.50813.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.1.0.20105.408\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Callercrm_contrato.cs" />
+    <Compile Include="Callercrm_contrato_item.cs" />
+    <Compile Include="CallerCuenta.cs" />
+    <Compile Include="CallerDealerRango.cs" />
+    <Compile Include="CallerDeposito.cs" />
+    <Compile Include="CallerDispositivoMovil.cs" />
+    <Compile Include="CallerEquipoDispositivoMovil.cs" />
+    <Compile Include="CallerEstado.cs" />
+    <Compile Include="CallerEstadoItem.cs" />
+    <Compile Include="CallerEventosEnFalloTesteo.cs" />
+    <Compile Include="CallerEventosInformados.cs" />
+    <Compile Include="CallerEventosIngresosEgresos.cs" />
+    <Compile Include="Callereventostimeline.cs" />
+    <Compile Include="CallerFalsa.cs" />
+    <Compile Include="CallerGeoFense.cs" />
+    <Compile Include="CallerGeoFenseCuenta.cs" />
+    <Compile Include="CallerGps.cs" />
+    <Compile Include="CallerGrupoCuentas.cs" />
+    <Compile Include="CallerGuidedMonitoringTemplateSteps.cs" />
+    <Compile Include="CallerGuidedMonitoringTemplate.cs" />
+    <Compile Include="CallerHombreVivo.cs" />
+    <Compile Include="CallerHorario.cs" />
+    <Compile Include="CallerHorarioAlternativo.cs" />
+    <Compile Include="CallerHorarioAlternativoPlantilla.cs" />
+    <Compile Include="CallerHorarioExcepcion.cs" />
+    <Compile Include="CallerHorarioExcepcionPlanilla.cs" />
+    <Compile Include="CallerHorarioPlanilla.cs" />
+    <Compile Include="CallerHorarioTolerancia.cs" />
+    <Compile Include="CallerHorarioToleranciaPlanilla.cs" />
+    <Compile Include="CallerMedicalInfo.cs" />
+    <Compile Include="CallerMG_Afip_Cae.cs" />
+    <Compile Include="CallerMG_Afip_Cae_Ws.cs" />
+    <Compile Include="CallerMG_comprobante_impuesto.cs" />
+    <Compile Include="CallerMG_informacion_pago.cs" />
+    <Compile Include="CallerMG_listas_precios.cs" />
+    <Compile Include="CallerMG_listas_precios_detalle.cs" />
+    <Compile Include="Callermg_maestrocuentas.cs" />
+    <Compile Include="CallerMG_product_impuesto.cs" />
+    <Compile Include="CallerProduct.cs" />
+    <Compile Include="Callerm_AccesosProveedores.cs" />
+    <Compile Include="Callerm_AccesosProveedoresAutorizaciones.cs" />
+    <Compile Include="Callerm_AccesosProveedoresDocumentos.cs" />
+    <Compile Include="Callerm_AccesosProveedoresVehiculos.cs" />
+    <Compile Include="Callerm_asignacion_movil.cs" />
+    <Compile Include="Callerm_aviso_programado.cs" />
+    <Compile Include="Callerm_caja_fc.cs" />
+    <Compile Include="Callerm_clientes_fc.cs" />
+    <Compile Include="Callerm_comprobantes_cab_fc.cs" />
+    <Compile Include="Callerm_comprobantes_item_fc.cs" />
+    <Compile Include="Callerm_CuentasConn.cs" />
+    <Compile Include="Callerm_CuentasXtraInfo.cs" />
+    <Compile Include="Callerm_cuentas_drawing.cs" />
+    <Compile Include="Callerm_cuentas_video.cs" />
+    <Compile Include="Callerm_cuentas_video_control.cs" />
+    <Compile Include="Callerm_cuentas_video_links.cs" />
+    <Compile Include="Callerm_cuenta_corriente_fc.cs" />
+    <Compile Include="Callerm_cuenta_grupo.cs" />
+    <Compile Include="Callerm_cuenta_grupo_usuarios.cs" />
+    <Compile Include="Callerm_cuetnta_grupo.cs" />
+    <Compile Include="Callerm_cuetnta_grupo_usuarios.cs" />
+    <Compile Include="Callerm_dealer_spconfig.cs" />
+    <Compile Include="Callerm_dealer_stconfig.cs" />
+    <Compile Include="Callerm_dealer_tgconfig.cs" />
+    <Compile Include="Callerm_dealer_vcconfig.cs" />
+    <Compile Include="Callerm_EstadosPanel.cs" />
+    <Compile Include="Callerm_formatos.cs" />
+    <Compile Include="Callerm_llaves.cs" />
+    <Compile Include="Callerm_novedades_facturacion_fc.cs" />
+    <Compile Include="Callerm_planillas.cs" />
+    <Compile Include="Callerm_printQueue.cs" />
+    <Compile Include="Callerm_receptores_item.cs" />
+    <Compile Include="Callerm_reportes_automaticos_dealer.cs" />
+    <Compile Include="Callerm_sgnotes.cs" />
+    <Compile Include="Callerm_simcard.cs" />
+    <Compile Include="Callerm_stock_cabecera.cs" />
+    <Compile Include="Callerm_stock_item.cs" />
+    <Compile Include="Callerm_stock_totales.cs" />
+    <Compile Include="Callerm_st_cabecera.cs" />
+    <Compile Include="Callerm_telefonos_jurisdiccionales.cs" />
+    <Compile Include="Callerm_template_contrato.cs" />
+    <Compile Include="Callerm_tgviaje.cs" />
+    <Compile Include="Callerm_tstconexion.cs" />
+    <Compile Include="Callerm_Victimarios.cs" />
+    <Compile Include="CallerNota.cs" />
+    <Compile Include="CallerOperadorVirtualConfig.cs" />
+    <Compile Include="CallerOperadorVirtualConfigDealers.cs" />
+    <Compile Include="CallerOperadorVirtualConfigEventos.cs" />
+    <Compile Include="CallerPanel.cs" />
+    <Compile Include="CallerPersonLineRange.cs" />
+    <Compile Include="CallerPoi.cs" />
+    <Compile Include="Callerp_comandos_ip.cs" />
+    <Compile Include="Callerp_controlAcceso_Autorizacion.cs" />
+    <Compile Include="Callerp_controlAcceso_IO.cs" />
+    <Compile Include="Callerp_encuesta.cs" />
+    <Compile Include="Callerp_encuesta_pregunta.cs" />
+    <Compile Include="Callerp_encuesta_pregunta_opcion.cs" />
+    <Compile Include="Callerp_encuesta_pregunta_respuesta.cs" />
+    <Compile Include="Callerp_EnergyDevices.cs" />
+    <Compile Include="Callerp_evento_workflow.cs" />
+    <Compile Include="Callerp_grabacion_audio.cs" />
+    <Compile Include="Callerp_lista_correo.cs" />
+    <Compile Include="Callerp_objetos_modificaciones.cs" />
+    <Compile Include="Callerp_posicionesSP.cs" />
+    <Compile Include="Callerp_push_queue.cs" />
+    <Compile Include="Callerp_recepcion.cs" />
+    <Compile Include="Callerp_recepcion_Notas.cs" />
+    <Compile Include="Callerp_rximg.cs" />
+    <Compile Include="Callerp_SpRemoteBtn.cs" />
+    <Compile Include="Callerp_vcrestricciones.cs" />
+    <Compile Include="Callerp_VirtualIR.cs" />
+    <Compile Include="CallerRedirectorQueue.cs" />
+    <Compile Include="CallerRemoteCallQueue.cs" />
+    <Compile Include="CallerReporte.cs" />
+    <Compile Include="CallerReporteAutoridades.cs" />
+    <Compile Include="CallerResourceModule.cs" />
+    <Compile Include="CallerScheduler.cs" />
+    <Compile Include="CallerSchedulerPrograms.cs" />
+    <Compile Include="CallerSchedulerTemplate.cs" />
+    <Compile Include="CallerSerTecFormaViajeVisitas.cs" />
+    <Compile Include="CallerSerTecMovilesVisitas.cs" />
+    <Compile Include="CallerSerTecProductosOrden.cs" />
+    <Compile Include="CallerSerTecTecnicoVisitas.cs" />
+    <Compile Include="CallerSerTecTimeLine.cs" />
+    <Compile Include="CallerSerTecVisitas.cs" />
+    <Compile Include="CallerSmartPanic.cs" />
+    <Compile Include="CallerSmartTrack.cs" />
+    <Compile Include="CallerSmartTrackGeoFense.cs" />
+    <Compile Include="CallerSms.cs" />
+    <Compile Include="CallerSV_Routes.cs" />
+    <Compile Include="CallerSV_Route_AnalysisPoints.cs" />
+    <Compile Include="CallerSV_Route_Programs.cs" />
+    <Compile Include="Callers_iprservicios.cs" />
+    <Compile Include="Callers_ip_range.cs" />
+    <Compile Include="Callers_online_help.cs" />
+    <Compile Include="Callers_operadores.cs" />
+    <Compile Include="Callers_systemdata.cs" />
+    <Compile Include="Callers_systemdata_clientes.cs" />
+    <Compile Include="Callers_terminales.cs" />
+    <Compile Include="CallerTaskStatus.cs" />
+    <Compile Include="CallerTelefono.cs" />
+    <Compile Include="CallerTelefonoPlanilla.cs" />
+    <Compile Include="CallerTest.cs" />
+    <Compile Include="CallerTG_mantenimiento_historico.cs" />
+    <Compile Include="CallerTG_Routes.cs" />
+    <Compile Include="CallerTG_Route_Geofences.cs" />
+    <Compile Include="CallerTG_Route_Programs.cs" />
+    <Compile Include="CallerT_AccesosCategoriaProveedor.cs" />
+    <Compile Include="CallerT_AccesosTipoDocumento.cs" />
+    <Compile Include="CallerT_AccesosVehiculoProveedor.cs" />
+    <Compile Include="Callert_autoridaddestino.cs" />
+    <Compile Include="Callert_autoridades.cs" />
+    <Compile Include="Callert_bancos_fc.cs" />
+    <Compile Include="Callert_categorias_impositivas_fc.cs" />
+    <Compile Include="Callert_CategoriaVC.cs" />
+    <Compile Include="Callert_categorizacion.cs" />
+    <Compile Include="Callert_checkPoints_VC.cs" />
+    <Compile Include="Callert_CodigosEnFalla.cs" />
+    <Compile Include="Callert_codigos_alarma.cs" />
+    <Compile Include="Callert_comprobantes_fc.cs" />
+    <Compile Include="Callert_condiciones_pago_fc.cs" />
+    <Compile Include="Callert_controlAcceso_puerta.cs" />
+    <Compile Include="Callert_ControlEventosDealer.cs" />
+    <Compile Include="Callert_CtrlEventoPrevio.cs" />
+    <Compile Include="Callert_CuentasTipoServicio.cs" />
+    <Compile Include="Callert_dealerplantillas.cs" />
+    <Compile Include="Callert_EscalamientoPorOrganizacion.cs" />
+    <Compile Include="Callert_EscalamientoPrioridades.cs" />
+    <Compile Include="Callert_estadosdinamicos.cs" />
+    <Compile Include="Callert_eventos_feriados.cs" />
+    <Compile Include="Callert_firmantes_fc.cs" />
+    <Compile Include="Callert_flotas.cs" />
+    <Compile Include="Callert_formas_pago_fc.cs" />
+    <Compile Include="Callert_FormulariosST.cs" />
+    <Compile Include="Callert_gatewaysmsg.cs" />
+    <Compile Include="Callert_grupos.cs" />
+    <Compile Include="Callert_grupos_geofence.cs" />
+    <Compile Include="Callert_GuidedStepOptions.cs" />
+    <Compile Include="Callert_impuestos_fc.cs" />
+    <Compile Include="Callert_instaladores.cs" />
+    <Compile Include="Callert_InstaladoresDealer.cs" />
+    <Compile Include="Callert_iprsconecciones.cs" />
+    <Compile Include="Callert_ip_con.cs" />
+    <Compile Include="Callert_lineas.cs" />
+    <Compile Include="Callert_LineasXPuerto.cs" />
+    <Compile Include="Callert_linkurl.cs" />
+    <Compile Include="Callert_listas_emergencia.cs" />
+    <Compile Include="Callert_mailConnector.cs" />
+    <Compile Include="Callert_medicos.cs" />
+    <Compile Include="Callert_mensajes_whatsapp.cs" />
+    <Compile Include="Callert_modems_sms.cs" />
+    <Compile Include="Callert_ModoEmergencia.cs" />
+    <Compile Include="Callert_monedas.cs" />
+    <Compile Include="Callert_monitoreo_dealer.cs" />
+    <Compile Include="Callert_movilespatrulla.cs" />
+    <Compile Include="Callert_notificaciones_dealer.cs" />
+    <Compile Include="Callert_novedades_fc.cs" />
+    <Compile Include="Callert_observaciones.cs" />
+    <Compile Include="Callert_Organizacion_fc.cs" />
+    <Compile Include="Callert_paneles.cs" />
+    <Compile Include="Callert_parametros.cs" />
+    <Compile Include="Callert_plantillas_sms.cs" />
+    <Compile Include="Callert_port_alias.cs" />
+    <Compile Include="CallerT_ProtocolosComandos.cs" />
+    <Compile Include="Callert_provincias.cs" />
+    <Compile Include="Callert_puertos.cs" />
+    <Compile Include="Callert_redirector.cs" />
+    <Compile Include="Callert_redirectordestino.cs" />
+    <Compile Include="Callert_resoluciones.cs" />
+    <Compile Include="Callert_resolucionesllamada.cs" />
+    <Compile Include="Callert_ResourcesModule_Type.cs" />
+    <Compile Include="Callert_serviciospatrulla.cs" />
+    <Compile Include="CallerT_SimCard_APN.cs" />
+    <Compile Include="CallerT_SimCard_Estado.cs" />
+    <Compile Include="CallerT_SimCard_Marca.cs" />
+    <Compile Include="Callert_stock_depositos.cs" />
+    <Compile Include="Callert_tags_ag.cs" />
+    <Compile Include="Callert_teclados.cs" />
+    <Compile Include="Callert_tecnicos.cs" />
+    <Compile Include="Callert_TG_mantenimiento_servicios.cs" />
+    <Compile Include="Callert_TimeZone.cs" />
+    <Compile Include="Callert_tipos.cs" />
+    <Compile Include="Callert_tiposervicio.cs" />
+    <Compile Include="Callert_tipos_formapago_fc.cs" />
+    <Compile Include="Callert_videoid.cs" />
+    <Compile Include="Callert_videoidXtrainfo.cs" />
+    <Compile Include="Callert_WeSafeFunctionsOptions.cs" />
+    <Compile Include="Callert_WeSafePeriodicityOptions.cs" />
+    <Compile Include="Callert_WeSafePriceOptions.cs" />
+    <Compile Include="CallerUserAccountFilter.cs" />
+    <Compile Include="CallerUsersDesktopWeb.cs" />
+    <Compile Include="CallerUsersDesktopWebModulos.cs" />
+    <Compile Include="CallerUsuario.cs" />
+    <Compile Include="CallerVC_Routes.cs" />
+    <Compile Include="CallerVC_Route_Checkpoints.cs" />
+    <Compile Include="CallerVC_Route_Programs.cs" />
+    <Compile Include="CallerVehicle.cs" />
+    <Compile Include="CallerVisitasIngresosEgresos.cs" />
+    <Compile Include="CallerWebManagerGraphics.cs" />
+    <Compile Include="CallerWebManagerViews.cs" />
+    <Compile Include="CallerWeSafeConfig.cs" />
+    <Compile Include="CallerWeSafeSubscription.cs" />
+    <Compile Include="CallerWeSafeSubscriptionFunctions.cs" />
+    <Compile Include="Callerw_cuentas_x_usuario.cs" />
+    <Compile Include="Callerw_destinatarios_correo.cs" />
+    <Compile Include="Callerw_usuarios.cs" />
+    <Compile Include="CallerZona.cs" />
+    <Compile Include="CallerZonaPlanilla.cs" />
+    <Compile Include="CallerZonaTemp.cs" />
+    <Compile Include="crm_contrato.cs" />
+    <Compile Include="crm_contrato_item.cs" />
+    <Compile Include="Cuenta.cs" />
+    <Compile Include="Dalcrm_contrato.cs" />
+    <Compile Include="Dalcrm_contrato_item.cs" />
+    <Compile Include="DalCuenta.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalDealerRango.cs" />
+    <Compile Include="DalDeposito.cs" />
+    <Compile Include="DalDispositivoMovil.cs" />
+    <Compile Include="DalEquipoDispositivoMovil.cs" />
+    <Compile Include="DalEstado.cs" />
+    <Compile Include="DalEstadoItem.cs" />
+    <Compile Include="DalEventosEnFalloTesteo.cs" />
+    <Compile Include="DalEventosInformados.cs" />
+    <Compile Include="DalEventosIngresosEgresos.cs" />
+    <Compile Include="Daleventostimeline.cs" />
+    <Compile Include="DalFalsa.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalGeoFense.cs" />
+    <Compile Include="DalGeoFenseCuenta.cs" />
+    <Compile Include="DalGps.cs" />
+    <Compile Include="DalGrupoCuentas.cs" />
+    <Compile Include="DalGuidedMonitoringTemplateSteps.cs" />
+    <Compile Include="DalGuidedMonitoringTemplate.cs" />
+    <Compile Include="DalHombreVivo.cs" />
+    <Compile Include="DalHorario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalHorarioAlternativo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalHorarioAlternativoPlantilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalHorarioExcepcion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalHorarioExcepcionPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalHorarioPlanilla.cs" />
+    <Compile Include="DalHorarioTolerancia.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalHorarioToleranciaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalMedicalInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalMG_Afip_Cae.cs" />
+    <Compile Include="DalMG_Afip_Cae_Ws.cs" />
+    <Compile Include="DalMG_comprobante_impuesto.cs" />
+    <Compile Include="DalMG_informacion_pago.cs" />
+    <Compile Include="DalMG_listas_precios.cs" />
+    <Compile Include="DalMG_listas_precios_detalle.cs" />
+    <Compile Include="Dalmg_maestrocuentas.cs" />
+    <Compile Include="DalMG_product_impuesto.cs" />
+    <Compile Include="DalProduct.cs" />
+    <Compile Include="Dalm_AccesosProveedores.cs" />
+    <Compile Include="Dalm_AccesosProveedoresAutorizaciones.cs" />
+    <Compile Include="Dalm_AccesosProveedoresDocumentos.cs" />
+    <Compile Include="Dalm_AccesosProveedoresVehiculos.cs" />
+    <Compile Include="Dalm_asignacion_movil.cs" />
+    <Compile Include="Dalm_aviso_programado.cs" />
+    <Compile Include="Dalm_caja_fc.cs" />
+    <Compile Include="Dalm_clientes_fc.cs" />
+    <Compile Include="Dalm_comprobantes_cab_fc.cs" />
+    <Compile Include="Dalm_comprobantes_item_fc.cs" />
+    <Compile Include="Dalm_CuentasConn.cs" />
+    <Compile Include="Dalm_CuentasXtraInfo.cs" />
+    <Compile Include="Dalm_cuentas_drawing.cs" />
+    <Compile Include="Dalm_cuentas_video.cs" />
+    <Compile Include="Dalm_cuentas_video_control.cs" />
+    <Compile Include="Dalm_cuentas_video_links.cs" />
+    <Compile Include="Dalm_cuenta_corriente_fc.cs" />
+    <Compile Include="Dalm_cuenta_grupo.cs" />
+    <Compile Include="Dalm_cuenta_grupo_usuarios.cs" />
+    <Compile Include="Dalm_cuetnta_grupo.cs" />
+    <Compile Include="Dalm_cuetnta_grupo_usuarios.cs" />
+    <Compile Include="Dalm_dealer_spconfig.cs" />
+    <Compile Include="Dalm_dealer_stconfig.cs" />
+    <Compile Include="Dalm_dealer_tgconfig.cs" />
+    <Compile Include="Dalm_dealer_vcconfig.cs" />
+    <Compile Include="Dalm_EstadosPanel.cs" />
+    <Compile Include="Dalm_formatos.cs" />
+    <Compile Include="Dalm_llaves.cs" />
+    <Compile Include="Dalm_novedades_facturacion_fc.cs" />
+    <Compile Include="Dalm_planillas.cs" />
+    <Compile Include="Dalm_printQueue.cs" />
+    <Compile Include="Dalm_receptores_item.cs" />
+    <Compile Include="Dalm_reportes_automaticos_dealer.cs" />
+    <Compile Include="Dalm_sgnotes.cs" />
+    <Compile Include="Dalm_simcard.cs" />
+    <Compile Include="Dalm_stock_cabecera.cs" />
+    <Compile Include="Dalm_stock_item.cs" />
+    <Compile Include="Dalm_stock_totales.cs" />
+    <Compile Include="Dalm_st_cabecera.cs" />
+    <Compile Include="Dalm_telefonos_jurisdiccionales.cs" />
+    <Compile Include="Dalm_template_contrato.cs" />
+    <Compile Include="Dalm_tgviaje.cs" />
+    <Compile Include="Dalm_tstconexion.cs" />
+    <Compile Include="Dalm_Victimarios.cs" />
+    <Compile Include="DalNota.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalOperadorVirtualConfig.cs" />
+    <Compile Include="DalOperadorVirtualConfigDealers.cs" />
+    <Compile Include="DalOperadorVirtualConfigEventos.cs" />
+    <Compile Include="DalPanel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalPersonLineRange.cs" />
+    <Compile Include="DalPoi.cs" />
+    <Compile Include="Dalp_comandos_ip.cs" />
+    <Compile Include="Dalp_controlAcceso_Autorizacion.cs" />
+    <Compile Include="Dalp_controlAcceso_IO.cs" />
+    <Compile Include="Dalp_encuesta.cs" />
+    <Compile Include="Dalp_encuesta_pregunta.cs" />
+    <Compile Include="Dalp_encuesta_pregunta_opcion.cs" />
+    <Compile Include="Dalp_encuesta_pregunta_respuesta.cs" />
+    <Compile Include="Dalp_EnergyDevices.cs" />
+    <Compile Include="Dalp_evento_workflow.cs" />
+    <Compile Include="Dalp_grabacion_audio.cs" />
+    <Compile Include="Dalp_lista_correo.cs" />
+    <Compile Include="Dalp_objetos_modificaciones.cs" />
+    <Compile Include="Dalp_posicionesSP.cs" />
+    <Compile Include="Dalp_push_queue.cs" />
+    <Compile Include="Dalp_recepcion.cs" />
+    <Compile Include="Dalp_recepcion_Notas.cs" />
+    <Compile Include="Dalp_rximg.cs" />
+    <Compile Include="Dalp_SpRemoteBtn.cs" />
+    <Compile Include="Dalp_vcrestricciones.cs" />
+    <Compile Include="Dalp_VirtualIR.cs" />
+    <Compile Include="DalRedirectorQueue.cs" />
+    <Compile Include="DalRemoteCallQueue.cs" />
+    <Compile Include="DalReporte.cs" />
+    <Compile Include="DalReporteAutoridades.cs" />
+    <Compile Include="DalResourceModule.cs" />
+    <Compile Include="DalScheduler.cs" />
+    <Compile Include="DalSchedulerPrograms.cs" />
+    <Compile Include="DalSchedulerTemplate.cs" />
+    <Compile Include="DalSerTecFormaViajeVisitas.cs" />
+    <Compile Include="DalSerTecMovilesVisitas.cs" />
+    <Compile Include="DalSerTecProductosOrden.cs" />
+    <Compile Include="DalSerTecTecnicoVisitas.cs" />
+    <Compile Include="DalSerTecTimeLine.cs" />
+    <Compile Include="DalSerTecVisitas.cs" />
+    <Compile Include="DalSmartPanic.cs" />
+    <Compile Include="DalSmartTrack.cs" />
+    <Compile Include="DalSmartTrackGeoFense.cs" />
+    <Compile Include="DalSms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalSV_Routes.cs" />
+    <Compile Include="DalSV_Route_AnalysisPoints.cs" />
+    <Compile Include="DalSV_Route_Programs.cs" />
+    <Compile Include="Dals_iprservicios.cs" />
+    <Compile Include="Dals_ip_range.cs" />
+    <Compile Include="Dals_online_help.cs" />
+    <Compile Include="Dals_operadores.cs" />
+    <Compile Include="Dals_systemdata.cs" />
+    <Compile Include="Dals_systemdata_clientes.cs" />
+    <Compile Include="Dals_terminales.cs" />
+    <Compile Include="DalTaskStatus.cs" />
+    <Compile Include="DalTelefono.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalTelefonoPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalTest.cs" />
+    <Compile Include="DalTG_mantenimiento_historico.cs" />
+    <Compile Include="DalTG_Routes.cs" />
+    <Compile Include="DalTG_Route_Geofences.cs" />
+    <Compile Include="DalTG_Route_Programs.cs" />
+    <Compile Include="DalT_AccesosCategoriaProveedor.cs" />
+    <Compile Include="DalT_AccesosTipoDocumento.cs" />
+    <Compile Include="DalT_AccesosVehiculoProveedor.cs" />
+    <Compile Include="Dalt_autoridaddestino.cs" />
+    <Compile Include="Dalt_autoridades.cs" />
+    <Compile Include="Dalt_bancos_fc.cs" />
+    <Compile Include="Dalt_categorias_impositivas_fc.cs" />
+    <Compile Include="Dalt_CategoriaVC.cs" />
+    <Compile Include="Dalt_categorizacion.cs" />
+    <Compile Include="Dalt_checkPoints_VC.cs" />
+    <Compile Include="Dalt_CodigosEnFalla.cs" />
+    <Compile Include="Dalt_codigos_alarma.cs" />
+    <Compile Include="Dalt_comprobantes_fc.cs" />
+    <Compile Include="Dalt_condiciones_pago_fc.cs" />
+    <Compile Include="Dalt_controlAcceso_puerta.cs" />
+    <Compile Include="Dalt_ControlEventosDealer.cs" />
+    <Compile Include="Dalt_CtrlEventoPrevio.cs" />
+    <Compile Include="Dalt_CuentasTipoServicio.cs" />
+    <Compile Include="Dalt_dealerplantillas.cs" />
+    <Compile Include="Dalt_EscalamientoPorOrganizacion.cs" />
+    <Compile Include="Dalt_EscalamientoPrioridades.cs" />
+    <Compile Include="Dalt_estadosdinamicos.cs" />
+    <Compile Include="Dalt_eventos_feriados.cs" />
+    <Compile Include="Dalt_firmantes_fc.cs" />
+    <Compile Include="Dalt_flotas.cs" />
+    <Compile Include="Dalt_formas_pago_fc.cs" />
+    <Compile Include="Dalt_FormulariosST.cs" />
+    <Compile Include="Dalt_gatewaysmsg.cs" />
+    <Compile Include="Dalt_grupos.cs" />
+    <Compile Include="Dalt_grupos_geofence.cs" />
+    <Compile Include="Dalt_GuidedStepOptions.cs" />
+    <Compile Include="Dalt_impuestos_fc.cs" />
+    <Compile Include="Dalt_instaladores.cs" />
+    <Compile Include="Dalt_InstaladoresDealer.cs" />
+    <Compile Include="Dalt_iprsconecciones.cs" />
+    <Compile Include="Dalt_ip_con.cs" />
+    <Compile Include="Dalt_lineas.cs" />
+    <Compile Include="Dalt_LineasXPuerto.cs" />
+    <Compile Include="Dalt_linkurl.cs" />
+    <Compile Include="Dalt_listas_emergencia.cs" />
+    <Compile Include="Dalt_mailConnector.cs" />
+    <Compile Include="Dalt_medicos.cs" />
+    <Compile Include="Dalt_mensajes_whatsapp.cs" />
+    <Compile Include="Dalt_modems_sms.cs" />
+    <Compile Include="Dalt_ModoEmergencia.cs" />
+    <Compile Include="Dalt_monedas.cs" />
+    <Compile Include="Dalt_monitoreo_dealer.cs" />
+    <Compile Include="Dalt_movilespatrulla.cs" />
+    <Compile Include="Dalt_notificaciones_dealer.cs" />
+    <Compile Include="Dalt_novedades_fc.cs" />
+    <Compile Include="Dalt_observaciones.cs" />
+    <Compile Include="Dalt_Organizacion_fc.cs" />
+    <Compile Include="Dalt_paneles.cs" />
+    <Compile Include="Dalt_parametros.cs" />
+    <Compile Include="Dalt_plantillas_sms.cs" />
+    <Compile Include="Dalt_port_alias.cs" />
+    <Compile Include="DalT_ProtocolosComandos.cs" />
+    <Compile Include="Dalt_provincias.cs" />
+    <Compile Include="Dalt_puertos.cs" />
+    <Compile Include="Dalt_redirector.cs" />
+    <Compile Include="Dalt_redirectordestino.cs" />
+    <Compile Include="Dalt_resoluciones.cs" />
+    <Compile Include="Dalt_resolucionesllamada.cs" />
+    <Compile Include="Dalt_ResourcesModule_Type.cs" />
+    <Compile Include="Dalt_serviciospatrulla.cs" />
+    <Compile Include="DalT_SimCard_APN.cs" />
+    <Compile Include="DalT_SimCard_Estado.cs" />
+    <Compile Include="DalT_SimCard_Marca.cs" />
+    <Compile Include="Dalt_stock_depositos.cs" />
+    <Compile Include="Dalt_tags_ag.cs" />
+    <Compile Include="Dalt_teclados.cs" />
+    <Compile Include="Dalt_tecnicos.cs" />
+    <Compile Include="Dalt_TG_mantenimiento_servicios.cs" />
+    <Compile Include="Dalt_TimeZone.cs" />
+    <Compile Include="Dalt_tipos.cs" />
+    <Compile Include="Dalt_tiposervicio.cs" />
+    <Compile Include="Dalt_tipos_formapago_fc.cs" />
+    <Compile Include="Dalt_videoid.cs" />
+    <Compile Include="Dalt_videoidXtrainfo.cs" />
+    <Compile Include="Dalt_WeSafeFunctionsOptions.cs" />
+    <Compile Include="Dalt_WeSafePeriodicityOptions.cs" />
+    <Compile Include="Dalt_WeSafePriceOptions.cs" />
+    <Compile Include="DalUserAccountFilter.cs" />
+    <Compile Include="DalUsersDesktopWeb.cs" />
+    <Compile Include="DalUsersDesktopWebModulos.cs" />
+    <Compile Include="DalUsuario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalVC_Routes.cs" />
+    <Compile Include="DalVC_Route_Checkpoints.cs" />
+    <Compile Include="DalVC_Route_Programs.cs" />
+    <Compile Include="DalVehicle.cs" />
+    <Compile Include="DalVisitasIngresosEgresos.cs" />
+    <Compile Include="DalWebManagerGraphics.cs" />
+    <Compile Include="DalWebManagerViews.cs" />
+    <Compile Include="DalWeSafeConfig.cs" />
+    <Compile Include="DalWeSafeSubscription.cs" />
+    <Compile Include="DalWeSafeSubscriptionFunctions.cs" />
+    <Compile Include="Dalw_cuentas_x_usuario.cs" />
+    <Compile Include="Dalw_destinatarios_correo.cs" />
+    <Compile Include="Dalw_usuarios.cs" />
+    <Compile Include="DalZona.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalZonaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DalZonaTemp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DealerRango.cs" />
+    <Compile Include="Deposito.cs" />
+    <Compile Include="DispositivoMovil.cs" />
+    <Compile Include="EquipoDispositivoMovil.cs" />
+    <Compile Include="Estado.cs" />
+    <Compile Include="EstadoItem.cs" />
+    <Compile Include="EventosEnFalloTesteo.cs" />
+    <Compile Include="EventosInformados.cs" />
+    <Compile Include="EventosIngresosEgresos.cs" />
+    <Compile Include="eventostimeline.cs" />
+    <Compile Include="Falsa.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GeoFense.cs" />
+    <Compile Include="GeoFenseCuenta.cs" />
+    <Compile Include="Gps.cs" />
+    <Compile Include="GrupoCuentas.cs" />
+    <Compile Include="GuidedMonitoringTemplateSteps.cs" />
+    <Compile Include="GuidedMonitoringTemplate.cs" />
+    <Compile Include="HombreVivo.cs" />
+    <Compile Include="Horario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HorarioAlternativo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HorarioAlternativoPlantilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HorarioExcepcion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HorarioExcepcionPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HorarioPlanilla.cs" />
+    <Compile Include="HorarioTolerancia.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HorarioToleranciaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MedicalInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MG_Afip_Cae.cs" />
+    <Compile Include="MG_Afip_Cae_Ws.cs" />
+    <Compile Include="MG_comprobante_impuesto.cs" />
+    <Compile Include="MG_informacion_pago.cs" />
+    <Compile Include="MG_listas_precios.cs" />
+    <Compile Include="MG_listas_precios_detalle.cs" />
+    <Compile Include="mg_maestrocuentas.cs" />
+    <Compile Include="MG_product_impuesto.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="m_AccesosProveedores.cs" />
+    <Compile Include="m_AccesosProveedoresAutorizaciones.cs" />
+    <Compile Include="m_AccesosProveedoresDocumentos.cs" />
+    <Compile Include="m_AccesosProveedoresVehiculos.cs" />
+    <Compile Include="m_asignacion_movil.cs" />
+    <Compile Include="m_aviso_programado.cs" />
+    <Compile Include="m_caja_fc.cs" />
+    <Compile Include="m_clientes_fc.cs" />
+    <Compile Include="m_comprobantes_cab_fc.cs" />
+    <Compile Include="m_comprobantes_item_fc.cs" />
+    <Compile Include="m_CuentasConn.cs" />
+    <Compile Include="m_CuentasXtraInfo.cs" />
+    <Compile Include="m_cuentas_drawing.cs" />
+    <Compile Include="m_cuentas_video.cs" />
+    <Compile Include="m_cuentas_video_control.cs" />
+    <Compile Include="m_cuentas_video_links.cs" />
+    <Compile Include="m_cuenta_corriente_fc.cs" />
+    <Compile Include="m_cuenta_grupo.cs" />
+    <Compile Include="m_cuenta_grupo_usuarios.cs" />
+    <Compile Include="m_cuetnta_grupo.cs" />
+    <Compile Include="m_cuetnta_grupo_usuarios.cs" />
+    <Compile Include="m_dealer_spconfig.cs" />
+    <Compile Include="m_dealer_stconfig.cs" />
+    <Compile Include="m_dealer_tgconfig.cs" />
+    <Compile Include="m_dealer_vcconfig.cs" />
+    <Compile Include="m_EstadosPanel.cs" />
+    <Compile Include="m_formatos.cs" />
+    <Compile Include="m_llaves.cs" />
+    <Compile Include="m_novedades_facturacion_fc.cs" />
+    <Compile Include="m_planillas.cs" />
+    <Compile Include="m_printQueue.cs" />
+    <Compile Include="m_receptores_item.cs" />
+    <Compile Include="m_reportes_automaticos_dealer.cs" />
+    <Compile Include="m_sgnotes.cs" />
+    <Compile Include="m_simcard.cs" />
+    <Compile Include="m_stock_cabecera.cs" />
+    <Compile Include="m_stock_item.cs" />
+    <Compile Include="m_stock_totales.cs" />
+    <Compile Include="m_st_cabecera.cs" />
+    <Compile Include="m_telefonos_jurisdiccionales.cs" />
+    <Compile Include="m_template_contrato.cs" />
+    <Compile Include="m_tgviaje.cs" />
+    <Compile Include="m_tstconexion.cs" />
+    <Compile Include="m_Victimarios.cs" />
+    <Compile Include="Nota.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OperadorVirtualConfig.cs" />
+    <Compile Include="OperadorVirtualConfigDealers.cs" />
+    <Compile Include="OperadorVirtualConfigEventos.cs" />
+    <Compile Include="Panel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PersonLineRange.cs" />
+    <Compile Include="Poi.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="p_comandos_ip.cs" />
+    <Compile Include="p_controlAcceso_Autorizacion.cs" />
+    <Compile Include="p_controlAcceso_IO.cs" />
+    <Compile Include="p_encuesta.cs" />
+    <Compile Include="p_encuesta_pregunta.cs" />
+    <Compile Include="p_encuesta_pregunta_opcion.cs" />
+    <Compile Include="p_encuesta_pregunta_respuesta.cs" />
+    <Compile Include="p_EnergyDevices.cs" />
+    <Compile Include="p_evento_workflow.cs" />
+    <Compile Include="p_grabacion_audio.cs" />
+    <Compile Include="p_lista_correo.cs" />
+    <Compile Include="p_objetos_modificaciones.cs" />
+    <Compile Include="p_posicionesSP.cs" />
+    <Compile Include="p_push_queue.cs" />
+    <Compile Include="p_recepcion.cs" />
+    <Compile Include="p_recepcion_Notas.cs" />
+    <Compile Include="p_rximg.cs" />
+    <Compile Include="p_SpRemoteBtn.cs" />
+    <Compile Include="p_vcrestricciones.cs" />
+    <Compile Include="p_VirtualIR.cs" />
+    <Compile Include="RedirectorQueue.cs" />
+    <Compile Include="RemoteCallQueue.cs" />
+    <Compile Include="Reporte.cs" />
+    <Compile Include="ReporteAutoridades.cs" />
+    <Compile Include="ResourceModule.cs" />
+    <Compile Include="Scheduler.cs" />
+    <Compile Include="SchedulerPrograms.cs" />
+    <Compile Include="SchedulerTemplate.cs" />
+    <Compile Include="SerTecFormaViajeVisitas.cs" />
+    <Compile Include="SerTecMovilesVisitas.cs" />
+    <Compile Include="SerTecProductosOrden.cs" />
+    <Compile Include="SerTecTecnicoVisitas.cs" />
+    <Compile Include="SerTecTimeLine.cs" />
+    <Compile Include="SerTecVisitas.cs" />
+    <Compile Include="Simplecrm_contrato.cs" />
+    <Compile Include="Simplecrm_contrato_item.cs" />
+    <Compile Include="SimpleCuenta.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleDealerRango.cs" />
+    <Compile Include="SimpleDeposito.cs" />
+    <Compile Include="SimpleDispositivoMovil.cs" />
+    <Compile Include="SimpleEquipoDispositivoMovil.cs" />
+    <Compile Include="SimpleEstado.cs" />
+    <Compile Include="SimpleEstadoItem.cs" />
+    <Compile Include="SimpleEventosEnFalloTesteo.cs" />
+    <Compile Include="SimpleEventosInformados.cs" />
+    <Compile Include="SimpleEventosIngresosEgresos.cs" />
+    <Compile Include="Simpleeventostimeline.cs" />
+    <Compile Include="SimpleFalsa.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleGeoFense.cs" />
+    <Compile Include="SimpleGeoFenseCuenta.cs" />
+    <Compile Include="SimpleGps.cs" />
+    <Compile Include="SimpleGrupoCuentas.cs" />
+    <Compile Include="SimpleGuidedMonitoringTemplateSteps.cs" />
+    <Compile Include="SimpleGuidedMonitoringTemplate.cs" />
+    <Compile Include="SimpleHombreVivo.cs" />
+    <Compile Include="SimpleHorario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleHorarioAlternativo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleHorarioAlternativoPlantilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleHorarioExcepcion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleHorarioExcepcionPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleHorarioPlanilla.cs" />
+    <Compile Include="SimpleHorarioTolerancia.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleHorarioToleranciaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleMedicalInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleMG_Afip_Cae.cs" />
+    <Compile Include="SimpleMG_Afip_Cae_Ws.cs" />
+    <Compile Include="SimpleMG_comprobante_impuesto.cs" />
+    <Compile Include="SimpleMG_informacion_pago.cs" />
+    <Compile Include="SimpleMG_listas_precios.cs" />
+    <Compile Include="SimpleMG_listas_precios_detalle.cs" />
+    <Compile Include="Simplemg_maestrocuentas.cs" />
+    <Compile Include="SimpleMG_product_impuesto.cs" />
+    <Compile Include="SimpleProduct.cs" />
+    <Compile Include="Simplem_AccesosProveedores.cs" />
+    <Compile Include="Simplem_AccesosProveedoresAutorizaciones.cs" />
+    <Compile Include="Simplem_AccesosProveedoresDocumentos.cs" />
+    <Compile Include="Simplem_AccesosProveedoresVehiculos.cs" />
+    <Compile Include="Simplem_asignacion_movil.cs" />
+    <Compile Include="Simplem_aviso_programado.cs" />
+    <Compile Include="Simplem_caja_fc.cs" />
+    <Compile Include="Simplem_clientes_fc.cs" />
+    <Compile Include="Simplem_comprobantes_cab_fc.cs" />
+    <Compile Include="Simplem_comprobantes_item_fc.cs" />
+    <Compile Include="Simplem_CuentasConn.cs" />
+    <Compile Include="Simplem_CuentasXtraInfo.cs" />
+    <Compile Include="Simplem_cuentas_drawing.cs" />
+    <Compile Include="Simplem_cuentas_video.cs" />
+    <Compile Include="Simplem_cuentas_video_control.cs" />
+    <Compile Include="Simplem_cuentas_video_links.cs" />
+    <Compile Include="Simplem_cuenta_corriente_fc.cs" />
+    <Compile Include="Simplem_cuenta_grupo.cs" />
+    <Compile Include="Simplem_cuenta_grupo_usuarios.cs" />
+    <Compile Include="Simplem_cuetnta_grupo.cs" />
+    <Compile Include="Simplem_cuetnta_grupo_usuarios.cs" />
+    <Compile Include="Simplem_dealer_spconfig.cs" />
+    <Compile Include="Simplem_dealer_stconfig.cs" />
+    <Compile Include="Simplem_dealer_tgconfig.cs" />
+    <Compile Include="Simplem_dealer_vcconfig.cs" />
+    <Compile Include="Simplem_EstadosPanel.cs" />
+    <Compile Include="Simplem_formatos.cs" />
+    <Compile Include="Simplem_llaves.cs" />
+    <Compile Include="Simplem_novedades_facturacion_fc.cs" />
+    <Compile Include="Simplem_planillas.cs" />
+    <Compile Include="Simplem_printQueue.cs" />
+    <Compile Include="Simplem_receptores_item.cs" />
+    <Compile Include="Simplem_reportes_automaticos_dealer.cs" />
+    <Compile Include="Simplem_sgnotes.cs" />
+    <Compile Include="Simplem_simcard.cs" />
+    <Compile Include="Simplem_stock_cabecera.cs" />
+    <Compile Include="Simplem_stock_item.cs" />
+    <Compile Include="Simplem_stock_totales.cs" />
+    <Compile Include="Simplem_st_cabecera.cs" />
+    <Compile Include="Simplem_telefonos_jurisdiccionales.cs" />
+    <Compile Include="Simplem_template_contrato.cs" />
+    <Compile Include="Simplem_tgviaje.cs" />
+    <Compile Include="Simplem_tstconexion.cs" />
+    <Compile Include="Simplem_Victimarios.cs" />
+    <Compile Include="SimpleNota.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleOperadorVirtualConfig.cs" />
+    <Compile Include="SimpleOperadorVirtualConfigDealers.cs" />
+    <Compile Include="SimpleOperadorVirtualConfigEventos.cs" />
+    <Compile Include="SimplePanel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimplePersonLineRange.cs" />
+    <Compile Include="SimplePoi.cs" />
+    <Compile Include="Simplep_comandos_ip.cs" />
+    <Compile Include="Simplep_controlAcceso_Autorizacion.cs" />
+    <Compile Include="Simplep_controlAcceso_IO.cs" />
+    <Compile Include="Simplep_encuesta.cs" />
+    <Compile Include="Simplep_encuesta_pregunta.cs" />
+    <Compile Include="Simplep_encuesta_pregunta_opcion.cs" />
+    <Compile Include="Simplep_encuesta_pregunta_respuesta.cs" />
+    <Compile Include="Simplep_EnergyDevices.cs" />
+    <Compile Include="Simplep_evento_workflow.cs" />
+    <Compile Include="Simplep_grabacion_audio.cs" />
+    <Compile Include="Simplep_lista_correo.cs" />
+    <Compile Include="Simplep_objetos_modificaciones.cs" />
+    <Compile Include="Simplep_posicionesSP.cs" />
+    <Compile Include="Simplep_push_queue.cs" />
+    <Compile Include="Simplep_recepcion.cs" />
+    <Compile Include="Simplep_recepcion_Notas.cs" />
+    <Compile Include="Simplep_rximg.cs" />
+    <Compile Include="Simplep_SpRemoteBtn.cs" />
+    <Compile Include="Simplep_vcrestricciones.cs" />
+    <Compile Include="Simplep_VirtualIR.cs" />
+    <Compile Include="SimpleRedirectorQueue.cs" />
+    <Compile Include="SimpleRemoteCallQueue.cs" />
+    <Compile Include="SimpleReporte.cs" />
+    <Compile Include="SimpleReporteAutoridades.cs" />
+    <Compile Include="SimpleResourceModule.cs" />
+    <Compile Include="SimpleScheduler.cs" />
+    <Compile Include="SimpleSchedulerPrograms.cs" />
+    <Compile Include="SimpleSchedulerTemplate.cs" />
+    <Compile Include="SimpleSerTecFormaViajeVisitas.cs" />
+    <Compile Include="SimpleSerTecMovilesVisitas.cs" />
+    <Compile Include="SimpleSerTecProductosOrden.cs" />
+    <Compile Include="SimpleSerTecTecnicoVisitas.cs" />
+    <Compile Include="SimpleSerTecTimeLine.cs" />
+    <Compile Include="SimpleSerTecVisitas.cs" />
+    <Compile Include="SimpleSmartPanic.cs" />
+    <Compile Include="SimpleSmartTrack.cs" />
+    <Compile Include="SimpleSmartTrackGeoFense.cs" />
+    <Compile Include="SimpleSms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleSV_Routes.cs" />
+    <Compile Include="SimpleSV_Route_AnalysisPoints.cs" />
+    <Compile Include="SimpleSV_Route_Programs.cs" />
+    <Compile Include="Simples_iprservicios.cs" />
+    <Compile Include="Simples_ip_range.cs" />
+    <Compile Include="Simples_online_help.cs" />
+    <Compile Include="Simples_operadores.cs" />
+    <Compile Include="Simples_systemdata.cs" />
+    <Compile Include="Simples_systemdata_clientes.cs" />
+    <Compile Include="Simples_terminales.cs" />
+    <Compile Include="SimpleTaskStatus.cs" />
+    <Compile Include="SimpleTelefono.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleTelefonoPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleTest.cs" />
+    <Compile Include="SimpleTG_mantenimiento_historico.cs" />
+    <Compile Include="SimpleTG_Routes.cs" />
+    <Compile Include="SimpleTG_Route_Geofences.cs" />
+    <Compile Include="SimpleTG_Route_Programs.cs" />
+    <Compile Include="SimpleT_AccesosCategoriaProveedor.cs" />
+    <Compile Include="SimpleT_AccesosTipoDocumento.cs" />
+    <Compile Include="SimpleT_AccesosVehiculoProveedor.cs" />
+    <Compile Include="Simplet_autoridaddestino.cs" />
+    <Compile Include="Simplet_autoridades.cs" />
+    <Compile Include="Simplet_bancos_fc.cs" />
+    <Compile Include="Simplet_categorias_impositivas_fc.cs" />
+    <Compile Include="Simplet_CategoriaVC.cs" />
+    <Compile Include="Simplet_categorizacion.cs" />
+    <Compile Include="Simplet_checkPoints_VC.cs" />
+    <Compile Include="Simplet_CodigosEnFalla.cs" />
+    <Compile Include="Simplet_codigos_alarma.cs" />
+    <Compile Include="Simplet_comprobantes_fc.cs" />
+    <Compile Include="Simplet_condiciones_pago_fc.cs" />
+    <Compile Include="Simplet_controlAcceso_puerta.cs" />
+    <Compile Include="Simplet_ControlEventosDealer.cs" />
+    <Compile Include="Simplet_CtrlEventoPrevio.cs" />
+    <Compile Include="Simplet_CuentasTipoServicio.cs" />
+    <Compile Include="Simplet_dealerplantillas.cs" />
+    <Compile Include="Simplet_EscalamientoPorOrganizacion.cs" />
+    <Compile Include="Simplet_EscalamientoPrioridades.cs" />
+    <Compile Include="Simplet_estadosdinamicos.cs" />
+    <Compile Include="Simplet_eventos_feriados.cs" />
+    <Compile Include="Simplet_firmantes_fc.cs" />
+    <Compile Include="Simplet_flotas.cs" />
+    <Compile Include="Simplet_formas_pago_fc.cs" />
+    <Compile Include="Simplet_FormulariosST.cs" />
+    <Compile Include="Simplet_gatewaysmsg.cs" />
+    <Compile Include="Simplet_grupos.cs" />
+    <Compile Include="Simplet_grupos_geofence.cs" />
+    <Compile Include="Simplet_GuidedStepOptions.cs" />
+    <Compile Include="Simplet_impuestos_fc.cs" />
+    <Compile Include="Simplet_instaladores.cs" />
+    <Compile Include="Simplet_InstaladoresDealer.cs" />
+    <Compile Include="Simplet_iprsconecciones.cs" />
+    <Compile Include="Simplet_ip_con.cs" />
+    <Compile Include="Simplet_lineas.cs" />
+    <Compile Include="Simplet_LineasXPuerto.cs" />
+    <Compile Include="Simplet_linkurl.cs" />
+    <Compile Include="Simplet_listas_emergencia.cs" />
+    <Compile Include="Simplet_mailConnector.cs" />
+    <Compile Include="Simplet_medicos.cs" />
+    <Compile Include="Simplet_mensajes_whatsapp.cs" />
+    <Compile Include="Simplet_modems_sms.cs" />
+    <Compile Include="Simplet_ModoEmergencia.cs" />
+    <Compile Include="Simplet_monedas.cs" />
+    <Compile Include="Simplet_monitoreo_dealer.cs" />
+    <Compile Include="Simplet_movilespatrulla.cs" />
+    <Compile Include="Simplet_notificaciones_dealer.cs" />
+    <Compile Include="Simplet_novedades_fc.cs" />
+    <Compile Include="Simplet_observaciones.cs" />
+    <Compile Include="Simplet_Organizacion_fc.cs" />
+    <Compile Include="Simplet_paneles.cs" />
+    <Compile Include="Simplet_parametros.cs" />
+    <Compile Include="Simplet_plantillas_sms.cs" />
+    <Compile Include="Simplet_port_alias.cs" />
+    <Compile Include="SimpleT_ProtocolosComandos.cs" />
+    <Compile Include="Simplet_provincias.cs" />
+    <Compile Include="Simplet_puertos.cs" />
+    <Compile Include="Simplet_redirector.cs" />
+    <Compile Include="Simplet_redirectordestino.cs" />
+    <Compile Include="Simplet_resoluciones.cs" />
+    <Compile Include="Simplet_resolucionesllamada.cs" />
+    <Compile Include="Simplet_ResourcesModule_Type.cs" />
+    <Compile Include="Simplet_serviciospatrulla.cs" />
+    <Compile Include="SimpleT_SimCard_APN.cs" />
+    <Compile Include="SimpleT_SimCard_Estado.cs" />
+    <Compile Include="SimpleT_SimCard_Marca.cs" />
+    <Compile Include="Simplet_stock_depositos.cs" />
+    <Compile Include="Simplet_tags_ag.cs" />
+    <Compile Include="Simplet_teclados.cs" />
+    <Compile Include="Simplet_tecnicos.cs" />
+    <Compile Include="Simplet_TG_mantenimiento_servicios.cs" />
+    <Compile Include="Simplet_TimeZone.cs" />
+    <Compile Include="Simplet_tipos.cs" />
+    <Compile Include="Simplet_tiposervicio.cs" />
+    <Compile Include="Simplet_tipos_formapago_fc.cs" />
+    <Compile Include="Simplet_videoid.cs" />
+    <Compile Include="Simplet_videoidXtrainfo.cs" />
+    <Compile Include="Simplet_WeSafeFunctionsOptions.cs" />
+    <Compile Include="Simplet_WeSafePeriodicityOptions.cs" />
+    <Compile Include="Simplet_WeSafePriceOptions.cs" />
+    <Compile Include="SimpleUserAccountFilter.cs" />
+    <Compile Include="SimpleUsersDesktopWeb.cs" />
+    <Compile Include="SimpleUsersDesktopWebModulos.cs" />
+    <Compile Include="SimpleUsuario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleVC_Routes.cs" />
+    <Compile Include="SimpleVC_Route_Checkpoints.cs" />
+    <Compile Include="SimpleVC_Route_Programs.cs" />
+    <Compile Include="SimpleVehicle.cs" />
+    <Compile Include="SimpleVisitasIngresosEgresos.cs" />
+    <Compile Include="SimpleWebManagerGraphics.cs" />
+    <Compile Include="SimpleWebManagerViews.cs" />
+    <Compile Include="SimpleWeSafeConfig.cs" />
+    <Compile Include="SimpleWeSafeSubscription.cs" />
+    <Compile Include="SimpleWeSafeSubscriptionFunctions.cs" />
+    <Compile Include="Simplew_cuentas_x_usuario.cs" />
+    <Compile Include="Simplew_destinatarios_correo.cs" />
+    <Compile Include="Simplew_usuarios.cs" />
+    <Compile Include="SimpleZona.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleZonaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleZonaTemp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Slbf\OAuthHandler.cs" />
+    <Compile Include="..\Slbf\OAuthLoginHandler.cs" />
+    <Compile Include="..\Slbf\SoftGuardFrameworkAuditProvider.cs" />
+    <Compile Include="..\Slbf\SoftGuardMembershipProvider.cs" />
+    <Compile Include="SmartPanic.cs" />
+    <Compile Include="SmartTrack.cs" />
+    <Compile Include="SmartTrackGeoFense.cs" />
+    <Compile Include="Sms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SoftGuard.Aladdin\HaspHelper.cs" />
+    <Compile Include="SoftGuard.Aladdin\HaspVendorCode.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Customs\WebDealerManager.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Reports\ReporteHistorico.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Reports\ReportWebManager.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Security\FingerPrint.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Security\Rijndael.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Security\SecurityManager.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Security\SgInvalidKeyException.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\CodigosAlarmas.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\EventosFeriados.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\Instaladores.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\Lineas.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\ListasEmergencia.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\Medicos.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\ModemsSms.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\MovilTableObject.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\Paneles.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\Parametros.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\PlantillasSms.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\ProductoTableObject.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\Provincias.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\TecnicoTableObject.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\Tipos.cs" />
+    <Compile Include="SoftGuard.BusinessObjects.Tables\TipoServicioTableObject.cs" />
+    <Compile Include="Specrm_contrato.cs" />
+    <Compile Include="Specrm_contrato_item.cs" />
+    <Compile Include="SpeCuenta.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeDealerRango.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeDeposito.cs" />
+    <Compile Include="SpeDispositivoMovil.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeEquipoDispositivoMovil.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeEstado.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeEstadoItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeEventosEnFalloTesteo.cs" />
+    <Compile Include="SpeEventosInformados.cs" />
+    <Compile Include="SpeEventosIngresosEgresos.cs" />
+    <Compile Include="Speeventostimeline.cs" />
+    <Compile Include="SpeFalsa.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeGeoFense.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeGeoFenseCuenta.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeGps.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeGrupoCuentas.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeGuidedMonitoringTemplateSteps.cs" />
+    <Compile Include="SpeGuidedMonitoringTemplate.cs" />
+    <Compile Include="SpeHombreVivo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorarioAlternativo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorarioAlternativoPlantilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorarioExcepcion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorarioExcepcionPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorarioPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorarioTolerancia.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeHorarioToleranciaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeMedicalInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeMG_Afip_Cae.cs" />
+    <Compile Include="SpeMG_Afip_Cae_Ws.cs" />
+    <Compile Include="SpeMG_comprobante_impuesto.cs" />
+    <Compile Include="SpeMG_informacion_pago.cs" />
+    <Compile Include="SpeMG_listas_precios.cs" />
+    <Compile Include="SpeMG_listas_precios_detalle.cs" />
+    <Compile Include="Spemg_maestrocuentas.cs" />
+    <Compile Include="SpeMG_product_impuesto.cs" />
+    <Compile Include="SpeProduct.cs" />
+    <Compile Include="Spem_AccesosProveedores.cs" />
+    <Compile Include="Spem_AccesosProveedoresAutorizaciones.cs" />
+    <Compile Include="Spem_AccesosProveedoresDocumentos.cs" />
+    <Compile Include="Spem_AccesosProveedoresVehiculos.cs" />
+    <Compile Include="Spem_asignacion_movil.cs" />
+    <Compile Include="Spem_aviso_programado.cs" />
+    <Compile Include="Spem_caja_fc.cs" />
+    <Compile Include="Spem_clientes_fc.cs" />
+    <Compile Include="Spem_comprobantes_cab_fc.cs" />
+    <Compile Include="Spem_comprobantes_item_fc.cs" />
+    <Compile Include="Spem_CuentasConn.cs" />
+    <Compile Include="Spem_CuentasXtraInfo.cs" />
+    <Compile Include="Spem_cuentas_drawing.cs" />
+    <Compile Include="Spem_cuentas_video.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spem_cuentas_video_control.cs" />
+    <Compile Include="Spem_cuentas_video_links.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spem_cuenta_corriente_fc.cs" />
+    <Compile Include="Spem_cuenta_grupo.cs" />
+    <Compile Include="Spem_cuenta_grupo_usuarios.cs" />
+    <Compile Include="Spem_cuetnta_grupo.cs" />
+    <Compile Include="Spem_cuetnta_grupo_usuarios.cs" />
+    <Compile Include="Spem_dealer_spconfig.cs" />
+    <Compile Include="Spem_dealer_stconfig.cs" />
+    <Compile Include="Spem_dealer_tgconfig.cs" />
+    <Compile Include="Spem_dealer_vcconfig.cs" />
+    <Compile Include="Spem_EstadosPanel.cs" />
+    <Compile Include="Spem_formatos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spem_llaves.cs" />
+    <Compile Include="Spem_novedades_facturacion_fc.cs" />
+    <Compile Include="Spem_planillas.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spem_printQueue.cs" />
+    <Compile Include="Spem_receptores_item.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spem_reportes_automaticos_dealer.cs" />
+    <Compile Include="Spem_sgnotes.cs" />
+    <Compile Include="Spem_simcard.cs" />
+    <Compile Include="Spem_stock_cabecera.cs" />
+    <Compile Include="Spem_stock_item.cs" />
+    <Compile Include="Spem_stock_totales.cs" />
+    <Compile Include="Spem_st_cabecera.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spem_telefonos_jurisdiccionales.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spem_template_contrato.cs" />
+    <Compile Include="Spem_tgviaje.cs" />
+    <Compile Include="Spem_tstconexion.cs" />
+    <Compile Include="Spem_Victimarios.cs" />
+    <Compile Include="SpeNota.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeOperadorVirtualConfig.cs" />
+    <Compile Include="SpeOperadorVirtualConfigDealers.cs" />
+    <Compile Include="SpeOperadorVirtualConfigEventos.cs" />
+    <Compile Include="SpePanel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpePersonLineRange.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpePoi.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spep_comandos_ip.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spep_controlAcceso_Autorizacion.cs" />
+    <Compile Include="Spep_controlAcceso_IO.cs" />
+    <Compile Include="Spep_encuesta.cs" />
+    <Compile Include="Spep_encuesta_pregunta.cs" />
+    <Compile Include="Spep_encuesta_pregunta_opcion.cs" />
+    <Compile Include="Spep_encuesta_pregunta_respuesta.cs" />
+    <Compile Include="Spep_EnergyDevices.cs" />
+    <Compile Include="Spep_evento_workflow.cs" />
+    <Compile Include="Spep_grabacion_audio.cs" />
+    <Compile Include="Spep_lista_correo.cs" />
+    <Compile Include="Spep_objetos_modificaciones.cs" />
+    <Compile Include="Spep_posicionesSP.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spep_push_queue.cs" />
+    <Compile Include="Spep_recepcion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spep_recepcion_Notas.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spep_rximg.cs" />
+    <Compile Include="Spep_SpRemoteBtn.cs" />
+    <Compile Include="Spep_vcrestricciones.cs" />
+    <Compile Include="Spep_VirtualIR.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeRedirectorQueue.cs" />
+    <Compile Include="SpeRemoteCallQueue.cs" />
+    <Compile Include="SpeReporte.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeReporteAutoridades.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeResourceModule.cs" />
+    <Compile Include="SpeScheduler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeSchedulerPrograms.cs" />
+    <Compile Include="SpeSchedulerTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeSerTecFormaViajeVisitas.cs" />
+    <Compile Include="SpeSerTecMovilesVisitas.cs" />
+    <Compile Include="SpeSerTecProductosOrden.cs" />
+    <Compile Include="SpeSerTecTecnicoVisitas.cs" />
+    <Compile Include="SpeSerTecTimeLine.cs" />
+    <Compile Include="SpeSerTecVisitas.cs" />
+    <Compile Include="SpeSmartPanic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeSmartTrack.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeSmartTrackGeoFense.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeSms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeSV_Routes.cs" />
+    <Compile Include="SpeSV_Route_AnalysisPoints.cs" />
+    <Compile Include="SpeSV_Route_Programs.cs" />
+    <Compile Include="Spes_iprservicios.cs" />
+    <Compile Include="Spes_ip_range.cs" />
+    <Compile Include="Spes_online_help.cs" />
+    <Compile Include="Spes_operadores.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spes_systemdata.cs" />
+    <Compile Include="Spes_systemdata_clientes.cs" />
+    <Compile Include="Spes_terminales.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeTaskStatus.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeTelefono.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeTelefonoPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeTG_mantenimiento_historico.cs" />
+    <Compile Include="SpeTG_Routes.cs" />
+    <Compile Include="SpeTG_Route_Geofences.cs" />
+    <Compile Include="SpeTG_Route_Programs.cs" />
+    <Compile Include="SpeT_AccesosCategoriaProveedor.cs" />
+    <Compile Include="SpeT_AccesosTipoDocumento.cs" />
+    <Compile Include="SpeT_AccesosVehiculoProveedor.cs" />
+    <Compile Include="Spet_autoridaddestino.cs" />
+    <Compile Include="Spet_autoridades.cs" />
+    <Compile Include="Spet_bancos_fc.cs" />
+    <Compile Include="Spet_categorias_impositivas_fc.cs" />
+    <Compile Include="Spet_CategoriaVC.cs" />
+    <Compile Include="Spet_categorizacion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_checkPoints_VC.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_CodigosEnFalla.cs" />
+    <Compile Include="Spet_codigos_alarma.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_comprobantes_fc.cs" />
+    <Compile Include="Spet_condiciones_pago_fc.cs" />
+    <Compile Include="Spet_controlAcceso_puerta.cs" />
+    <Compile Include="Spet_ControlEventosDealer.cs" />
+    <Compile Include="Spet_CtrlEventoPrevio.cs" />
+    <Compile Include="Spet_CuentasTipoServicio.cs" />
+    <Compile Include="Spet_dealerplantillas.cs" />
+    <Compile Include="Spet_EscalamientoPorOrganizacion.cs" />
+    <Compile Include="Spet_EscalamientoPrioridades.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_estadosdinamicos.cs" />
+    <Compile Include="Spet_eventos_feriados.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_firmantes_fc.cs" />
+    <Compile Include="Spet_flotas.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_formas_pago_fc.cs" />
+    <Compile Include="Spet_FormulariosST.cs" />
+    <Compile Include="Spet_gatewaysmsg.cs" />
+    <Compile Include="Spet_grupos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_grupos_geofence.cs" />
+    <Compile Include="Spet_GuidedStepOptions.cs" />
+    <Compile Include="Spet_impuestos_fc.cs" />
+    <Compile Include="Spet_instaladores.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_InstaladoresDealer.cs" />
+    <Compile Include="Spet_iprsconecciones.cs" />
+    <Compile Include="Spet_ip_con.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_lineas.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_LineasXPuerto.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_linkurl.cs" />
+    <Compile Include="Spet_listas_emergencia.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_mailConnector.cs" />
+    <Compile Include="Spet_medicos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_mensajes_whatsapp.cs" />
+    <Compile Include="Spet_modems_sms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_ModoEmergencia.cs" />
+    <Compile Include="Spet_monedas.cs" />
+    <Compile Include="Spet_monitoreo_dealer.cs" />
+    <Compile Include="Spet_movilespatrulla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_notificaciones_dealer.cs" />
+    <Compile Include="Spet_novedades_fc.cs" />
+    <Compile Include="Spet_observaciones.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_Organizacion_fc.cs" />
+    <Compile Include="Spet_paneles.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_parametros.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_plantillas_sms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_port_alias.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeT_ProtocolosComandos.cs" />
+    <Compile Include="Spet_provincias.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_puertos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_redirector.cs" />
+    <Compile Include="Spet_redirectordestino.cs" />
+    <Compile Include="Spet_resoluciones.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_resolucionesllamada.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_ResourcesModule_Type.cs" />
+    <Compile Include="Spet_serviciospatrulla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeT_SimCard_APN.cs" />
+    <Compile Include="SpeT_SimCard_Estado.cs" />
+    <Compile Include="SpeT_SimCard_Marca.cs" />
+    <Compile Include="Spet_stock_depositos.cs" />
+    <Compile Include="Spet_tags_ag.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_teclados.cs" />
+    <Compile Include="Spet_tecnicos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_TG_mantenimiento_servicios.cs" />
+    <Compile Include="Spet_TimeZone.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_tipos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_tiposervicio.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_tipos_formapago_fc.cs" />
+    <Compile Include="Spet_videoid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spet_videoidXtrainfo.cs" />
+    <Compile Include="Spet_WeSafeFunctionsOptions.cs" />
+    <Compile Include="Spet_WeSafePeriodicityOptions.cs" />
+    <Compile Include="Spet_WeSafePriceOptions.cs" />
+    <Compile Include="SpeUserAccountFilter.cs" />
+    <Compile Include="SpeUsersDesktopWeb.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeUsersDesktopWebModulos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeUsuario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeVC_Routes.cs" />
+    <Compile Include="SpeVC_Route_Checkpoints.cs" />
+    <Compile Include="SpeVC_Route_Programs.cs" />
+    <Compile Include="SpeVehicle.cs" />
+    <Compile Include="SpeVisitasIngresosEgresos.cs" />
+    <Compile Include="SpeWebManagerGraphics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeWebManagerViews.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeWeSafeConfig.cs" />
+    <Compile Include="SpeWeSafeSubscription.cs" />
+    <Compile Include="SpeWeSafeSubscriptionFunctions.cs" />
+    <Compile Include="Spew_cuentas_x_usuario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spew_destinatarios_correo.cs" />
+    <Compile Include="Spew_usuarios.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeZona.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeZonaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpeZonaTemp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SV_Routes.cs" />
+    <Compile Include="SV_Route_AnalysisPoints.cs" />
+    <Compile Include="SV_Route_Programs.cs" />
+    <Compile Include="s_iprservicios.cs" />
+    <Compile Include="s_ip_range.cs" />
+    <Compile Include="s_online_help.cs" />
+    <Compile Include="s_operadores.cs" />
+    <Compile Include="s_systemdata.cs" />
+    <Compile Include="s_systemdata_clientes.cs" />
+    <Compile Include="s_terminales.cs" />
+    <Compile Include="TaskStatus.cs" />
+    <Compile Include="Telefono.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TelefonoPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test.cs" />
+    <Compile Include="TG_mantenimiento_historico.cs" />
+    <Compile Include="TG_Routes.cs" />
+    <Compile Include="TG_Route_Geofences.cs" />
+    <Compile Include="TG_Route_Programs.cs" />
+    <Compile Include="T_AccesosCategoriaProveedor.cs" />
+    <Compile Include="T_AccesosTipoDocumento.cs" />
+    <Compile Include="T_AccesosVehiculoProveedor.cs" />
+    <Compile Include="t_autoridaddestino.cs" />
+    <Compile Include="t_autoridades.cs" />
+    <Compile Include="t_bancos_fc.cs" />
+    <Compile Include="t_categorias_impositivas_fc.cs" />
+    <Compile Include="t_CategoriaVC.cs" />
+    <Compile Include="t_categorizacion.cs" />
+    <Compile Include="t_checkPoints_VC.cs" />
+    <Compile Include="t_CodigosEnFalla.cs" />
+    <Compile Include="t_codigos_alarma.cs" />
+    <Compile Include="t_comprobantes_fc.cs" />
+    <Compile Include="t_condiciones_pago_fc.cs" />
+    <Compile Include="t_controlAcceso_puerta.cs" />
+    <Compile Include="t_ControlEventosDealer.cs" />
+    <Compile Include="t_CtrlEventoPrevio.cs" />
+    <Compile Include="t_CuentasTipoServicio.cs" />
+    <Compile Include="t_dealerplantillas.cs" />
+    <Compile Include="t_EscalamientoPorOrganizacion.cs" />
+    <Compile Include="t_EscalamientoPrioridades.cs" />
+    <Compile Include="t_estadosdinamicos.cs" />
+    <Compile Include="t_eventos_feriados.cs" />
+    <Compile Include="t_firmantes_fc.cs" />
+    <Compile Include="t_flotas.cs" />
+    <Compile Include="t_formas_pago_fc.cs" />
+    <Compile Include="t_FormulariosST.cs" />
+    <Compile Include="t_gatewaysmsg.cs" />
+    <Compile Include="t_grupos.cs" />
+    <Compile Include="t_grupos_geofence.cs" />
+    <Compile Include="t_GuidedStepOptions.cs" />
+    <Compile Include="t_impuestos_fc.cs" />
+    <Compile Include="t_instaladores.cs" />
+    <Compile Include="t_InstaladoresDealer.cs" />
+    <Compile Include="t_iprsconecciones.cs" />
+    <Compile Include="t_ip_con.cs" />
+    <Compile Include="t_lineas.cs" />
+    <Compile Include="t_LineasXPuerto.cs" />
+    <Compile Include="t_linkurl.cs" />
+    <Compile Include="t_listas_emergencia.cs" />
+    <Compile Include="t_mailConnector.cs" />
+    <Compile Include="t_medicos.cs" />
+    <Compile Include="t_mensajes_whatsapp.cs" />
+    <Compile Include="t_modems_sms.cs" />
+    <Compile Include="t_ModoEmergencia.cs" />
+    <Compile Include="t_monedas.cs" />
+    <Compile Include="t_monitoreo_dealer.cs" />
+    <Compile Include="t_movilespatrulla.cs" />
+    <Compile Include="t_notificaciones_dealer.cs" />
+    <Compile Include="t_novedades_fc.cs" />
+    <Compile Include="t_observaciones.cs" />
+    <Compile Include="t_Organizacion_fc.cs" />
+    <Compile Include="t_paneles.cs" />
+    <Compile Include="t_parametros.cs" />
+    <Compile Include="t_plantillas_sms.cs" />
+    <Compile Include="t_port_alias.cs" />
+    <Compile Include="T_ProtocolosComandos.cs" />
+    <Compile Include="t_provincias.cs" />
+    <Compile Include="t_puertos.cs" />
+    <Compile Include="t_redirector.cs" />
+    <Compile Include="t_redirectordestino.cs" />
+    <Compile Include="t_resoluciones.cs" />
+    <Compile Include="t_resolucionesllamada.cs" />
+    <Compile Include="t_ResourcesModule_Type.cs" />
+    <Compile Include="t_serviciospatrulla.cs" />
+    <Compile Include="T_SimCard_APN.cs" />
+    <Compile Include="T_SimCard_Estado.cs" />
+    <Compile Include="T_SimCard_Marca.cs" />
+    <Compile Include="t_stock_depositos.cs" />
+    <Compile Include="t_tags_ag.cs" />
+    <Compile Include="t_teclados.cs" />
+    <Compile Include="t_tecnicos.cs" />
+    <Compile Include="t_TG_mantenimiento_servicios.cs" />
+    <Compile Include="t_TimeZone.cs" />
+    <Compile Include="t_tipos.cs" />
+    <Compile Include="t_tiposervicio.cs" />
+    <Compile Include="t_tipos_formapago_fc.cs" />
+    <Compile Include="t_videoid.cs" />
+    <Compile Include="t_videoidXtrainfo.cs" />
+    <Compile Include="t_WeSafeFunctionsOptions.cs" />
+    <Compile Include="t_WeSafePeriodicityOptions.cs" />
+    <Compile Include="t_WeSafePriceOptions.cs" />
+    <Compile Include="UserAccountFilter.cs" />
+    <Compile Include="UsersDesktopWeb.cs" />
+    <Compile Include="UsersDesktopWebModulos.cs" />
+    <Compile Include="Usuario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VC_Routes.cs" />
+    <Compile Include="VC_Route_Checkpoints.cs" />
+    <Compile Include="VC_Route_Programs.cs" />
+    <Compile Include="Vehicle.cs" />
+    <Compile Include="VisitasIngresosEgresos.cs" />
+    <Compile Include="WebManagerGraphics.cs" />
+    <Compile Include="WebManagerViews.cs" />
+    <Compile Include="WeSafeConfig.cs" />
+    <Compile Include="WeSafeSubscription.cs" />
+    <Compile Include="WeSafeSubscriptionFunctions.cs" />
+    <Compile Include="w_cuentas_x_usuario.cs" />
+    <Compile Include="w_destinatarios_correo.cs" />
+    <Compile Include="w_usuarios.cs" />
+    <Compile Include="Zona.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ZonaPlanilla.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ZonaTemp.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

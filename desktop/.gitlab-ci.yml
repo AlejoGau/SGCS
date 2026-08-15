@@ -1,0 +1,62 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_TAG'     # solo corre en tags
+    - when: never
+
+stages: [build, deploy]
+
+# Build en runner Docker "sencha" (7.9)
+build_sencha:
+  stage: build
+  tags: [sencha]
+  image: sencha-cmd:7.9
+  rules:
+    - if: '$CI_COMMIT_TAG'
+  script:
+    - echo "TAG=$CI_COMMIT_TAG"
+    - if ! echo "$CI_COMMIT_TAG" | grep -Eq '^deploy/[^/]+/[^/]+$'; then echo "Tag inválido. Use deploy/<APP>/<VERSION>"; exit 1; fi
+    - APP=$(echo "$CI_COMMIT_TAG" | cut -d'/' -f2)
+    - test -d "softguard.workspace/apps/$APP" || { echo "No existe softguard.workspace/apps/$APP"; exit 1; }
+    - export OPENSSL_CONF=/dev/null
+    - cd "softguard.workspace/apps/$APP"
+    - sencha which
+    - sencha app refresh
+    - sencha app build production
+  artifacts:
+    expire_in: 3 days
+    paths:
+      - softguard.workspace/build/production/**
+
+# Deploy en runner Windows (PowerShell por defecto)
+deploy_windows:
+  stage: deploy
+  tags: [windows]
+  needs: [build_sencha]
+  variables:
+    GIT_STRATEGY: "none"
+    APP_ROOT: "C:\\CloudSecuritySuite\\Web\\apps"
+  rules:
+    - if: '$CI_COMMIT_TAG'
+  script:
+  - '$ErrorActionPreference = "Stop"'
+  - 'if ($CI_COMMIT_TAG -notmatch "^deploy/([^/]+)/([^/]+)$") { throw "Tag inválido. Use deploy/<APP>/<VERSION>" }'
+  - '$app = $Matches[1]'
+  - '$ver = $Matches[2]'
+  - '$appDir = Join-Path $env:APP_ROOT $app'
+  - 'New-Item -ItemType Directory -Force -Path $appDir | Out-Null'
+  - '$src = Join-Path (Join-Path $pwd "softguard.workspace\build\production") $app'
+  - 'if (-not (Test-Path $src)) { throw "No se encontró build en $src" }'
+  - '$dst = Join-Path $appDir $ver'
+  - 'if (Test-Path $dst) { Remove-Item -Recurse -Force $dst }'
+  - 'New-Item -ItemType Directory -Force -Path $dst | Out-Null'
+  - '$log = Join-Path $pwd ("deploy-" + $env:CI_PIPELINE_ID + "-" + $app + "-" + $ver + ".log")'
+  - '$rcfile = Join-Path $pwd "rc.txt"'
+  - 'Write-Host "Copiando de $src a $dst"'
+  - '$env:SRC=$src; $env:DST=$dst; $env:LOG=$log; $env:RCFILE=$rcfile'
+  - 'cmd /v:on /c "(robocopy ""%SRC%"" ""%DST%"" /MIR /R:1 /W:1 /LOG:""%LOG%"" /NJH /NJS /NFL /NDL /NC /NS /NP) & echo !ERRORLEVEL! > ""%RCFILE%"" & exit /b 0"'
+  - '$rc = [int]((Get-Content $rcfile).Trim())'
+  - 'Write-Host "Robocopy exit code: $rc"'
+  - 'if ($rc -ge 8) { Write-Host "Últimas 80 líneas del log:"; Get-Content $log -Tail 80 | Write-Host; throw "Robocopy falló con código $rc" }'
+  - 'Write-Host "Resumen:"'
+  - 'Select-String -Path $log -Pattern "Dirs\s*:|Files\s*:|Bytes\s*:|Ended" | ForEach-Object { $_.Line } | Write-Host'
+  - 'Write-Host "Deploy OK -> $dst"'

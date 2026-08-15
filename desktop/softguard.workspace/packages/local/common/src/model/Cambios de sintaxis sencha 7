@@ -1,0 +1,72 @@
+    securityTreeStore.each(function (node) {
+      if (!node.parentNode) {
+        rootNode = node;
+        return false; // Detener el bucle
+      }
+    });
+	
+	var rootNode = null;
+	
+	SecurityModulesStore;//Ext.data.StoreManager.lookup( 'SecurityModulesStore' );
+	KeyModulesStore;//this.getKeyModulesStoreStore();
+	//En esta forma de carda de un store con filtros externos habilitados los debo deshabilitar
+	mystore.load({callback: function(records, operation, success){
+		mystore.remoteFilter = false;
+		controller.doBindStore(records, success, view, controller, mystore);
+	}});
+	mystore.getProxy().setUrl('/Rest/Cuenta/' + _UserData.udw_idKey + '/Usuario'); 
+	
+	Ext.create( 'Ext.ux.SimpleIFrame', {
+	Ext.create( 'Ext.ux.IFrame', {
+	
+	xtype: 'simpleiframe'
+	xtype: 'uxiframe'
+	
+	                {
+                    text: 'Imprimir',
+                    iconCls : 'icon-printer',
+                    handler: function(button){
+                        var iframe = button.up('reporteeventosview').down('#Iframe');
+                        var ele = iframe.getEl();
+                        
+                        document.getElementById('iframe-'+ele.id).contentWindow.printMe();
+                        
+                    }
+                }
+				                {
+                    text: 'Imprimir',
+                    iconCls: 'icon-printer',
+                    itemId: 'btnprint',
+                    action: 'btnprint'
+                }, "-", {
+				
+        //record.setProxy(model.getProxy());
+        record.setConfig({
+            proxy: model.getProxy()
+        });
+		
+		view.getRecord().setDirty(false)
+		
+		view.down('#iframe').setSrc( Ext.util.Format.trim( view.record.get( 'Body' ) ) )
+		            view.down('#iframe').load({
+                src: Ext.util.Format.trim(view.record.get('Body'))
+            }); 
+			
+			        //var isAdmin = isModuleAvailable('Administrator');
+        var modules =  SecurityModulesStore;
+		
+        var isAdmin = modules.isModuleAvailable('Administrator')
+        //var isCuentas = getRight('Administrator','cuenta');
+        var isCuentas = modules.isModuleAvailable('Administrator', 'cuenta');
+        //var videoEdit = getRight('Video','modificar');
+        var videoEdit = modules.isModuleAvailable('Video','modificar');
+		
+		plugins: [{ptype : 'pagingselectpersist'}],
+		no va
+		
+		 menu: {
+                 xtype: 'windows',
+				 
+		cambiar por 
+		 menu: {
+                 xtype: 'menu',

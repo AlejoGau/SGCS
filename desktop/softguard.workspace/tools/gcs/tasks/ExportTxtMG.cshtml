@@ -1,0 +1,256 @@
+@using System;
+@using System.Data;
+@using System.Collections.Generic;
+@using System.Globalization;
+@using System.Text;
+@using Slbf;
+@using Slbf.Json;
+
+@functions {
+    public static string GetStringValue(DataRow row, params string[] columns) {
+        foreach (var column in columns) {
+            if (row.Table.Columns.Contains(column) && row[column] != null) {
+                return row[column].ToString();
+            }
+        }
+
+        return "";
+    }
+
+    public static int GetIntValue(DataRow row, params string[] columns) {
+        foreach (var column in columns) {
+            if (!row.Table.Columns.Contains(column) || row[column] == null) continue;
+
+            int value;
+            if (int.TryParse(row[column].ToString(), out value)) {
+                return value;
+            }
+        }
+
+        return 0;
+    }
+
+    public static decimal GetDecimalValue(DataRow row, params string[] columns) {
+        foreach (var column in columns) {
+            if (!row.Table.Columns.Contains(column) || row[column] == null) continue;
+
+            decimal value;
+            if (decimal.TryParse(row[column].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out value)) {
+                return value;
+            }
+
+            if (decimal.TryParse(row[column].ToString(), NumberStyles.Any, new CultureInfo("es-AR"), out value)) {
+                return value;
+            }
+        }
+
+        return 0m;
+    }
+
+    public static DateTime? GetDateValue(DataRow row, params string[] columns) {
+        foreach (var column in columns) {
+            if (!row.Table.Columns.Contains(column) || row[column] == null) continue;
+
+            if (row[column] is DateTime) {
+                return (DateTime)row[column];
+            }
+
+            DateTime value;
+            if (DateTime.TryParse(row[column].ToString(), out value)) {
+                return value;
+            }
+        }
+
+        return null;
+    }
+
+    public static string SanitizeTxtValue(string value, string delimiter) {
+        if (string.IsNullOrWhiteSpace(value)) return "";
+        return value.Replace("\r", " ").Replace("\n", " ").Replace(delimiter, " ").Trim();
+    }
+
+    public static string FormatAmount(decimal value) {
+        return value.ToString("0.00", CultureInfo.InvariantCulture);
+    }
+
+    public static string FormatDate(DateTime? value) {
+        return value.HasValue ? value.Value.ToString("yyyyMMdd") : "";
+    }
+
+    public static string PadNumber(object value, int length) {
+        var text = value == null ? "" : value.ToString();
+        return text.PadLeft(length, '0');
+    }
+
+    public static string SanitizeFileNamePart(string value) {
+        if (string.IsNullOrWhiteSpace(value)) return "ORGANIZACION";
+
+        var invalidChars = System.IO.Path.GetInvalidFileNameChars();
+        var builder = new StringBuilder();
+        foreach (var c in value) {
+            if (Array.IndexOf(invalidChars, c) >= 0) continue;
+            builder.Append(char.IsWhiteSpace(c) ? '_' : c);
+        }
+
+        var sanitized = builder.ToString().Trim('_');
+        return string.IsNullOrWhiteSpace(sanitized) ? "ORGANIZACION" : sanitized;
+    }
+
+    public static bool RowMatchesExportFilters(DataRow row, int orgId, string tipoCbte, string catIva, DateTime periodStart, DateTime periodEnd) {
+        var rowOrgId = GetIntValue(row, "cli_iorganizacion", "cli_iOrganizacion", "orgfac_org_icodigo_id");
+        var rowTipoCbte = GetStringValue(row, "cbc_ctipocbte");
+        var rowCatIva = GetStringValue(row, "cli_ccategoriaimpositiva");
+        var rowEstado = GetIntValue(row, "cbc_cestado");
+        var rowDate = GetDateValue(row, "cbc_dfecha", "cbc_dFecha");
+
+        if (rowOrgId != orgId) return false;
+        if (rowEstado != 1) return false;
+        if (!rowDate.HasValue) return false;
+        if (rowDate.Value.Date < periodStart.Date || rowDate.Value.Date > periodEnd.Date) return false;
+        if (!string.IsNullOrWhiteSpace(tipoCbte) && !string.Equals(rowTipoCbte, tipoCbte, StringComparison.OrdinalIgnoreCase)) return false;
+        if (!string.IsNullOrWhiteSpace(catIva) && !string.Equals(rowCatIva, catIva, StringComparison.OrdinalIgnoreCase)) return false;
+
+        return true;
+    }
+}
+@{
+    Layout = null;
+
+    var orgIdRaw = Request.Params["orgId"] ?? Request.Params["idOrganizacion"] ?? "";
+    var periodo = (Request.Params["periodo"] ?? "").Trim();
+    var tipoCbte = (Request.Params["tipoCbte"] ?? "").Trim();
+    var catIva = (Request.Params["catIva"] ?? "").Trim();
+    var token = Request.Params["oauth_token"] ?? "";
+    const string delimiter = "|";
+
+    int orgId;
+    if (!int.TryParse(orgIdRaw, out orgId) || string.IsNullOrWhiteSpace(periodo) || periodo.Length != 6) {
+        Response.StatusCode = 400;
+        Response.ContentType = "text/plain";
+        Response.Write("Parámetros inválidos. Debe indicar orgId y período en formato YYYYMM.");
+        return;
+    }
+
+    DateTime periodStart;
+    if (!DateTime.TryParseExact(periodo + "01", "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out periodStart)) {
+        Response.StatusCode = 400;
+        Response.ContentType = "text/plain";
+        Response.Write("El período debe tener el formato YYYYMM.");
+        return;
+    }
+
+    var periodEnd = periodStart.AddMonths(1).AddDays(-1);
+
+    var searchObject = Slbf.ObjectFactoryService.Create<Slbf.Objects.SearchObject>();
+    searchObject.LoadByName("m_comprobantes_cab_fc");
+
+    var filterItems = new List<string>();
+    filterItems.Add("{\"property\":\"cli_iorganizacion\",\"value\":\"" + orgId + "\",\"id\":\"cli_iorganizacion\"}");
+    filterItems.Add("{\"property\":\"cbc_cestado\",\"value\":\"1\",\"id\":\"cbc_cestado\"}");
+    filterItems.Add("{\"property\":\"cbc_dFecha:GTEDATESTRING\",\"value\":\"" + periodStart.ToString("yyyy-MM-dd") + "\",\"id\":\"cbc_dFecha:GTEDATESTRING\"}");
+    filterItems.Add("{\"property\":\"cbc_dFecha:LTEDATESTRING\",\"value\":\"" + periodEnd.ToString("yyyy-MM-dd") + "\",\"id\":\"cbc_dFecha:LTEDATESTRING\"}");
+    if (!string.IsNullOrWhiteSpace(tipoCbte)) {
+        filterItems.Add("{\"property\":\"cbc_ctipocbte\",\"value\":\"" + tipoCbte + "\",\"id\":\"cbc_ctipocbte\"}");
+    }
+    if (!string.IsNullOrWhiteSpace(catIva)) {
+        filterItems.Add("{\"property\":\"cli_ccategoriaimpositiva\",\"value\":\"" + catIva + "\",\"id\":\"cli_ccategoriaimpositiva\"}");
+    }
+
+    var searchParams = new Dictionary<string, object>();
+    searchParams.Add("page", 1);
+    searchParams.Add("start", 0);
+    searchParams.Add("limit", 5000);
+    searchParams.Add("sort", "[{\"property\":\"cbc_dfecha\",\"direction\":\"ASC\"},{\"property\":\"cbc_inumerocbte\",\"direction\":\"ASC\"}]");
+    searchParams.Add("filter", "[" + string.Join(",", filterItems.ToArray()) + "]");
+    if (!string.IsNullOrWhiteSpace(token)) {
+        searchParams.Add("token", token);
+    }
+
+    int totalRows = 0;
+    DataTable rawRows = searchObject.ExecuteAsDataTable(searchParams, out totalRows);
+    DataTable rows = rawRows.Clone();
+    foreach (DataRow row in rawRows.Rows) {
+        if (RowMatchesExportFilters(row, orgId, tipoCbte, catIva, periodStart, periodEnd)) {
+            rows.ImportRow(row);
+        }
+    }
+
+    DataTable orgData = Slbf.Data.DataService.ExecuteTable("t_organizacion_fcSel", new Dictionary<string, object>() {
+        { "@Id", orgId }
+    });
+
+    string orgName = rows.Rows.Count > 0 ? GetStringValue(rows.Rows[0], "orgfac_org_cnombre", "org_cnombre") : "";
+    string orgIdentificacion = rows.Rows.Count > 0 ? GetStringValue(rows.Rows[0], "org_cidentificacion") : "";
+
+    if (orgData.Rows.Count > 0) {
+        var orgRow = orgData.Rows[0];
+        if (string.IsNullOrWhiteSpace(orgName)) {
+            orgName = GetStringValue(orgRow, "org_cnombre");
+        }
+        if (string.IsNullOrWhiteSpace(orgIdentificacion)) {
+            orgIdentificacion = GetStringValue(orgRow, "org_cidentificacion");
+        }
+    }
+
+    if (string.IsNullOrWhiteSpace(orgName)) {
+        orgName = "ORGANIZACION";
+    }
+
+    decimal totalSubtotal = 0m;
+    decimal totalIva = 0m;
+    decimal totalGeneral = 0m;
+    var output = new StringBuilder();
+
+    output.Append("H").Append(delimiter)
+          .Append(SanitizeTxtValue(orgName, delimiter)).Append(delimiter)
+          .Append(SanitizeTxtValue(orgIdentificacion, delimiter)).Append(delimiter)
+          .Append(periodo).Append(delimiter)
+          .Append(DateTime.Now.ToString("yyyyMMdd")).Append(delimiter)
+          .Append(rows.Rows.Count)
+          .Append("\r\n");
+
+    foreach (DataRow row in rows.Rows) {
+        var subtotal = GetDecimalValue(row, "cbc_ysubtotal");
+        var total = GetDecimalValue(row, "cbc_ytotal");
+        var iva = total - subtotal;
+
+        totalSubtotal += subtotal;
+        totalIva += iva;
+        totalGeneral += total;
+
+        output.Append("D").Append(delimiter)
+              .Append(SanitizeTxtValue(GetStringValue(row, "cbt_cdescripcion", "cbc_ctipocbte"), delimiter)).Append(delimiter)
+              .Append(SanitizeTxtValue(PadNumber(GetStringValue(row, "cbc_cprefijocbte"), 4), delimiter)).Append(delimiter)
+              .Append(SanitizeTxtValue(PadNumber(GetStringValue(row, "cbc_inumerocbte"), 10), delimiter)).Append(delimiter)
+              .Append(FormatDate(GetDateValue(row, "cbc_dfecha", "cbc_dFecha"))).Append(delimiter)
+              .Append(SanitizeTxtValue(GetStringValue(row, "cli_cidentificacion"), delimiter)).Append(delimiter)
+              .Append(SanitizeTxtValue(GetStringValue(row, "nombreOrganizacion", "cli_cnombre"), delimiter)).Append(delimiter)
+              .Append(SanitizeTxtValue(GetStringValue(row, "cli_cat_cdescripcion", "cli_ccategoriaimpositiva"), delimiter)).Append(delimiter)
+              .Append(FormatAmount(subtotal)).Append(delimiter)
+              .Append(FormatAmount(iva)).Append(delimiter)
+              .Append(FormatAmount(total)).Append(delimiter)
+              .Append(SanitizeTxtValue(GetStringValue(row, "cbc_ccae"), delimiter)).Append(delimiter)
+              .Append(FormatDate(GetDateValue(row, "cbc_cvtocae"))).Append(delimiter)
+              .Append(SanitizeTxtValue(GetStringValue(row, "cli_con_cdescripcion"), delimiter))
+              .Append("\r\n");
+    }
+
+    output.Append("T").Append(delimiter)
+          .Append(rows.Rows.Count).Append(delimiter)
+          .Append(FormatAmount(totalSubtotal)).Append(delimiter)
+          .Append(FormatAmount(totalIva)).Append(delimiter)
+          .Append(FormatAmount(totalGeneral));
+
+    var fileName = string.Format("MG_FACTURACION_{0}_{1}.txt", SanitizeFileNamePart(orgName), periodo);
+
+    Response.Clear();
+    Response.ClearHeaders();
+    Response.BufferOutput = true;
+    Response.Charset = "utf-8";
+    Response.ContentEncoding = Encoding.UTF8;
+    Response.ContentType = "text/plain";
+    Response.AddHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+    Response.BinaryWrite(new UTF8Encoding(true).GetPreamble());
+    Response.Write(output.ToString());
+    Response.End();
+}

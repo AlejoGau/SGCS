@@ -1,0 +1,11 @@
+﻿CREATE OR ALTER TRIGGER [dbo].[m_st_cabecera_INSTEAD] 
+   ON [dbo].[m_st_cabecera] 
+   INSTEAD OF INSERT
+AS 
+BEGIN
+	SET NOCOUNT ON;
+	Insert into [_Datos]..[m_st_cabecera] ([stc_iid],[stc_iid_cuenta],[stc_inumero],[stc_ctipo_servicio],[stc_mobservaciones],[stc_dfecha_desde_1],[stc_dfecha_hasta_1],[stc_dfecha_desde_2],[stc_dfecha_hasta_2],[stc_dfecha_desde_3],[stc_dfecha_hasta_3],[stc_dfecha_cierre],[stc_ccontacto],[stc_nestado],[stc_ctecnico_1],[stc_ctecnico_2],[stc_ctecnico_3],[stc_ctecnico_4],[stc_ctecnico_5],[stc_yValor],[stc_nreclamo_1],[stc_creclamo_1],[stc_nreclamo_2],[stc_creclamo_2],[stc_nreclamo_3],[stc_creclamo_3],[stc_nreclamo_4],[stc_creclamo_4],[stc_nreclamo_5],[stc_creclamo_5],[stc_cmovil_1],[stc_cmovil_2],[stc_dfecha_modificacion],[stc_ioperador],[stc_minsumos],[stc_dintecnico_1],[stc_doutecnico_1],[stc_dintecnico_2],[stc_doutecnico_2],[stc_dintecnico_3],[stc_doutecnico_3],[stc_cdeposito],[stf_dfecha_vto_orden],[stc_dsalida_al_cliente_DSS],[stc_darribo_al_cliente_DSS],[stc_dsalida_desde_cliente_DSS],[stc_iforma_viaje_DSS],[stc_cconformidad_html ],[stc_idorigenorden],[stc_dfechapago],[stc_nvalorpagotecnico],[stc_ncostomanodeobra],[stc_iPrioridad],stc_iOrganizacion)
+	select 
+	  [stc_iid],[stc_iid_cuenta],[stc_inumero],[stc_ctipo_servicio],[stc_mobservaciones],[stc_dfecha_desde_1],[stc_dfecha_hasta_1],[stc_dfecha_desde_2],[stc_dfecha_hasta_2],[stc_dfecha_desde_3],[stc_dfecha_hasta_3],[stc_dfecha_cierre],[stc_ccontacto],[stc_nestado],[stc_ctecnico_1],[stc_ctecnico_2],[stc_ctecnico_3],[stc_ctecnico_4],[stc_ctecnico_5],[stc_yValor],[stc_nreclamo_1],[stc_creclamo_1],[stc_nreclamo_2],[stc_creclamo_2],[stc_nreclamo_3],[stc_creclamo_3],[stc_nreclamo_4],[stc_creclamo_4],[stc_nreclamo_5],[stc_creclamo_5],[stc_cmovil_1],[stc_cmovil_2],stc_dfecha_creacion,[stc_ioperador],[stc_minsumos],[stc_dintecnico_1],[stc_doutecnico_1],[stc_dintecnico_2],[stc_doutecnico_2],[stc_dintecnico_3],[stc_doutecnico_3],[stc_cdeposito],[stf_dfecha_vto_orden],[stc_dsalida_al_cliente_DSS],[stc_darribo_al_cliente_DSS],[stc_dsalida_desde_cliente_DSS],[stc_iforma_viaje_DSS],[stc_cconformidad_html ],[stc_idorigenorden],[stc_dfechapago],[stc_nvalorpagotecnico],[stc_ncostomanodeobra],[stc_iPrioridad], stc_iOrganizacion
+	from inserted  
+END

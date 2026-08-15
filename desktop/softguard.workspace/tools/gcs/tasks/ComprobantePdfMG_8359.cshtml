@@ -1,0 +1,901 @@
+@using Slbf.Services.Rest.Localization;
+@using System;
+@using System.Data;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using NReco.PdfGenerator;
+@using Slbf.Json;
+@using System.Dynamic;
+@using Slbf;
+
+@functions{
+	/// <summary>
+	/// Interpola variables {{nombre}} en un template usando un diccionario de valores.
+	/// Variables sin valor se reemplazan por string vacío.
+	/// </summary>
+	public static string InterpolateTemplate(string template, Dictionary<string, string> vars) {
+		if (string.IsNullOrEmpty(template)) return "";
+		return Regex.Replace(template, @"\{\{(\w+)\}\}", m => {
+			string key = m.Groups[1].Value;
+			string val;
+			if (vars.TryGetValue(key, out val)) return val ?? "";
+			return "";
+		});
+	}
+
+	/// <summary>
+	/// Construye el diccionario de variables de interpolación a partir del DataRow del comprobante.
+	/// </summary>
+	public static Dictionary<string, string> BuildInterpolationVars(DataRow row, int itemsCount) {
+		var vars = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+		// Emisor
+		vars["emisor_nombre"] = row["org_cnombre"].ToString();
+		vars["emisor_cuit"] = row["org_cidentificacion"].ToString();
+		vars["emisor_domicilio"] = row["org_ccallefiscal"].ToString();
+		vars["emisor_localidad"] = row["org_clocalidadfiscal"].ToString();
+		vars["emisor_provincia"] = row["org_pro_cdescripcion"].ToString();
+		vars["emisor_cp"] = row["org_ccodigopostalfiscal"].ToString();
+		vars["emisor_telefono"] = row["org_ctelefono"].ToString();
+		vars["emisor_email"] = row["org_cmail"].ToString();
+		vars["emisor_iva"] = row["org_cat_cdescripcion"].ToString();
+		vars["emisor_simbolo"] = (row.Table.Columns.Contains("mon_csymbol") ? row["mon_csymbol"].ToString() : "");
+
+		// Cliente
+		vars["cliente_nombre"] = row["nombreOrganizacion"].ToString();
+		vars["cliente_cuit"] = row["cli_cidentificacion"].ToString();
+		vars["cliente_iva"] = row["cli_cat_cdescripcion"].ToString();
+		vars["cliente_domicilio"] = row["cli_ccallefiscal"].ToString();
+		vars["cliente_localidad"] = row["cli_clocalidadfiscal"].ToString();
+		vars["cliente_provincia"] = row["cli_pro_cdescripcion"].ToString();
+		vars["cliente_cp"] = row["cli_ccodigopostalfiscal"].ToString();
+		try { vars["cliente_telefono"] = row["cli_ctelefono"].ToString(); } catch { vars["cliente_telefono"] = ""; }
+		try { vars["cliente_contacto"] = row["cli_ccontacto"].ToString(); } catch { vars["cliente_contacto"] = ""; }
+		try { vars["cliente_servicio"] = row["cli_cservicio"].ToString(); } catch { vars["cliente_servicio"] = ""; }
+		try { vars["cliente_observacion"] = row["cli_cobservacion"].ToString(); } catch { vars["cliente_observacion"] = ""; }
+		try { vars["cliente_numero"] = row["cli_inumero"].ToString(); } catch { vars["cliente_numero"] = ""; }
+
+		// Comprobante
+		vars["comprobante_tipo"] = row["cbt_cdescripcion"].ToString();
+		vars["comprobante_numero"] = row["_numeroComprobante"].ToString();
+		try { vars["comprobante_fecha"] = ((DateTime)row["cbc_dfecha"]).ToString("dd/MM/yyyy"); } catch { vars["comprobante_fecha"] = row["cbc_dfecha"].ToString(); }
+		vars["comprobante_subtotal"] = ((Decimal)row["cbc_ysubtotal"]).ToString("N2");
+		vars["comprobante_total"] = ((Decimal)row["cbc_ytotal"]).ToString("N2");
+		vars["comprobante_cae"] = row["cbc_ccae"].ToString();
+		vars["comprobante_vto_cae"] = row["cbc_cvtocae"].ToString();
+		vars["condicion_pago"] = row["cli_con_cdescripcion"].ToString();
+		vars["cantidad_items"] = itemsCount.ToString();
+
+		// Calculadas
+		try {
+			DateTime fecha = (DateTime)row["cbc_dfecha"];
+			vars["periodo_facturacion"] = fecha.ToString("MMMM yyyy", new System.Globalization.CultureInfo("es-AR"));
+		} catch {
+			vars["periodo_facturacion"] = "";
+		}
+		vars["fecha_actual"] = DateTime.Now.ToString("dd/MM/yyyy");
+
+		return vars;
+	}
+
+	public static string ResolveInvoiceLogoUrl(string defaultBaseUrl, DataRow row, string facturaLogoUrl) {
+		string logoSrc = defaultBaseUrl + "/gallery/Moneyguard/logo_" + row["orgfac_org_icodigo_id"] + ".jpg";
+		if (!string.IsNullOrWhiteSpace(facturaLogoUrl)) {
+			if (facturaLogoUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || facturaLogoUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) {
+				logoSrc = facturaLogoUrl;
+			} else if (facturaLogoUrl.StartsWith("/")) {
+				logoSrc = defaultBaseUrl + facturaLogoUrl;
+			} else {
+				logoSrc = defaultBaseUrl + "/" + facturaLogoUrl;
+			}
+		}
+		return logoSrc;
+	}
+
+	public static string SafeDynamicString(dynamic obj, string propertyName, string defaultValue = "") {
+		try {
+			var value = obj[propertyName];
+			if (value == null) return defaultValue;
+			var result = value.ToString();
+			return string.IsNullOrWhiteSpace(result) ? defaultValue : result;
+		} catch {
+			return defaultValue;
+		}
+	}
+
+	public static bool SafeDynamicBool(dynamic obj, string propertyName, bool defaultValue = false) {
+		try {
+			var value = obj[propertyName];
+			if (value == null) return defaultValue;
+			if (value is bool) return (bool)value;
+			bool parsed;
+			if (bool.TryParse(value.ToString(), out parsed)) return parsed;
+			return defaultValue;
+		} catch {
+			return defaultValue;
+		}
+	}
+
+	public static dynamic SafeDynamicObject(dynamic obj, string propertyName) {
+		try {
+			var value = obj[propertyName];
+			if (value == null) return null;
+
+			try {
+				string json = value.ToString();
+				if (!string.IsNullOrWhiteSpace(json) && (json.StartsWith("{") || json.StartsWith("["))) {
+					return DynamicJson.Parse(json);
+				}
+			} catch {}
+
+			return value;
+		} catch {
+			return null;
+		}
+	}
+
+	public static string SanitizePaymentValue(string value) {
+		if (string.IsNullOrWhiteSpace(value)) return "";
+		return value.Replace("\r", " ").Replace("\n", " ").Trim();
+	}
+
+	public static string RenderPaymentMethodsHtml(dynamic integracionesPago, DataRow row, Dictionary<string, string> baseVars) {
+		if (integracionesPago == null) return "";
+
+		dynamic paymentConfig = integracionesPago;
+		try {
+			string rawConfig = integracionesPago.ToString();
+			if (!string.IsNullOrWhiteSpace(rawConfig) && (rawConfig.StartsWith("{") || rawConfig.StartsWith("["))) {
+				paymentConfig = DynamicJson.Parse(rawConfig);
+			}
+		} catch {}
+
+		var blocks = new List<string>();
+		var localization = LocalizationService.GetLocalization("WebMG");
+
+		try {
+			dynamic transferencia = SafeDynamicObject(paymentConfig, "transferencia");
+			if (transferencia != null && SafeDynamicBool(transferencia, "habilitado")) {
+				var details = new List<string>();
+				var banco = SanitizePaymentValue(SafeDynamicString(transferencia, "banco"));
+				var cbu = SanitizePaymentValue(SafeDynamicString(transferencia, "cbu"));
+				var alias = SanitizePaymentValue(SafeDynamicString(transferencia, "alias"));
+				var titular = SanitizePaymentValue(SafeDynamicString(transferencia, "titular"));
+				var cuitTitular = SanitizePaymentValue(SafeDynamicString(transferencia, "cuit_titular"));
+
+				if (!string.IsNullOrWhiteSpace(banco)) details.Add("<strong>Banco:</strong> " + banco);
+				if (!string.IsNullOrWhiteSpace(cbu)) details.Add("<strong>CBU:</strong> " + cbu);
+				if (!string.IsNullOrWhiteSpace(alias)) details.Add("<strong>Alias:</strong> " + alias);
+				if (!string.IsNullOrWhiteSpace(titular)) details.Add("<strong>Titular:</strong> " + titular);
+				if (!string.IsNullOrWhiteSpace(cuitTitular)) details.Add("<strong>CUIT:</strong> " + cuitTitular);
+
+				if (details.Count > 0) {
+					blocks.Add("<tr><td style='padding:8px 10px; border-top:1px solid #ddd; vertical-align:top; width:220px;'><strong>Transferencia bancaria</strong></td><td style='padding:8px 10px; border-top:1px solid #ddd;'>" + string.Join("<br/>", details.ToArray()) + "</td></tr>");
+				}
+			}
+		} catch {}
+
+		try {
+			dynamic mercadopago = SafeDynamicObject(paymentConfig, "mercadopago");
+			if (mercadopago != null && SafeDynamicBool(mercadopago, "habilitado")) {
+				var url = SafeDynamicString(mercadopago, "url");
+				var mostrarQr = SafeDynamicBool(mercadopago, "mostrar_qr");
+				var html = new System.Text.StringBuilder();
+				if (!string.IsNullOrWhiteSpace(url)) {
+					html.Append("<strong>Link de pago:</strong> <a href='").Append(url).Append("' target='_blank'>").Append(url).Append("</a>");
+				} else {
+					html.Append("<strong>Link de pago:</strong> No configurado");
+				}
+
+				if (mostrarQr && !string.IsNullOrWhiteSpace(url)) {
+					html.Append("<div style='margin-top:8px;'><img src='https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=")
+						.Append(Uri.EscapeDataString(url))
+						.Append("' style='width:110px;height:110px;border:1px solid #ccc;' alt='QR Mercado Pago' /></div>");
+				}
+
+				blocks.Add("<tr><td style='padding:8px 10px; border-top:1px solid #ddd; vertical-align:top; width:220px;'><strong>Mercado Pago</strong></td><td style='padding:8px 10px; border-top:1px solid #ddd;'>" + html.ToString() + "</td></tr>");
+			}
+		} catch {}
+
+		try {
+			dynamic pagofacil = SafeDynamicObject(paymentConfig, "pagofacil");
+			if (pagofacil != null && SafeDynamicBool(pagofacil, "habilitado")) {
+				var codigoEntidad = SafeDynamicString(pagofacil, "codigo_entidad");
+				var templateCodigo = SafeDynamicString(pagofacil, "template_codigo", "{{codigo_entidad}}{{cliente_numero}}");
+				var paymentVars = new Dictionary<string, string>(baseVars, StringComparer.OrdinalIgnoreCase);
+				paymentVars["codigo_entidad"] = codigoEntidad;
+				var codigoPago = InterpolateTemplate(templateCodigo, paymentVars);
+				codigoPago = SanitizePaymentValue(string.IsNullOrWhiteSpace(codigoPago) ? codigoEntidad : codigoPago);
+				blocks.Add("<tr><td style='padding:8px 10px; border-top:1px solid #ddd; vertical-align:top; width:220px;'><strong>Pago Fácil</strong></td><td style='padding:8px 10px; border-top:1px solid #ddd;'><strong>Código de pago:</strong> " + codigoPago + "</td></tr>");
+			}
+		} catch {}
+
+		try {
+			dynamic rapipago = SafeDynamicObject(paymentConfig, "rapipago");
+			if (rapipago != null && SafeDynamicBool(rapipago, "habilitado")) {
+				var codigoEntidad = SafeDynamicString(rapipago, "codigo_entidad");
+				var templateCodigo = SafeDynamicString(rapipago, "template_codigo", "{{codigo_entidad}}{{cliente_numero}}");
+				var paymentVars = new Dictionary<string, string>(baseVars, StringComparer.OrdinalIgnoreCase);
+				paymentVars["codigo_entidad"] = codigoEntidad;
+				var codigoPago = InterpolateTemplate(templateCodigo, paymentVars);
+				codigoPago = SanitizePaymentValue(string.IsNullOrWhiteSpace(codigoPago) ? codigoEntidad : codigoPago);
+				blocks.Add("<tr><td style='padding:8px 10px; border-top:1px solid #ddd; vertical-align:top; width:220px;'><strong>Rapipago</strong></td><td style='padding:8px 10px; border-top:1px solid #ddd;'><strong>Código de pago:</strong> " + codigoPago + "</td></tr>");
+			}
+		} catch {}
+
+		try {
+			dynamic debitoAutomatico = SafeDynamicObject(paymentConfig, "debito_automatico");
+			if (debitoAutomatico != null && SafeDynamicBool(debitoAutomatico, "habilitado")) {
+				var texto = SanitizePaymentValue(SafeDynamicString(debitoAutomatico, "texto", "El importe será debitado automáticamente de su cuenta."));
+				if (!string.IsNullOrWhiteSpace(texto)) {
+					blocks.Add("<tr><td style='padding:8px 10px; border-top:1px solid #ddd; vertical-align:top; width:220px;'><strong>Débito automático</strong></td><td style='padding:8px 10px; border-top:1px solid #ddd;'>" + texto + "</td></tr>");
+				}
+			}
+		} catch {}
+
+		if (blocks.Count == 0) return "";
+
+		var sb = new System.Text.StringBuilder();
+		sb.Append("<table cellpadding='0' cellspacing='0' width='847' style='border:1px solid black; border-top:none;'>");
+		sb.Append("<tr><td colspan='2' style='padding:10px; background-color:#f2f2f2; font-weight:bold;'>");
+		sb.Append(localization.GetLocale("MEDIOS DE PAGO"));
+		sb.Append("</td></tr>");
+		foreach (var block in blocks) {
+			sb.Append(block);
+		}
+		sb.Append("</table>");
+		return sb.ToString();
+	}
+
+    public static HtmlString header (DataRow _headerRow, bool extra = false, string facturaLogoUrl = "") {
+			var Localization = LocalizationService.GetLocalization("WebMG");		
+			string DESKTOPEXTERNALURL = (Slbf.Data.DataService.ExecuteScalar("t_parametrosGetmobservacionByCodigo", new Dictionary<string,object>(){{"@par_ccodigo", "DESKTOPEXTERNALURL"}}) ?? "").ToString();
+    	//DESKTOPEXTERNALURL = DESKTOPEXTERNALURL.Replace(":443", "");
+			string logoSrc = ResolveInvoiceLogoUrl(DESKTOPEXTERNALURL, _headerRow, facturaLogoUrl);
+
+			string tipoComprobante = @Localization.GetLocale("COMPROBANTE NRO.");
+
+			if (_headerRow["cbt_ntipo"].ToString() == "8"){
+				tipoComprobante = Localization.GetLocale("NOTA DE CRÉDITO ");
+			} else if (_headerRow["cbt_ntipo"].ToString() == "1"){
+				tipoComprobante = Localization.GetLocale("FACTURA ");
+			}
+
+			string _result = @"
+				<table style='background-color: #ffffff; border:1px black solid' cellpadding=0 cellspacing=0 width=847>
+					<tr height=150>
+						<td colspan=2 rowspan=2>
+							<center>
+							<img src='"+logoSrc+@"' 
+								style='display: block;max-width:220px;max-height:140px;width: auto;height: auto;'/>
+							</center>
+						</td>";
+
+			if (extra){
+				_result += "<td colspan=2 rowspan=2><center><h1>"+Localization.GetLocale("Información extra")+"</h1></center></td>";
+			} else {
+				_result += "<td colspan=2 rowspan=2><center><h1>["+_headerRow["cbt_cletra"]+"]</h1><br>"+Localization.GetLocale("ORIGINAL")+"</center></td>";
+			}
+
+			_result += @"
+					<td colspan=2 rowspan=2><center> "+tipoComprobante+": "+ _headerRow["_numeroComprobante"] +" <br> "+@Localization.GetLocale("FECHA")+": "+ ((DateTime)_headerRow["cbc_dfecha"]).ToString("dd/MM/yyyy") +@" </center></td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>&nbsp; "+ _headerRow["org_cnombre"] +@" </td>
+						<td></td>
+						<td></td>
+						<td width=150></td>
+						<td> "+ _headerRow["org_cat_cdescripcion"] +@" </td >
+						<td></td>
+					</tr>
+					<tr>
+						<td>&nbsp; "+ _headerRow["org_ccallefiscal"] +@" </td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>"+@Localization.GetLocale("CUIT")+@": </td>
+						<td>"+ _headerRow["org_cidentificacion"] +@"</td>
+					</tr>
+					<tr>
+						<td>&nbsp; "+_headerRow["org_clocalidadfiscal"]+@"</td>
+						<td>"+_headerRow["org_pro_cdescripcion"]+@"</td>
+						<td>Cod. Postal: "+_headerRow["org_ccodigopostalfiscal"]+@"</td>
+						<td></td>
+						<td>"+@Localization.GetLocale("INGRESOS BRUTOS")+@":</td>
+						<td>"+_headerRow["org_cheadercbte"]+@"</td>
+					</tr>
+					<tr>
+						<td>&nbsp; "+@Localization.GetLocale("TELEFONO")+": "+_headerRow["org_ctelefono"]+@"</td>
+						<td colspan=2>"+@Localization.GetLocale("EMAIL")+": "+_headerRow["org_cmail"]+@"</td>
+						<td></td><td>"+@Localization.GetLocale("INICIO DE ACTIVIDADES")+@"</td>
+						<td>"+_headerRow["org_cinicioactividades"]+@"</td>
+					</tr>
+				</table>";
+
+				return new HtmlString(_result);
+    }
+
+	public static HtmlString client (DataRow item) {
+		var Localization = LocalizationService.GetLocalization("WebMG");		
+		return new HtmlString("<table style=\"background-color: #ffffff; border:1px black solid\" cellpadding=0 cellspacing=0 width=847><tr height=50><td colspan=6></td></tr><tr><td>&nbsp; Se&ntilde;or (es)</td><td colspan=3> "+item["nombreOrganizacion"]+"</td><td>"+@Localization.GetLocale("CUIT")+":</td><td>"+item["cli_cidentificacion"]+"</td></tr><tr><td>&nbsp; "+@Localization.GetLocale("CONDICION FISCAL")+"</td><td colspan=3>"+item["cli_con_cdescripcion"]+"</td><td></td><td></td></tr><tr><td>&nbsp; "+@Localization.GetLocale("DOMICILIO")+":</td><td colspan=3>"+item["cli_ccallefiscal"]+"</td><td></td><td></td></tr><tr><td>&nbsp; "+@Localization.GetLocale("LOCALIDAD")+":</td><td colspan=3>"+item["cli_clocalidadfiscal"]+"</td><td></td><td></td></tr>   <tr height=50><td colspan=6></td></tr></table>");
+	}
+	
+	public static String CuentasContrato (int idContrato, string token) {
+		if (idContrato==0){
+			return ""; 
+		}
+
+		// busco las cuentas del idContrato
+		// Defino search a Utilizar
+		var s = Slbf.ObjectFactoryService.Create<Slbf.Objects.SearchObject>();
+		s.LoadByName("CuentaByDealer");
+
+		//Genero Diccionario para aceptar los parametros del Store procedure
+		var sd = new Dictionary<string, object>(){};
+
+		// Cargo el diccionario con la informacion de los parametros, filters, sorts, etc.
+		sd.Add("filter","[{\"property\":\"crm_contrato:RelationParent\",\"value\":\""+idContrato+"\"}]");
+		sd.Add("token",token);
+
+		int item = 0;
+		// Ejecuto el Store Procedure y leo informacion
+		DataTable searchdata = s.ExecuteAsDataTable(sd, out item);
+		string _result="";
+		if (item > 0){
+			_result= "<div style=\"margin:5px\">";
+			_result+= "<ul>";
+			foreach (DataRow _row in searchdata.Rows){
+				_result+="<li>"+_row["cue_cnombre"]+" ("+_row["cue_ccalle"]+", "+_row["cue_clocalidad"]+", "+_row["cue_provincia"]+")</li>";
+			}
+			_result+= "</ul>";
+			_result +="</div>";
+		}
+
+		return _result;
+    }
+
+	public static HtmlString blank () {
+		var Localization = LocalizationService.GetLocalization("WebMG");		
+		return new HtmlString("<table style=\"background-color: #ffffff; border:1px black solid\" cellpadding=0 cellspacing=0 width=847><tr height=50><td colspan=6></td></tr></table>");
+    }
+
+	public static HtmlString WithItems (DataRow item) {		
+		int _cantidad = int.Parse(item["cbi_icantidad"].ToString());
+		decimal _importe =  Convert.ToDecimal(item["_total"]);
+		decimal _total = _cantidad * _importe;
+		return new HtmlString(@"
+			<tr class='comprobante_item'>
+				<td width='145' height='35' >&nbsp; "+item["cbi_icantidad"]+@"</td>
+				<td width='190' >&nbsp; "+item["Name"]+@"</td>
+				<td width='280' class='money'>"+_importe.ToString("0.00")+@"</td>
+				<td width='230' class='money'>"+_total.ToString("0.00")+@"</td>
+			</tr>");
+    }
+
+	public static HtmlString WithItemsSubtotal (DataRow item) {		
+		int _cantidad = int.Parse(item["cbi_icantidad"].ToString());
+		decimal _importe =  Convert.ToDecimal(item["cbi_yimporte"]);
+		decimal _total = _cantidad * _importe;
+		return new HtmlString(@"
+			<tr class='comprobante_item'>
+				<td width='145' height='35' >&nbsp; "+item["cbi_icantidad"]+@"</td>
+				<td width='190' >&nbsp; "+item["Name"]+@"</td>
+				<td width='280' class='money'>"+_importe.ToString("0.00")+@"</td>
+				<td width='230' class='money'>"+_total.ToString("0.00")+@"</td>
+			</tr>");
+    }
+		
+	public static HtmlString WithOutItems (object condicion_venta) {
+		var Localization = LocalizationService.GetLocalization("WebMG");		
+		return new HtmlString("<table style=\"border:1px black solid\" cellpadding=0 cellspacing=0 width=847><tr ><td>&nbsp; "+@Localization.GetLocale("CONDICION DE VENTA")+":</td><td colspan=5>&nbsp; "+condicion_venta+"</td></tr><tr><td>&nbsp; "+@Localization.GetLocale("CANTIDAD")+"</td><td colspan=3>&nbsp; "+@Localization.GetLocale("DESCRIPCION")+"</td><td>&nbsp; "+@Localization.GetLocale("PRECIO UNITARIO")+"</td><td>&nbsp; "+@Localization.GetLocale("PRECIO TOTAL")+"</td></tr><tr height=600><td height=15></td><td colspan=3></td><td></td><td></td></tr></table>");
+    }
+
+	public static HtmlString footer (object total, object descuento, object cae, object vencimiento_cae,object subtotal,object impuesto1,object impuesto2,object impuesto3,DataRow item) {
+		var Localization = LocalizationService.GetLocalization("WebMG");
+		string _result="";
+		if(int.Parse(item["cbt_nCbteCAE"].ToString()) == 6 || int.Parse(item["cbt_nCbteCAE"].ToString()) == 11){ 
+			_result = @"
+				<table border=1 cellpadding=0 cellspacing=0 width=847>
+					<tr height=55 class='header-items'>
+						<td width=80><center>"+@Localization.GetLocale("SUBTOTAL")+@"</center></td>
+						<td width=80><center>"+@Localization.GetLocale("DESCUENTO")+@"</center></td>
+						<td width=80><center></center></td>
+						<td width=80><center></center></td><td width=80><center></center></td>
+						<td width=80><center>"+@Localization.GetLocale("TOTAL")+@"</center></td>
+					</tr>
+					<tr height=55>
+						<td><center>"+((Decimal)subtotal).ToString("0.00")+@"</center></td>
+						<td><center>"+descuento+@"</center></td>
+						<td><center></center></td>
+						<td><center></center></td>
+						<td><center></center></td>
+						<td><center>"+((Decimal)total).ToString("0.00")+@"</center></td>
+					</tr>		";
+		} else{
+			_result = @"
+				<table border=1 cellpadding=0 cellspacing=0 width=847>
+					<tr height=55 class='header-items'>
+						<td width=80><center>"+@Localization.GetLocale("SUBTOTAL")+@"</center></td>
+						<td width=80><center>"+@Localization.GetLocale("DESCUENTO")+@"</center></td>
+						<td width=80><center>"+@Localization.GetLocale("PERCEPCIONES E IMPUESTOS INTERNOS")+@"</center></td>
+						<td width=80><center>IVA 21%</center></td><td width=80><center>IVA 10,5%</center></td>
+						<td width=80><center>"+@Localization.GetLocale("TOTAL")+@"</center></td>
+					</tr>
+					<tr height=55>
+						<td><center>"+((Decimal)subtotal).ToString("0.00")+@"</center></td>
+						<td><center>"+descuento+@"</center></td>
+						<td><center>"+((Decimal)impuesto3).ToString("0.00")+@"</center></td>
+						<td><center>"+((Decimal)impuesto1).ToString("0.00")+@"</center></td>
+						<td><center>"+((Decimal)impuesto2).ToString("0.00")+@"</center></td>
+						<td><center>"+((Decimal)total).ToString("0.00")+@"</center></td>
+					</tr>		";
+		}
+
+			
+		if (!String.IsNullOrEmpty(cae.ToString())){
+			string _imgSrc= "/handler/I2of5Mod10?data=20228196895001000106922542497021520190613";
+				_result+= @"
+				<tr height=10>
+					<td colspan=6><center>CAE"+ cae + @" <br> " +@Localization.GetLocale("Fecha de Vto. CAE")+" "+@vencimiento_cae+@"</center></td>
+				</tr>
+				<tr height=110>
+					<td colspan=6><center><img src='"+_imgSrc+@"'/></center></td>
+				</tr>
+				";
+		}
+
+		_result += "</table>";
+		return new HtmlString(_result);
+	}
+}
+@{
+	
+	//Localization
+	var Localization = LocalizationService.GetLocalization("WebMG");
+
+	// Tomo parametros de URL.
+	var idComprobante = Request.Params["idComprobante"];
+	var token = Request.Params["oauth_token"];
+	var isPreview = (Request.Params["preview"] ?? "").ToLower() == "true";
+	var previewOrgId = Request.Params["orgId"] ?? "";
+	var previewMetadata = Request.Params["metadata"] ?? "";
+
+	DataTable searchdata;
+	DataTable searchdataItems;
+	int item = 0;
+	int itemsTotal = 0;
+
+	if (isPreview && !string.IsNullOrEmpty(previewOrgId)) {
+		// --- MODO PREVIEW: datos de ejemplo con metadata real de la org ---
+		searchdata = new DataTable();
+		searchdata.Columns.Add("cbc_icodigo_id", typeof(int));
+		searchdata.Columns.Add("cbc_dfecha", typeof(DateTime));
+		searchdata.Columns.Add("cbc_cprefijocbte", typeof(string));
+		searchdata.Columns.Add("cbc_inumerocbte", typeof(int));
+		searchdata.Columns.Add("cbc_ytotal", typeof(decimal));
+		searchdata.Columns.Add("cbc_ysubtotal", typeof(decimal));
+		searchdata.Columns.Add("cbc_yimpuesto1", typeof(decimal));
+		searchdata.Columns.Add("cbc_yimpuesto2", typeof(decimal));
+		searchdata.Columns.Add("cbc_yimpuesto3", typeof(decimal));
+		searchdata.Columns.Add("cbc_ccae", typeof(string));
+		searchdata.Columns.Add("cbc_cvtocae", typeof(string));
+		searchdata.Columns.Add("cbc_cestado", typeof(string));
+		searchdata.Columns.Add("cbc_ctipocbte", typeof(string));
+		searchdata.Columns.Add("_numeroComprobante", typeof(string));
+		searchdata.Columns.Add("orgfac_org_icodigo_id", typeof(int));
+		searchdata.Columns.Add("orgfac_org_cmetadata", typeof(string));
+		searchdata.Columns.Add("org_cnombre", typeof(string));
+		searchdata.Columns.Add("org_cidentificacion", typeof(string));
+		searchdata.Columns.Add("org_ccallefiscal", typeof(string));
+		searchdata.Columns.Add("org_clocalidadfiscal", typeof(string));
+		searchdata.Columns.Add("org_cprovinciafiscal", typeof(string));
+		searchdata.Columns.Add("org_ccodigopostalfiscal", typeof(string));
+		searchdata.Columns.Add("org_ctelefono", typeof(string));
+		searchdata.Columns.Add("org_cmail", typeof(string));
+		searchdata.Columns.Add("org_ccategoriaimpositiva", typeof(string));
+		searchdata.Columns.Add("org_cinicioactividades", typeof(string));
+		searchdata.Columns.Add("org_cempresacb", typeof(string));
+		searchdata.Columns.Add("org_cheadercbte", typeof(string));
+		searchdata.Columns.Add("org_pro_cdescripcion", typeof(string));
+		searchdata.Columns.Add("org_cat_cdescripcion", typeof(string));
+		searchdata.Columns.Add("org_csymbol", typeof(string));
+		searchdata.Columns.Add("nombreOrganizacion", typeof(string));
+		searchdata.Columns.Add("cli_cidentificacion", typeof(string));
+		searchdata.Columns.Add("cli_ccategoriaimpositiva", typeof(string));
+		searchdata.Columns.Add("cli_ccallefiscal", typeof(string));
+		searchdata.Columns.Add("cli_clocalidadfiscal", typeof(string));
+		searchdata.Columns.Add("cli_cprovinciafiscal", typeof(string));
+		searchdata.Columns.Add("cli_ccodigopostalfiscal", typeof(string));
+		searchdata.Columns.Add("cli_con_cdescripcion", typeof(string));
+		searchdata.Columns.Add("cli_cat_cdescripcion", typeof(string));
+		searchdata.Columns.Add("cli_pro_cdescripcion", typeof(string));
+		searchdata.Columns.Add("cli_inumero", typeof(string));
+		searchdata.Columns.Add("cli_ccondicionpago", typeof(string));
+		searchdata.Columns.Add("cbt_cletra", typeof(string));
+		searchdata.Columns.Add("cbt_cdescripcion", typeof(string));
+		searchdata.Columns.Add("cbt_ntipo", typeof(string));
+		searchdata.Columns.Add("cbt_nCbteCAE", typeof(string));
+		searchdata.Columns.Add("mon_csymbol", typeof(string));
+		searchdata.Columns.Add("cfc_cntiid", typeof(string));
+		searchdata.Columns.Add("cfc_cbonificaciontipo", typeof(string));
+		searchdata.Columns.Add("cfc_nbonificacionvalor", typeof(decimal));
+		searchdata.Columns.Add("cfc_ybonificacionimporte", typeof(decimal));
+		searchdata.Columns.Add("cfc_nbonificacionpermanente", typeof(int));
+		searchdata.Columns.Add("idOrganizacion", typeof(int));
+		searchdata.Columns.Add("cli_iorganizacion", typeof(int));
+
+		// Cargar datos reales de la org facturadora (via SP directo, no SearchObject)
+		DataTable orgData = Slbf.Data.DataService.ExecuteTable("t_organizacion_fcSel",
+			new Dictionary<string, object>(){{"@Id", int.Parse(previewOrgId)}});
+		int orgCount = orgData.Rows.Count;
+
+		DataRow preview = searchdata.NewRow();
+		preview["cbc_icodigo_id"] = 0;
+		preview["cbc_dfecha"] = DateTime.Now;
+		preview["cbc_cprefijocbte"] = "0001";
+		preview["cbc_inumerocbte"] = 99999999;
+		preview["cbc_ytotal"] = 15000.00m;
+		preview["cbc_ysubtotal"] = 12396.69m;
+		preview["cbc_yimpuesto1"] = 2603.31m;
+		preview["cbc_yimpuesto2"] = 0.00m;
+		preview["cbc_yimpuesto3"] = 0.00m;
+		preview["cbc_ccae"] = "71234567890123";
+		preview["cbc_cvtocae"] = DateTime.Now.AddDays(10).ToString("yyyyMMdd");
+		preview["cbc_cestado"] = "A";
+		preview["cbc_ctipocbte"] = "001";
+		preview["_numeroComprobante"] = "0001-99999999";
+		preview["cbt_cletra"] = "A";
+		preview["cbt_cdescripcion"] = "Factura A";
+		preview["cbt_ntipo"] = "1";
+		preview["cbt_nCbteCAE"] = "1";
+		preview["mon_csymbol"] = "$";
+		preview["cfc_cntiid"] = "0";
+		preview["cfc_cbonificaciontipo"] = "";
+		preview["cfc_nbonificacionvalor"] = 0.00m;
+		preview["cfc_ybonificacionimporte"] = 0.00m;
+		preview["cfc_nbonificacionpermanente"] = 0;
+
+		// Datos del cliente de ejemplo
+		preview["nombreOrganizacion"] = "CLIENTE EJEMPLO S.A.";
+		preview["cli_cidentificacion"] = "30-12345678-9";
+		preview["cli_ccategoriaimpositiva"] = "RI";
+		preview["cli_ccallefiscal"] = "Av. Corrientes 1234, Piso 5";
+		preview["cli_clocalidadfiscal"] = "CABA";
+		preview["cli_cprovinciafiscal"] = "CF";
+		preview["cli_ccodigopostalfiscal"] = "1043";
+		preview["cli_con_cdescripcion"] = "30 días";
+		preview["cli_cat_cdescripcion"] = "Responsable Inscripto";
+		preview["cli_pro_cdescripcion"] = "Capital Federal";
+		preview["cli_inumero"] = "1000";
+		preview["cli_ccondicionpago"] = "30D";
+		preview["idOrganizacion"] = 0;
+		preview["cli_iorganizacion"] = int.Parse(previewOrgId);
+
+		// Cargar datos reales de la org
+		if (orgCount > 0) {
+			DataRow orgRow = orgData.Rows[0];
+			// org_organizacionId es el FK a la tabla de organizaciones (para el logo)
+			int orgRealId = 0;
+			try { orgRealId = Convert.ToInt32(orgRow["org_organizacionId"]); } catch { orgRealId = int.Parse(previewOrgId); }
+			preview["orgfac_org_icodigo_id"] = orgRealId;
+			preview["org_cnombre"] = orgRow["org_cnombre"];
+			preview["org_cidentificacion"] = orgRow["org_cidentificacion"];
+			preview["org_ccallefiscal"] = orgRow["org_ccallefiscal"];
+			preview["org_clocalidadfiscal"] = orgRow["org_clocalidadfiscal"];
+			preview["org_cprovinciafiscal"] = orgRow["org_cprovinciafiscal"];
+			preview["org_ccodigopostalfiscal"] = orgRow["org_ccodigopostalfiscal"];
+			preview["org_ctelefono"] = orgRow["org_ctelefono"];
+			preview["org_cmail"] = orgRow["org_cmail"];
+			preview["org_ccategoriaimpositiva"] = orgRow["org_ccategoriaimpositiva"];
+			preview["org_cinicioactividades"] = orgRow["org_cinicioactividades"];
+			preview["org_cempresacb"] = orgRow["org_cempresacb"];
+			preview["org_cheadercbte"] = orgRow["org_cheadercbte"];
+			// org_pro_cdescripcion y org_cat_cdescripcion no existen en t_organizacion_fcSel (son JOINs de Search)
+			preview["org_pro_cdescripcion"] = "";
+			preview["org_cat_cdescripcion"] = orgRow["org_ccategoriaimpositiva"].ToString();
+			preview["org_csymbol"] = orgRow["org_csymbol"];
+			preview["orgfac_org_cmetadata"] = orgRow["org_cmetadata"];
+		} else {
+			preview["orgfac_org_icodigo_id"] = int.Parse(previewOrgId);
+			preview["org_cnombre"] = "Organización no encontrada";
+			preview["org_cidentificacion"] = "";
+			preview["org_ccallefiscal"] = "";
+			preview["org_clocalidadfiscal"] = "";
+			preview["org_cprovinciafiscal"] = "";
+			preview["org_ccodigopostalfiscal"] = "";
+			preview["org_ctelefono"] = "";
+			preview["org_cmail"] = "";
+			preview["org_ccategoriaimpositiva"] = "";
+			preview["org_cinicioactividades"] = "";
+			preview["org_cempresacb"] = "";
+			preview["org_cheadercbte"] = "";
+			preview["org_pro_cdescripcion"] = "";
+			preview["org_cat_cdescripcion"] = "";
+			preview["org_csymbol"] = "";
+			preview["orgfac_org_cmetadata"] = "";
+		}
+
+		searchdata.Rows.Add(preview);
+		item = 1;
+
+		// Items de ejemplo
+		searchdataItems = new DataTable();
+		searchdataItems.Columns.Add("cbi_icantidad", typeof(int));
+		searchdataItems.Columns.Add("cbi_yimporte", typeof(decimal));
+		searchdataItems.Columns.Add("Name", typeof(string));
+		searchdataItems.Columns.Add("_total", typeof(decimal));
+
+		DataRow previewItem1 = searchdataItems.NewRow();
+		previewItem1["cbi_icantidad"] = 1;
+		previewItem1["cbi_yimporte"] = 10000.00m;
+		previewItem1["Name"] = "Servicio de monitoreo mensual";
+		previewItem1["_total"] = 10000.00m;
+		searchdataItems.Rows.Add(previewItem1);
+
+		DataRow previewItem2 = searchdataItems.NewRow();
+		previewItem2["cbi_icantidad"] = 2;
+		previewItem2["cbi_yimporte"] = 2500.00m;
+		previewItem2["Name"] = "Servicio adicional";
+		previewItem2["_total"] = 2500.00m;
+		searchdataItems.Rows.Add(previewItem2);
+		itemsTotal = 2;
+
+	} else {
+		// --- MODO NORMAL: datos reales ---
+
+		// Defino Stored procedure a Utilizar
+		var s = Slbf.ObjectFactoryService.Create<Slbf.Objects.SearchObject>();
+		s.LoadByName("m_comprobantes_cab_fc");
+
+		//Genero Diccionario para aceptar los parametros del Store procedure
+		var sd = new Dictionary<string, object>(){};
+
+		// Cargo el diccionario con la informacion de los parametros, filters, sorts, etc.
+		sd.Add("filter","[{\"property\":\"cbc_icodigo_id\",\"value\":\""+idComprobante+"\"}]");
+		sd.Add("token",token);
+
+		// Ejecuto el Store Procedure y leo informacion
+		searchdata = s.ExecuteAsDataTable(sd, out item);
+
+		if (!searchdata.Columns.Contains("cfc_cbonificaciontipo")) {
+			searchdata.Columns.Add("cfc_cbonificaciontipo", typeof(string));
+		}
+		if (!searchdata.Columns.Contains("cfc_nbonificacionvalor")) {
+			searchdata.Columns.Add("cfc_nbonificacionvalor", typeof(decimal));
+		}
+		if (!searchdata.Columns.Contains("cfc_ybonificacionimporte")) {
+			searchdata.Columns.Add("cfc_ybonificacionimporte", typeof(decimal));
+		}
+		if (!searchdata.Columns.Contains("cfc_nbonificacionpermanente")) {
+			searchdata.Columns.Add("cfc_nbonificacionpermanente", typeof(int));
+		}
+
+		if (searchdata.Rows.Count > 0 && !string.IsNullOrEmpty(idComprobante)) {
+			try {
+				DataTable bonificacionData = Slbf.Data.DataService.ExecuteTable(
+					"MG_ComprobanteBonificacionSel",
+					new Dictionary<string, object>(){{"@IdComprobante", int.Parse(idComprobante)}}
+				);
+				if (bonificacionData.Rows.Count > 0) {
+					var bonus = bonificacionData.Rows[0];
+					searchdata.Rows[0]["cfc_cbonificaciontipo"] = bonus["cfc_cbonificaciontipo"];
+					searchdata.Rows[0]["cfc_nbonificacionvalor"] = bonus["cfc_nbonificacionvalor"] == DBNull.Value ? 0.00m : bonus["cfc_nbonificacionvalor"];
+					searchdata.Rows[0]["cfc_ybonificacionimporte"] = bonus["cfc_ybonificacionimporte"] == DBNull.Value ? 0.00m : bonus["cfc_ybonificacionimporte"];
+					searchdata.Rows[0]["cfc_nbonificacionpermanente"] = bonus["cfc_nbonificacionpermanente"] == DBNull.Value ? 0 : bonus["cfc_nbonificacionpermanente"];
+				}
+			} catch (Exception e) {
+				<!-- error a tomar la bonificacion @e.Message -->
+			}
+		}
+
+		//items
+		// Defino Stored procedure a Utilizar
+		var items = Slbf.ObjectFactoryService.Create<Slbf.Objects.SearchObject>();
+		items.LoadByName("m_comprobantes_item_fc");
+
+		//Genero Diccionario para aceptar los parametros del Store procedure
+		var sdItems = new Dictionary<string, object>(){};
+
+		// Cargo el diccionario con la informacion de los parametros, filters, sorts, etc.
+		sdItems.Add("filter","[{\"property\":\"cbi_iCodigoCab\",\"value\":\""+idComprobante+"\"}]");
+		
+		// Ejecuto el Store Procedure y leo informacion
+		searchdataItems = items.ExecuteAsDataTable(sdItems, out itemsTotal);
+	}
+}
+<!doctype html>
+<HTML>
+	<HEAD>
+		<meta charset='UTF-8'/>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" href="/css/SgAppWebReport/css.boostrap.min.css" type="text/css" media="all" />
+	</HEAD>
+	<body>
+
+		
+		@if(searchdata.Rows.Count >0 ) {
+			DataRow _row = searchdata.Rows[0];
+
+			// preparo la metatada de la organizacion facturadora
+			string orgfac_org_cmetadata = _row["orgfac_org_cmetadata"].ToString();
+			if (isPreview && !string.IsNullOrWhiteSpace(previewMetadata)) {
+				orgfac_org_cmetadata = previewMetadata;
+			}
+			dynamic dorgfac_org_cmetadata = null;
+			string informacionExtra = "";
+			string observacionesTemplate = "";
+			string footerFijo = "";
+			string facturaLogoUrl = "";
+			dynamic integracionesPago = null;
+			try{
+				if (!string.IsNullOrEmpty(orgfac_org_cmetadata)){
+					dorgfac_org_cmetadata = DynamicJson.Parse(orgfac_org_cmetadata);
+					try { informacionExtra = dorgfac_org_cmetadata["informacionExtra"].ToString(); } catch {}
+					// DK-1493: Leer configuración de factura
+					try {
+						dynamic factura = dorgfac_org_cmetadata["factura"];
+						if (factura != null) {
+							try { observacionesTemplate = factura["observaciones_template"].ToString(); } catch {}
+							try { footerFijo = factura["footer_fijo"].ToString(); } catch {}
+							try { facturaLogoUrl = factura["logo_url"].ToString(); } catch {}
+							try { integracionesPago = SafeDynamicObject(factura, "integraciones_pago"); } catch {}
+						}
+					} catch {}
+				}
+			} catch (Exception e){
+				<!-- error a tomar la metadata @e.Message -->
+			}
+
+			// DK-1493: Construir diccionario e interpolar templates
+			var interpolationVars = BuildInterpolationVars(_row, itemsTotal);
+			string observacionesHtml = InterpolateTemplate(observacionesTemplate, interpolationVars);
+			string mediosPagoHtml = RenderPaymentMethodsHtml(integracionesPago, _row, interpolationVars);
+			string footerHtml = InterpolateTemplate(footerFijo, interpolationVars);
+
+			if (isPreview) {
+				<div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 8px; margin-bottom: 10px; width: 847px; text-align: center; font-weight: bold;">
+					VISTA PREVIA — Los datos del cliente y comprobante son de ejemplo
+				</div>
+			}
+
+			@header(_row, false, facturaLogoUrl);
+
+			@client(_row);
+			if(itemsTotal>0){ 
+				<table border=1 cellpadding=0 cellspacing=0 width=847>
+					<tr height=50>
+						<td colspan=6> @Localization.GetLocale("CONDICION DE VENTA"): @_row["cli_con_cdescripcion"]</td>
+					</tr>
+				
+					<tr height=50 class="header-items">
+						<td> @Localization.GetLocale("CANTIDAD")</td>
+						<td colspan=3> @Localization.GetLocale("DESCRIPCION")</td>
+						<td> @Localization.GetLocale("VALOR UNITARIO")</td>
+						<td> @Localization.GetLocale("VALOR TOTAL")</td>
+					</tr>
+					<tr colspan="4" height="480">
+						<td colspan="12" valign="top">
+							<table>
+								<tbody>
+									@foreach(DataRow _comprobanteItem in searchdataItems.Rows){
+										if(int.Parse(_row["cbt_nCbteCAE"].ToString()) == 6 || int.Parse(_row["cbt_nCbteCAE"].ToString()) == 11){
+											@WithItems(_comprobanteItem)
+										}else{
+											@WithItemsSubtotal(_comprobanteItem)
+										}
+									}
+								</tbody>
+							</table>
+						<td>
+					</tr>
+				</table>
+				
+			}else{
+				@WithOutItems(_row["cli_con_cdescripcion"])
+			}
+			decimal descuentoAplicado = 0.00m;
+			try { descuentoAplicado = Convert.ToDecimal(_row["cfc_ybonificacionimporte"]); } catch {}
+			decimal subtotalCabecera = 0.00m;
+			try { subtotalCabecera = Convert.ToDecimal(_row["cbc_ysubtotal"]) + descuentoAplicado; } catch { subtotalCabecera = Convert.ToDecimal(_row["cbc_ysubtotal"]); }
+			string descuentoTexto = descuentoAplicado > 0 ? descuentoAplicado.ToString("0.00") : "";
+			try{
+				@footer(_row["cbc_ytotal"],descuentoTexto,@_row["cbc_ccae"],@_row["cbc_cvtocae"],subtotalCabecera,@_row["cbc_yimpuesto1"],@_row["cbc_yimpuesto2"],@_row["cbc_yimpuesto3"],_row)
+			}catch (Exception e){
+				// definir que mostrar y por que del error
+				<P>Error al generar el Footer : @e.Message</P>
+			}
+
+			// DK-1493: Sección de observaciones (después de totales)
+			if (!string.IsNullOrEmpty(observacionesHtml)){
+				<table cellpadding=0 cellspacing=0 width=847 style="border:1px solid black; border-top: none;">
+					<tr>
+						<td style="padding: 10px;">
+							<strong>@Localization.GetLocale("OBSERVACIONES"):</strong><br/>
+							@Html.Raw(observacionesHtml.Replace("\n", "<br/>"))
+						</td>
+					</tr>
+				</table>
+			}
+
+			// DK-1494: Medios de pago configurables por organización facturadora
+			if (!string.IsNullOrEmpty(mediosPagoHtml)) {
+				@Html.Raw(mediosPagoHtml)
+			}
+			// DK-1493: Footer fijo (al pie de la factura)
+			if (!string.IsNullOrEmpty(footerHtml)){
+				<div style="width: 847px; border-top: 1px solid #999; margin-top: 10px; padding-top: 5px; font-size: 11px; color: #555;">
+					@Html.Raw(footerHtml.Replace("\n", "<br/>"))
+				</div>
+			}
+
+			// DK-1493: QR AFIP (si mostrar_qr_afip = true y hay CAE)
+			bool mostrarQrAfip = false;
+			try {
+				if (dorgfac_org_cmetadata != null) {
+					var qrFacData = dorgfac_org_cmetadata["factura"];
+					if (qrFacData != null) {
+						try { mostrarQrAfip = (bool)qrFacData["mostrar_qr_afip"]; } catch {}
+					}
+				}
+			} catch {}
+			string caeValue = "";
+			try { caeValue = _row["cbc_ccae"] != null ? _row["cbc_ccae"].ToString() : ""; } catch {}
+			if (mostrarQrAfip && !string.IsNullOrWhiteSpace(caeValue)) {
+				string cuitQr = "";
+				try { cuitQr = _row["org_cidentificacion"].ToString().Replace("-",""); } catch {}
+				string qrData = string.Format("https://serviciosweb.afip.gob.ar/genericos/comprobantes/cae.aspx?cuit={0}&cae={1}", cuitQr, caeValue);
+				string vtoQr = "";
+				try { vtoQr = _row["cbc_cvtocae"].ToString(); } catch {}
+				<div style="width: 847px; margin-top: 8px; padding: 5px 0; display: flex; align-items: center; gap: 10px; border-top: 1px solid #ddd;">
+					<img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=@(Uri.EscapeDataString(qrData))"
+					     style="width:80px;height:80px;border:1px solid #ccc;"
+					     alt="QR AFIP" />
+					<div style="font-size:10px;color:#666;">
+						<strong>Comprobante autorizado por AFIP</strong><br/>
+						CAE: @caeValue<br/>
+						Vto. CAE: @vtoQr
+					</div>
+				</div>
+			}
+
+			if (!string.IsNullOrEmpty(informacionExtra)){
+				int cfc_cntiid = 0;
+				int.TryParse(_row["cfc_cntiid"].ToString(), out cfc_cntiid);
+				if (informacionExtra.Contains("{ACCOUNTLIST}")){
+					string ACCOUNTLIST = CuentasContrato(cfc_cntiid, token);
+					informacionExtra = informacionExtra.Replace("{ACCOUNTLIST}",ACCOUNTLIST);
+				}
+				<div  style="page-break-before:always;">
+					@header(_row, true, facturaLogoUrl)
+					<div style ="border:1px black solid; width:847px; height:480px; padding: 5px" >
+						@Html.Raw(informacionExtra)
+					</div>
+				</div>
+			}
+			
+		}
+		 else {
+			<h1>@Localization.GetLocale("No hay comprobantes para mostrar")</h1>
+		}
+
+		<script>
+			function printMe() {
+				window.print()
+			}
+		</script>
+		<style>
+			.money {
+				text-align: right;
+			}
+			.comprobante_item td {
+				padding: 5px;
+			}
+			.header-items td {
+				background-color: lightgrey;
+				text-align: center;
+				font-weight: bold;
+			}
+		</style>
+	</body>
+</HTML>

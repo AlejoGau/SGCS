@@ -1,0 +1,156 @@
+{
+    "name": "GestorSim",
+    "namespace": "GestorSim",
+    "version": "20.12.0",
+    "framework": "ext",
+    "toolkit": "classic",
+    "theme": "theme-gray",
+    "requires": [
+        "font-awesome",
+        "common",
+        "cuenta",
+        "tablas",
+        "ux"
+    ],
+    "indexHtmlPath": "index.html",
+    "classpath": [
+        "app",
+        "${workspace.dir}/packages/local/common/src",
+        "${workspace.dir}/packages/local/cuenta/src",
+        "${workspace.dir}/packages/local/tablas/src"
+    ],
+    "overrides": [
+        "overrides"
+    ],
+    "fashion": {
+        "missingParameters": "error",
+        "inliner": {
+            "enable": false
+        }
+    },
+    "sass": {
+        "namespace": "GestorSim",
+        "generated": {
+            "var": "sass/save.scss",
+            "src": "sass/save"
+        },
+        "etc": [
+            "sass/etc/all.scss"
+        ],
+        "var": [
+            "sass/var/all.scss",
+            "sass/var"
+        ],
+        "src": [
+            "sass/src"
+        ]
+    },
+    "js": [
+        {
+            "path": "${framework.dir}/build/ext-all-rtl-debug.js"
+        },
+        {
+            "path": "app.js",
+            "bundle": true
+        }
+    ],
+    "css": [
+        {
+            "path": "${build.out.css.path}",
+            "bundle": true,
+            "exclude": [
+                "fashion"
+            ]
+        },
+        {
+            "path": "/css/desktop/FamFamFamCss.css?v=${build.timestamp}",
+            "remote": true
+        },
+        {
+            "path": "/css/desktop/SoftguardCss.css?v=${build.timestamp}",
+            "remote": true
+        }
+    ],
+    "loader": {
+        "cache": false,
+        "cacheParam": "_dc"
+    },
+    "production": {
+        "output": {
+            "appCache": {
+                "enable": true,
+                "path": "cache.appcache"
+            }
+        },
+        "loader": {
+            "cache": "${build.timestamp}"
+        },
+        "cache": {
+            "enable": true
+        },
+        "compressor": {
+            "type": "yui"
+        }
+    },
+    "testing": {},
+    "development": {
+        "loader": {
+            "cache": true,
+            "cacheParam": "_dc"
+        },
+        "watch": {
+            "delay": 250
+        }
+    },
+    "bootstrap": {
+        "base": "${app.dir}",
+        "microloader": "bootstrap.js",
+        "css": "bootstrap.css"
+    },
+    "output": {
+        "base": "${workspace.build.dir}/${build.environment}/${app.name}",
+        "appCache": {
+            "enable": false
+        }
+    },
+    "cache": {
+        "enable": false,
+        "deltas": true
+    },
+    "appCache": {
+        "cache": [
+            "index.html"
+        ],
+        "network": [
+            "*"
+        ],
+        "fallback": []
+    },
+    "resources": [
+        {
+            "path": "resources",
+            "output": "shared"
+        }
+    ],
+    "archivePath": "archive",
+    "slicer": {
+        "js": [
+            {
+                "path": "sass/example/custom.js",
+                "isWidgetManifest": true
+            }
+        ],
+        "output": {
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
+    },
+    "ignore": [
+        "(^|/)CVS(/?$|/.*?$)"
+    ],
+    "id": "f28fc36f-731d-4a89-85ce-73314102ef76"
+}

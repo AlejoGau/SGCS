@@ -1,0 +1,23 @@
+﻿-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE OR ALTER PROCEDURE [dbo].[Search_HistoricoPosiciones]
+	@page INT = 1,               
+	 @start INT = 0,               
+	 @limit INT = 50,               
+	 @sort VARCHAR(256) = '', 
+	 @token VARCHAR(256) = '',   
+	 @group VARCHAR(256) = '',            
+	 @filter VARCHAR(2048) = '',        
+	 @_dc VARCHAR(256) = '',              
+	 @totalrows INT = 1 OUTPUT  
+AS
+BEGIN
+
+
+	SELECT name as c_periodo FROM _history..sysobjects where name like 'p_Posici%'
+	order by name
+
+END

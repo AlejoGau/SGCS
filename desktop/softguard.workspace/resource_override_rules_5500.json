@@ -1,0 +1,48 @@
+{
+    "v": 1,
+    "data": [
+        {
+            "id": "d1",
+            "matchUrl": "http://127.0.0.1:5500*",
+            "rules": [
+                {
+                    "type": "normalOverride",
+                    "match": "http://127.0.0.1:5500/handler/*",
+                    "replace": "https://gcs.softguard.com/handler/*",
+                    "on": true
+                },
+                {
+                    "type": "normalOverride",
+                    "match": "http://127.0.0.1:5500/rest/*",
+                    "replace": "https://gcs.softguard.com/rest/*&oauth_token=268D03B8-94D3-433C-BD81-82058E26E508",
+                    "on": true
+                },
+                {
+                    "type": "normalOverride",
+                    "match": "http://127.0.0.1:5500/js/*",
+                    "replace": "https://gcs.softguard.com/js/*?oauth_token=268D03B8-94D3-433C-BD81-82058E26E508",
+                    "on": true
+                },
+                {
+                    "type": "normalOverride",
+                    "match": "http://127.0.0.1:5500/css/*",
+                    "replace": "https://gcs.softguard.com/css/*",
+                    "on": true
+                },
+                {
+                    "type": "normalOverride",
+                    "match": "http://127.0.0.1:5500/Rest/*",
+                    "replace": "https://gcs.softguard.com/Rest/*&oauth_token=268D03B8-94D3-433C-BD81-82058E26E508",
+                    "on": true
+                },
+                {
+                    "type": "normalOverride",
+                    "match": "http://127.0.0.1:5500/resources/*",
+                    "replace": "https://gcs.softguard.com/resources/*",
+                    "on": true
+                }
+            ],
+            "on": true
+        }
+    ]
+}

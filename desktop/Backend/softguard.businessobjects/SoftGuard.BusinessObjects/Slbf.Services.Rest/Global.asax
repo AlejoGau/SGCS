@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="Slbf.Services.Rest.Global" Language="C#" %>

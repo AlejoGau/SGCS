@@ -1,0 +1,3 @@
+Ext.define('SGWebCrm.model.mg_listas_preciosSearchModel', {
+extend: 'Common.model.mg_listas_preciosSearchModel'
+});

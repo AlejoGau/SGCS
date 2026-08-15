@@ -1,0 +1,4 @@
+Ext.define('SgAppAccountAdministration.controller.SoftguardUsuarioGrid2Controller', {
+    extend: 'Common.controller.SoftguardUsuarioGrid2Controller'
+ });
+ 

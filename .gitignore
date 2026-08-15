@@ -13,3 +13,11 @@ dist-ssr/
 *.sw?
 CLAUDE.md
 **/CLAUDE.md
+
+# Real credentials/certs from the desktop repo (test logins, TLS private key)
+desktop/scripts/.env
+desktop/softguard.workspace/qa-automation/.env
+desktop/**/certs/*.pem
+
+# Third-party SDK/framework installers (not source code, too large for GitHub)
+desktop/sencha.downloads/

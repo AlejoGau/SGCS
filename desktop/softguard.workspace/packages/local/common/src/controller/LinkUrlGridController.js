@@ -1,0 +1,217 @@
+//MIGRADO2024
+Ext.define('Common.controller.LinkUrlGridController', {
+    extend: 'Ext.app.Controller',
+    stores: [],
+    models: ['t_linkurlModel', 't_linkurlSearchModel'],
+    views: ['LinkUrlGridView'],
+
+    init: function (config) {
+        // genero los eventos
+        this.control(
+            {
+                'linkurlgridview': {
+                    afterrender: this.initView,
+                    itemdblclick: this.onItemClick,
+                    objectedit: this.onObjectEdit,
+                    objectchanged: this.objectChanged,
+                    openlink: this.onOpenLink
+
+                },
+                'linkurlgridview button[action=search]': {
+                    click: this.onSearchClick
+                },
+                'linkurlgridview button[action=getall]': {
+                    click: this.onGetAllClick
+                },
+                'linkurlgridview button[action=add]': {
+                    click: this.onAdd
+                },
+                'linkurlgridview button[action="delete"]': {
+                    click: this.onDeleteClick
+                }
+            }
+        );
+    },
+
+    initView: function (view) {
+        view.filters = [];
+
+        view.store = Ext.create('Ext.data.Store', {
+            model: 'Common.model.LinkByDealerModel',
+            pageSize: 50,
+            remoteSort: true,
+            remoteFilter: true,
+            filters: view.filters
+        })
+
+        view.store.proxy.extraParams = {
+            token: Ext.util.Cookies.get('OAuth_Token')
+        };
+        view.bindStore(view.store);
+        var toolbar = view.down('pagingtoolbar');
+        toolbar.bindStore(view.store);
+
+        view.store.load();
+
+        if (view.onlyRead) {
+            view.down('button[action=add]').hide()
+            view.down('button[action=delete]').hide()
+            view.columns[1].hide()
+            view.down('[dataIndex=url_curl]').setVisible(false);
+        }
+    },
+
+    onOpenLink: function (rec, view) {
+        var tabpanel = view.up('tabpanel');
+        var title = rec.get('url_cname')
+
+        if (tabpanel) {
+            var mytab = tabpanel.down('[title="' + title + '"]');
+            if (!mytab) {
+                var tab = tabpanel.add(Ext.create('Ext.ux.IFrame', {
+                    title: title,
+                    border: false,
+                    src: rec.get('url_curl'),
+                    closable: true,
+                    autoDestroy: true
+                }));
+
+                tabpanel.setActiveTab(tab)
+            }
+        } else {
+            //no estoy en un tabpanel abro window
+            var win = Ext.create('Ext.Window', {
+                iconCls: 'icon-linkurl',
+                layout: 'fit',
+                title: title,
+                translate: false,
+                width: 640,
+                height: 480,
+                border: false,
+                items: {
+                    xtype: 'uxiframe',
+                    border: false,
+                    header: false,
+                    src: rec.get('url_curl'),
+                    autoDestroy: true
+                }
+            });
+            win.show();
+        }
+    },
+
+    objectChanged: function (view) {
+        view.down('pagingtoolbar').doRefresh();
+    },
+
+    onAdd: function (grid, record, item, index, e, options) {
+        var id = 0;
+        var view = grid.up('linkurlgridview');
+        var panel = view.targetTab ? view.targetTab : Ext.getCmp('center');
+        var title = 'Nuevo link';
+        record = this.getT_linkurlModelModel();
+        var myobject = record.create({
+        });
+
+        var view = Ext.widget('linkurlformview', {
+            caller: view,
+            record: myobject,
+            objectId: id,
+        });
+
+        var win = Ext.create('Ext.Window', {
+            iconCls: 'icon-table-add',
+            layout: 'fit',
+            title: title,
+            width: 450,
+            height: 200,
+            border: false,
+            items: view
+        });
+        win.show();
+    },
+
+    onItemClick: function (grid, record, item, index, e, options) {
+        var id = record.get('Id');
+        var view = grid.up('linkurlgridview');
+        var panel = view.targetTab ? view.targetTab : Ext.getCmp('center');
+        var title = record.get('url_cname');
+        if (view.onlyRead) {
+            this.onOpenLink(record, view)
+        } else {
+            var view = Ext.widget('linkurlformview', {
+                caller: grid,
+                record: record,
+                objectId: id,
+            });
+
+            var win = Ext.create('Ext.Window', {
+                iconCls: 'icon-table-add',
+                layout: 'fit',
+                title: title,
+                translate: false,
+                width: 450,
+                height: 200,
+                border: false,
+                items: view
+            });
+            win.show();
+        }
+    },
+
+    onObjectEdit: function (record, view) {
+        this.onItemClick(view, record);
+    },
+
+    onGetAllClick: function (button, event, options) {
+        var view = button.up('linkurlgridview');
+        var store = view.getStore();
+        store.clearFilter();
+        store.filter(view.filters);
+        view.down('#query').setValue('');
+    },
+
+    onSearchClick: function (button, event, options) {
+        var view = button.up('linkurlgridview');
+        var store = view.getStore();
+        var fieldName = view.down('#fieldName').getValue();
+        var query = view.down('#query').getValue();
+        var filters = Ext.clone(view.filters);
+
+        if (fieldName != '') {
+            filters.push({
+                property: fieldName + ':LIKE',
+                value: query
+            });
+        }
+
+        if (filters.length > 0) {
+            store.filter(filters);
+        }
+        else {
+            store.clearFilter();
+        }
+    },
+
+    onDeleteClick: function (button, event, options) {
+        var view = button.up('linkurlgridview');
+        var selection = view.getSelectionModel().getSelection();
+        if (selection) {
+            view.store.remove(selection);
+            var delRec = view.store.getRemovedRecords();
+            Ext.Array.each(delRec, function (rec) {
+                rec.destroy({
+                    callback: function (record, operation) {
+                        if (operation.success) {
+                            notify('Se eliminio exitosamente');
+                        }
+                        else {
+                            notify('No se puede eliminar el registro, esta siendo utilizado en el sistema.');
+                        }
+                        view.store.load();
+                    }
+                });
+            }, this);
+        }
+    }
+});
